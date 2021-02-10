@@ -16,10 +16,24 @@ limitations under the License.
 
 package v1alpha1
 
+/*
+import (
+	"context"
+	"reflect"
+	"github.com/crossplane-contrib/terraform-runtime/pkg/client"
+	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	kubeclient "sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/scheme"
+)
+
+ */
+
 import (
 	"context"
 	"fmt"
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 	corev1 "k8s.io/api/core/v1"
 	"reflect"
 
@@ -44,6 +58,16 @@ const (
 	ProviderName                  = "vsphere"
 )
 
+func GetProviderInit() *plugin.ProviderInit {
+	schemeBuilder := &scheme.Builder{GroupVersion: SchemeGroupVersion}
+	schemeBuilder.Register(&ProviderConfig{}, &ProviderConfigList{})
+	schemeBuilder.Register(&ProviderConfigUsage{}, &ProviderConfigUsageList{})
+	return &plugin.ProviderInit{
+		SchemeBuilder: schemeBuilder,
+		Initializer:   initializeProvider,
+	}
+}
+
 var (
 	// SchemeGroupVersion is group version used to register these objects
 	SchemeGroupVersion = schema.GroupVersion{Group: Group, Version: Version}
@@ -53,6 +77,7 @@ var (
 	ProviderKindAPIVersion   = ProviderKind + "." + SchemeGroupVersion.String()
 	ProviderGroupVersionKind = SchemeGroupVersion.WithKind(ProviderKind)
 )
+
 
 func initializeProvider(ctx context.Context, mr resource.Managed, ropts *client.RuntimeOptions, kube kubeclient.Client) (*client.Provider, error) {
 	pc := &ProviderConfig{}
@@ -105,16 +130,6 @@ type UserPass struct {
 	Pass string `json:"pass"`
 }
 
-func GetProviderInit() *plugin.ProviderInit {
-	schemeBuilder := &scheme.Builder{GroupVersion: SchemeGroupVersion}
-	schemeBuilder.Register(&ProviderConfig{}, &ProviderConfigList{})
-	schemeBuilder.Register(&ProviderConfigUsage{}, &ProviderConfigUsageList{})
-	return &plugin.ProviderInit{
-		SchemeBuilder: schemeBuilder,
-		Initializer:   initializeProvider,
-	}
-}
-
 func readCredentials(ctx context.Context, kube kubeclient.Client, mr resource.Managed) (*UserPass, error) {
 	pc := &ProviderConfig{}
 	t := resource.NewProviderConfigUsageTracker(kube, &ProviderConfigUsage{})
@@ -125,7 +140,7 @@ func readCredentials(ctx context.Context, kube kubeclient.Client, mr resource.Ma
 		return nil, err
 	}
 
-	if s := pc.Spec.Credentials.Source; s != runtimev1alpha1.CredentialsSourceSecret {
+	if s := pc.Spec.Credentials.Source; s != xpv1.CredentialsSourceSecret {
 		return nil, errors.Errorf("unsupported credentials source %q", s)
 	}
 
