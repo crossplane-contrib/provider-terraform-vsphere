@@ -39,32 +39,22 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeVappEntity(prev *VappEntity, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeVappEntity_StopAction(&new.Spec.ForProvider, valMap)
-	DecodeVappEntity_WaitForGuest(&new.Spec.ForProvider, valMap)
 	DecodeVappEntity_ContainerId(&new.Spec.ForProvider, valMap)
 	DecodeVappEntity_CustomAttributes(&new.Spec.ForProvider, valMap)
 	DecodeVappEntity_StartAction(&new.Spec.ForProvider, valMap)
-	DecodeVappEntity_TargetId(&new.Spec.ForProvider, valMap)
 	DecodeVappEntity_StartDelay(&new.Spec.ForProvider, valMap)
 	DecodeVappEntity_StartOrder(&new.Spec.ForProvider, valMap)
+	DecodeVappEntity_StopAction(&new.Spec.ForProvider, valMap)
 	DecodeVappEntity_StopDelay(&new.Spec.ForProvider, valMap)
 	DecodeVappEntity_Tags(&new.Spec.ForProvider, valMap)
+	DecodeVappEntity_TargetId(&new.Spec.ForProvider, valMap)
+	DecodeVappEntity_WaitForGuest(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVappEntity_StopAction(p *VappEntityParameters, vals map[string]cty.Value) {
-	p.StopAction = ctwhy.ValueAsString(vals["stop_action"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVappEntity_WaitForGuest(p *VappEntityParameters, vals map[string]cty.Value) {
-	p.WaitForGuest = ctwhy.ValueAsBool(vals["wait_for_guest"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -93,11 +83,6 @@ func DecodeVappEntity_StartAction(p *VappEntityParameters, vals map[string]cty.V
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVappEntity_TargetId(p *VappEntityParameters, vals map[string]cty.Value) {
-	p.TargetId = ctwhy.ValueAsString(vals["target_id"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeVappEntity_StartDelay(p *VappEntityParameters, vals map[string]cty.Value) {
 	p.StartDelay = ctwhy.ValueAsInt64(vals["start_delay"])
 }
@@ -105,6 +90,11 @@ func DecodeVappEntity_StartDelay(p *VappEntityParameters, vals map[string]cty.Va
 //primitiveTypeDecodeTemplate
 func DecodeVappEntity_StartOrder(p *VappEntityParameters, vals map[string]cty.Value) {
 	p.StartOrder = ctwhy.ValueAsInt64(vals["start_order"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVappEntity_StopAction(p *VappEntityParameters, vals map[string]cty.Value) {
+	p.StopAction = ctwhy.ValueAsString(vals["stop_action"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -119,4 +109,14 @@ func DecodeVappEntity_Tags(p *VappEntityParameters, vals map[string]cty.Value) {
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.Tags = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVappEntity_TargetId(p *VappEntityParameters, vals map[string]cty.Value) {
+	p.TargetId = ctwhy.ValueAsString(vals["target_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVappEntity_WaitForGuest(p *VappEntityParameters, vals map[string]cty.Value) {
+	p.WaitForGuest = ctwhy.ValueAsBool(vals["wait_for_guest"])
 }

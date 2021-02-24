@@ -41,32 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNasDatastore_SecurityType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNasDatastore_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeNasDatastore_DatastoreClusterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeNasDatastore_Folder(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNasDatastore_RemoteHosts(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNasDatastore_RemotePath(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNasDatastore_DatastoreClusterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,17 +61,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeNasDatastore_RemoteHosts(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNasDatastore_RemotePath(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNasDatastore_SecurityType(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNasDatastore_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeNasDatastore_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNasDatastore_Capacity(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeNasDatastore_ProtocolEndpoint(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -101,12 +91,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeNasDatastore_FreeSpace(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeNasDatastore_Capacity(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeNasDatastore_Url(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	updated = MergeNasDatastore_FreeSpace(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -121,7 +111,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeNasDatastore_ProtocolEndpoint(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeNasDatastore_UncommittedSpace(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeNasDatastore_Url(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -157,19 +157,9 @@ func MergeNasDatastore_CustomAttributes(k *NasDatastoreParameters, p *NasDatasto
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNasDatastore_SecurityType(k *NasDatastoreParameters, p *NasDatastoreParameters, md *plugin.MergeDescription) bool {
-	if k.SecurityType != p.SecurityType {
-		p.SecurityType = k.SecurityType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeNasDatastore_Tags(k *NasDatastoreParameters, p *NasDatastoreParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+func MergeNasDatastore_DatastoreClusterId(k *NasDatastoreParameters, p *NasDatastoreParameters, md *plugin.MergeDescription) bool {
+	if k.DatastoreClusterId != p.DatastoreClusterId {
+		p.DatastoreClusterId = k.DatastoreClusterId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -180,6 +170,26 @@ func MergeNasDatastore_Tags(k *NasDatastoreParameters, p *NasDatastoreParameters
 func MergeNasDatastore_Folder(k *NasDatastoreParameters, p *NasDatastoreParameters, md *plugin.MergeDescription) bool {
 	if k.Folder != p.Folder {
 		p.Folder = k.Folder
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeNasDatastore_HostSystemIds(k *NasDatastoreParameters, p *NasDatastoreParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.HostSystemIds, p.HostSystemIds) {
+		p.HostSystemIds = k.HostSystemIds
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeNasDatastore_Name(k *NasDatastoreParameters, p *NasDatastoreParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -207,9 +217,9 @@ func MergeNasDatastore_RemotePath(k *NasDatastoreParameters, p *NasDatastorePara
 }
 
 //mergePrimitiveTemplateSpec
-func MergeNasDatastore_DatastoreClusterId(k *NasDatastoreParameters, p *NasDatastoreParameters, md *plugin.MergeDescription) bool {
-	if k.DatastoreClusterId != p.DatastoreClusterId {
-		p.DatastoreClusterId = k.DatastoreClusterId
+func MergeNasDatastore_SecurityType(k *NasDatastoreParameters, p *NasDatastoreParameters, md *plugin.MergeDescription) bool {
+	if k.SecurityType != p.SecurityType {
+		p.SecurityType = k.SecurityType
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -217,19 +227,9 @@ func MergeNasDatastore_DatastoreClusterId(k *NasDatastoreParameters, p *NasDatas
 }
 
 //mergePrimitiveContainerTemplateSpec
-func MergeNasDatastore_HostSystemIds(k *NasDatastoreParameters, p *NasDatastoreParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.HostSystemIds, p.HostSystemIds) {
-		p.HostSystemIds = k.HostSystemIds
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeNasDatastore_Name(k *NasDatastoreParameters, p *NasDatastoreParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+func MergeNasDatastore_Tags(k *NasDatastoreParameters, p *NasDatastoreParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -247,26 +247,6 @@ func MergeNasDatastore_Type(k *NasDatastoreParameters, p *NasDatastoreParameters
 }
 
 //mergePrimitiveTemplateStatus
-func MergeNasDatastore_Capacity(k *NasDatastoreObservation, p *NasDatastoreObservation, md *plugin.MergeDescription) bool {
-	if k.Capacity != p.Capacity {
-		k.Capacity = p.Capacity
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeNasDatastore_ProtocolEndpoint(k *NasDatastoreObservation, p *NasDatastoreObservation, md *plugin.MergeDescription) bool {
-	if k.ProtocolEndpoint != p.ProtocolEndpoint {
-		k.ProtocolEndpoint = p.ProtocolEndpoint
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeNasDatastore_Accessible(k *NasDatastoreObservation, p *NasDatastoreObservation, md *plugin.MergeDescription) bool {
 	if k.Accessible != p.Accessible {
 		k.Accessible = p.Accessible
@@ -277,9 +257,9 @@ func MergeNasDatastore_Accessible(k *NasDatastoreObservation, p *NasDatastoreObs
 }
 
 //mergePrimitiveTemplateStatus
-func MergeNasDatastore_FreeSpace(k *NasDatastoreObservation, p *NasDatastoreObservation, md *plugin.MergeDescription) bool {
-	if k.FreeSpace != p.FreeSpace {
-		k.FreeSpace = p.FreeSpace
+func MergeNasDatastore_Capacity(k *NasDatastoreObservation, p *NasDatastoreObservation, md *plugin.MergeDescription) bool {
+	if k.Capacity != p.Capacity {
+		k.Capacity = p.Capacity
 		md.StatusUpdated = true
 		return true
 	}
@@ -287,9 +267,9 @@ func MergeNasDatastore_FreeSpace(k *NasDatastoreObservation, p *NasDatastoreObse
 }
 
 //mergePrimitiveTemplateStatus
-func MergeNasDatastore_Url(k *NasDatastoreObservation, p *NasDatastoreObservation, md *plugin.MergeDescription) bool {
-	if k.Url != p.Url {
-		k.Url = p.Url
+func MergeNasDatastore_FreeSpace(k *NasDatastoreObservation, p *NasDatastoreObservation, md *plugin.MergeDescription) bool {
+	if k.FreeSpace != p.FreeSpace {
+		k.FreeSpace = p.FreeSpace
 		md.StatusUpdated = true
 		return true
 	}
@@ -317,9 +297,29 @@ func MergeNasDatastore_MultipleHostAccess(k *NasDatastoreObservation, p *NasData
 }
 
 //mergePrimitiveTemplateStatus
+func MergeNasDatastore_ProtocolEndpoint(k *NasDatastoreObservation, p *NasDatastoreObservation, md *plugin.MergeDescription) bool {
+	if k.ProtocolEndpoint != p.ProtocolEndpoint {
+		k.ProtocolEndpoint = p.ProtocolEndpoint
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
 func MergeNasDatastore_UncommittedSpace(k *NasDatastoreObservation, p *NasDatastoreObservation, md *plugin.MergeDescription) bool {
 	if k.UncommittedSpace != p.UncommittedSpace {
 		k.UncommittedSpace = p.UncommittedSpace
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeNasDatastore_Url(k *NasDatastoreObservation, p *NasDatastoreObservation, md *plugin.MergeDescription) bool {
+	if k.Url != p.Url {
+		k.Url = p.Url
 		md.StatusUpdated = true
 		return true
 	}

@@ -39,28 +39,18 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeContentLibraryItem(prev *ContentLibraryItem, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeContentLibraryItem_SourceUuid(&new.Spec.ForProvider, valMap)
-	DecodeContentLibraryItem_Type(&new.Spec.ForProvider, valMap)
 	DecodeContentLibraryItem_Description(&new.Spec.ForProvider, valMap)
 	DecodeContentLibraryItem_FileUrl(&new.Spec.ForProvider, valMap)
 	DecodeContentLibraryItem_LibraryId(&new.Spec.ForProvider, valMap)
 	DecodeContentLibraryItem_Name(&new.Spec.ForProvider, valMap)
+	DecodeContentLibraryItem_SourceUuid(&new.Spec.ForProvider, valMap)
+	DecodeContentLibraryItem_Type(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeContentLibraryItem_SourceUuid(p *ContentLibraryItemParameters, vals map[string]cty.Value) {
-	p.SourceUuid = ctwhy.ValueAsString(vals["source_uuid"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeContentLibraryItem_Type(p *ContentLibraryItemParameters, vals map[string]cty.Value) {
-	p.Type = ctwhy.ValueAsString(vals["type"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -81,4 +71,14 @@ func DecodeContentLibraryItem_LibraryId(p *ContentLibraryItemParameters, vals ma
 //primitiveTypeDecodeTemplate
 func DecodeContentLibraryItem_Name(p *ContentLibraryItemParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeContentLibraryItem_SourceUuid(p *ContentLibraryItemParameters, vals map[string]cty.Value) {
+	p.SourceUuid = ctwhy.ValueAsString(vals["source_uuid"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeContentLibraryItem_Type(p *ContentLibraryItemParameters, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
 }

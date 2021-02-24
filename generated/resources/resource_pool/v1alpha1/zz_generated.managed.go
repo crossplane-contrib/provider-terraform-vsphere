@@ -17,20 +17,20 @@ limitations under the License.
 
 package v1alpha1
 
-import runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
 // GetCondition of this ResourcePool.
-func (mg *ResourcePool) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
+func (mg *ResourcePool) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ResourcePool.
-func (mg *ResourcePool) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
+func (mg *ResourcePool) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetProviderConfigReference of this ResourcePool.
-func (mg *ResourcePool) GetProviderConfigReference() *runtimev1alpha1.Reference {
+func (mg *ResourcePool) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
@@ -38,27 +38,27 @@ func (mg *ResourcePool) GetProviderConfigReference() *runtimev1alpha1.Reference 
 GetProviderReference of this ResourcePool.
 Deprecated: Use GetProviderConfigReference.
 */
-func (mg *ResourcePool) GetProviderReference() *runtimev1alpha1.Reference {
+func (mg *ResourcePool) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
 // GetWriteConnectionSecretToReference of this ResourcePool.
-func (mg *ResourcePool) GetWriteConnectionSecretToReference() *runtimev1alpha1.SecretReference {
+func (mg *ResourcePool) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ResourcePool.
-func (mg *ResourcePool) SetConditions(c ...runtimev1alpha1.Condition) {
+func (mg *ResourcePool) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ResourcePool.
-func (mg *ResourcePool) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
+func (mg *ResourcePool) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetProviderConfigReference of this ResourcePool.
-func (mg *ResourcePool) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
+func (mg *ResourcePool) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
@@ -66,11 +66,11 @@ func (mg *ResourcePool) SetProviderConfigReference(r *runtimev1alpha1.Reference)
 SetProviderReference of this ResourcePool.
 Deprecated: Use SetProviderConfigReference.
 */
-func (mg *ResourcePool) SetProviderReference(r *runtimev1alpha1.Reference) {
+func (mg *ResourcePool) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ResourcePool.
-func (mg *ResourcePool) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
+func (mg *ResourcePool) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

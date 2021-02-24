@@ -39,17 +39,22 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeStorageDrsVmOverride(prev *StorageDrsVmOverride, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeStorageDrsVmOverride_DatastoreClusterId(&new.Spec.ForProvider, valMap)
 	DecodeStorageDrsVmOverride_SdrsAutomationLevel(&new.Spec.ForProvider, valMap)
 	DecodeStorageDrsVmOverride_SdrsEnabled(&new.Spec.ForProvider, valMap)
 	DecodeStorageDrsVmOverride_SdrsIntraVmAffinity(&new.Spec.ForProvider, valMap)
 	DecodeStorageDrsVmOverride_VirtualMachineId(&new.Spec.ForProvider, valMap)
-	DecodeStorageDrsVmOverride_DatastoreClusterId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeStorageDrsVmOverride_DatastoreClusterId(p *StorageDrsVmOverrideParameters, vals map[string]cty.Value) {
+	p.DatastoreClusterId = ctwhy.ValueAsString(vals["datastore_cluster_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -70,9 +75,4 @@ func DecodeStorageDrsVmOverride_SdrsIntraVmAffinity(p *StorageDrsVmOverrideParam
 //primitiveTypeDecodeTemplate
 func DecodeStorageDrsVmOverride_VirtualMachineId(p *StorageDrsVmOverrideParameters, vals map[string]cty.Value) {
 	p.VirtualMachineId = ctwhy.ValueAsString(vals["virtual_machine_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeStorageDrsVmOverride_DatastoreClusterId(p *StorageDrsVmOverrideParameters, vals map[string]cty.Value) {
-	p.DatastoreClusterId = ctwhy.ValueAsString(vals["datastore_cluster_id"])
 }

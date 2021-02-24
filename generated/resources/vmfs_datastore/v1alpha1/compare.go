@@ -36,22 +36,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVmfsDatastore_Folder(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVmfsDatastore_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVmfsDatastore_DatastoreClusterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeVmfsDatastore_Disks(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVmfsDatastore_Folder(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -66,6 +61,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeVmfsDatastore_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVmfsDatastore_Accessible(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeVmfsDatastore_Capacity(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -76,22 +81,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVmfsDatastore_UncommittedSpace(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVmfsDatastore_Accessible(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVmfsDatastore_MaintenanceMode(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeVmfsDatastore_MultipleHostAccess(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVmfsDatastore_UncommittedSpace(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -122,26 +122,6 @@ func MergeVmfsDatastore_CustomAttributes(k *VmfsDatastoreParameters, p *VmfsData
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVmfsDatastore_Folder(k *VmfsDatastoreParameters, p *VmfsDatastoreParameters, md *plugin.MergeDescription) bool {
-	if k.Folder != p.Folder {
-		p.Folder = k.Folder
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeVmfsDatastore_Tags(k *VmfsDatastoreParameters, p *VmfsDatastoreParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeVmfsDatastore_DatastoreClusterId(k *VmfsDatastoreParameters, p *VmfsDatastoreParameters, md *plugin.MergeDescription) bool {
 	if k.DatastoreClusterId != p.DatastoreClusterId {
 		p.DatastoreClusterId = k.DatastoreClusterId
@@ -155,6 +135,16 @@ func MergeVmfsDatastore_DatastoreClusterId(k *VmfsDatastoreParameters, p *VmfsDa
 func MergeVmfsDatastore_Disks(k *VmfsDatastoreParameters, p *VmfsDatastoreParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareStringSlices(k.Disks, p.Disks) {
 		p.Disks = k.Disks
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVmfsDatastore_Folder(k *VmfsDatastoreParameters, p *VmfsDatastoreParameters, md *plugin.MergeDescription) bool {
+	if k.Folder != p.Folder {
+		p.Folder = k.Folder
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -181,6 +171,26 @@ func MergeVmfsDatastore_Name(k *VmfsDatastoreParameters, p *VmfsDatastoreParamet
 	return false
 }
 
+//mergePrimitiveContainerTemplateSpec
+func MergeVmfsDatastore_Tags(k *VmfsDatastoreParameters, p *VmfsDatastoreParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Tags, p.Tags) {
+		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeVmfsDatastore_Accessible(k *VmfsDatastoreObservation, p *VmfsDatastoreObservation, md *plugin.MergeDescription) bool {
+	if k.Accessible != p.Accessible {
+		k.Accessible = p.Accessible
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveTemplateStatus
 func MergeVmfsDatastore_Capacity(k *VmfsDatastoreObservation, p *VmfsDatastoreObservation, md *plugin.MergeDescription) bool {
 	if k.Capacity != p.Capacity {
@@ -202,26 +212,6 @@ func MergeVmfsDatastore_FreeSpace(k *VmfsDatastoreObservation, p *VmfsDatastoreO
 }
 
 //mergePrimitiveTemplateStatus
-func MergeVmfsDatastore_UncommittedSpace(k *VmfsDatastoreObservation, p *VmfsDatastoreObservation, md *plugin.MergeDescription) bool {
-	if k.UncommittedSpace != p.UncommittedSpace {
-		k.UncommittedSpace = p.UncommittedSpace
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeVmfsDatastore_Accessible(k *VmfsDatastoreObservation, p *VmfsDatastoreObservation, md *plugin.MergeDescription) bool {
-	if k.Accessible != p.Accessible {
-		k.Accessible = p.Accessible
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeVmfsDatastore_MaintenanceMode(k *VmfsDatastoreObservation, p *VmfsDatastoreObservation, md *plugin.MergeDescription) bool {
 	if k.MaintenanceMode != p.MaintenanceMode {
 		k.MaintenanceMode = p.MaintenanceMode
@@ -235,6 +225,16 @@ func MergeVmfsDatastore_MaintenanceMode(k *VmfsDatastoreObservation, p *VmfsData
 func MergeVmfsDatastore_MultipleHostAccess(k *VmfsDatastoreObservation, p *VmfsDatastoreObservation, md *plugin.MergeDescription) bool {
 	if k.MultipleHostAccess != p.MultipleHostAccess {
 		k.MultipleHostAccess = p.MultipleHostAccess
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeVmfsDatastore_UncommittedSpace(k *VmfsDatastoreObservation, p *VmfsDatastoreObservation, md *plugin.MergeDescription) bool {
+	if k.UncommittedSpace != p.UncommittedSpace {
+		k.UncommittedSpace = p.UncommittedSpace
 		md.StatusUpdated = true
 		return true
 	}

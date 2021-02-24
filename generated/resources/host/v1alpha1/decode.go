@@ -39,18 +39,18 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeHost(prev *Host, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeHost_Datacenter(&new.Spec.ForProvider, valMap)
-	DecodeHost_Username(&new.Spec.ForProvider, valMap)
 	DecodeHost_Cluster(&new.Spec.ForProvider, valMap)
+	DecodeHost_ClusterManaged(&new.Spec.ForProvider, valMap)
 	DecodeHost_Connected(&new.Spec.ForProvider, valMap)
+	DecodeHost_Datacenter(&new.Spec.ForProvider, valMap)
+	DecodeHost_Force(&new.Spec.ForProvider, valMap)
 	DecodeHost_Hostname(&new.Spec.ForProvider, valMap)
 	DecodeHost_License(&new.Spec.ForProvider, valMap)
 	DecodeHost_Lockdown(&new.Spec.ForProvider, valMap)
 	DecodeHost_Maintenance(&new.Spec.ForProvider, valMap)
 	DecodeHost_Password(&new.Spec.ForProvider, valMap)
-	DecodeHost_ClusterManaged(&new.Spec.ForProvider, valMap)
-	DecodeHost_Force(&new.Spec.ForProvider, valMap)
 	DecodeHost_Thumbprint(&new.Spec.ForProvider, valMap)
+	DecodeHost_Username(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -60,23 +60,28 @@ func DecodeHost(prev *Host, ctyValue cty.Value) (resource.Managed, error) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeHost_Datacenter(p *HostParameters, vals map[string]cty.Value) {
-	p.Datacenter = ctwhy.ValueAsString(vals["datacenter"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHost_Username(p *HostParameters, vals map[string]cty.Value) {
-	p.Username = ctwhy.ValueAsString(vals["username"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeHost_Cluster(p *HostParameters, vals map[string]cty.Value) {
 	p.Cluster = ctwhy.ValueAsString(vals["cluster"])
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeHost_ClusterManaged(p *HostParameters, vals map[string]cty.Value) {
+	p.ClusterManaged = ctwhy.ValueAsBool(vals["cluster_managed"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeHost_Connected(p *HostParameters, vals map[string]cty.Value) {
 	p.Connected = ctwhy.ValueAsBool(vals["connected"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeHost_Datacenter(p *HostParameters, vals map[string]cty.Value) {
+	p.Datacenter = ctwhy.ValueAsString(vals["datacenter"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeHost_Force(p *HostParameters, vals map[string]cty.Value) {
+	p.Force = ctwhy.ValueAsBool(vals["force"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -105,16 +110,11 @@ func DecodeHost_Password(p *HostParameters, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeHost_ClusterManaged(p *HostParameters, vals map[string]cty.Value) {
-	p.ClusterManaged = ctwhy.ValueAsBool(vals["cluster_managed"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHost_Force(p *HostParameters, vals map[string]cty.Value) {
-	p.Force = ctwhy.ValueAsBool(vals["force"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeHost_Thumbprint(p *HostParameters, vals map[string]cty.Value) {
 	p.Thumbprint = ctwhy.ValueAsString(vals["thumbprint"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeHost_Username(p *HostParameters, vals map[string]cty.Value) {
+	p.Username = ctwhy.ValueAsString(vals["username"])
 }

@@ -37,16 +37,16 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVappEntity(r VappEntity) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVappEntity_StopAction(r.Spec.ForProvider, ctyVal)
-	EncodeVappEntity_WaitForGuest(r.Spec.ForProvider, ctyVal)
 	EncodeVappEntity_ContainerId(r.Spec.ForProvider, ctyVal)
 	EncodeVappEntity_CustomAttributes(r.Spec.ForProvider, ctyVal)
 	EncodeVappEntity_StartAction(r.Spec.ForProvider, ctyVal)
-	EncodeVappEntity_TargetId(r.Spec.ForProvider, ctyVal)
 	EncodeVappEntity_StartDelay(r.Spec.ForProvider, ctyVal)
 	EncodeVappEntity_StartOrder(r.Spec.ForProvider, ctyVal)
+	EncodeVappEntity_StopAction(r.Spec.ForProvider, ctyVal)
 	EncodeVappEntity_StopDelay(r.Spec.ForProvider, ctyVal)
 	EncodeVappEntity_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeVappEntity_TargetId(r.Spec.ForProvider, ctyVal)
+	EncodeVappEntity_WaitForGuest(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -54,14 +54,6 @@ func EncodeVappEntity(r VappEntity) cty.Value {
 	en := meta.GetExternalName(&r)
 	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVappEntity_StopAction(p VappEntityParameters, vals map[string]cty.Value) {
-	vals["stop_action"] = cty.StringVal(p.StopAction)
-}
-
-func EncodeVappEntity_WaitForGuest(p VappEntityParameters, vals map[string]cty.Value) {
-	vals["wait_for_guest"] = cty.BoolVal(p.WaitForGuest)
 }
 
 func EncodeVappEntity_ContainerId(p VappEntityParameters, vals map[string]cty.Value) {
@@ -84,16 +76,16 @@ func EncodeVappEntity_StartAction(p VappEntityParameters, vals map[string]cty.Va
 	vals["start_action"] = cty.StringVal(p.StartAction)
 }
 
-func EncodeVappEntity_TargetId(p VappEntityParameters, vals map[string]cty.Value) {
-	vals["target_id"] = cty.StringVal(p.TargetId)
-}
-
 func EncodeVappEntity_StartDelay(p VappEntityParameters, vals map[string]cty.Value) {
 	vals["start_delay"] = cty.NumberIntVal(p.StartDelay)
 }
 
 func EncodeVappEntity_StartOrder(p VappEntityParameters, vals map[string]cty.Value) {
 	vals["start_order"] = cty.NumberIntVal(p.StartOrder)
+}
+
+func EncodeVappEntity_StopAction(p VappEntityParameters, vals map[string]cty.Value) {
+	vals["stop_action"] = cty.StringVal(p.StopAction)
 }
 
 func EncodeVappEntity_StopDelay(p VappEntityParameters, vals map[string]cty.Value) {
@@ -110,4 +102,12 @@ func EncodeVappEntity_Tags(p VappEntityParameters, vals map[string]cty.Value) {
 	} else {
 		vals["tags"] = cty.SetVal(colVals)
     }
+}
+
+func EncodeVappEntity_TargetId(p VappEntityParameters, vals map[string]cty.Value) {
+	vals["target_id"] = cty.StringVal(p.TargetId)
+}
+
+func EncodeVappEntity_WaitForGuest(p VappEntityParameters, vals map[string]cty.Value) {
+	vals["wait_for_guest"] = cty.BoolVal(p.WaitForGuest)
 }

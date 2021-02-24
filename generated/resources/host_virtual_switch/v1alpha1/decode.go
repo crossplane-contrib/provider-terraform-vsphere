@@ -39,33 +39,42 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeHostVirtualSwitch(prev *HostVirtualSwitch, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeHostVirtualSwitch_ActiveNics(&new.Spec.ForProvider, valMap)
 	DecodeHostVirtualSwitch_AllowForgedTransmits(&new.Spec.ForProvider, valMap)
 	DecodeHostVirtualSwitch_AllowMacChanges(&new.Spec.ForProvider, valMap)
 	DecodeHostVirtualSwitch_AllowPromiscuous(&new.Spec.ForProvider, valMap)
 	DecodeHostVirtualSwitch_BeaconInterval(&new.Spec.ForProvider, valMap)
+	DecodeHostVirtualSwitch_CheckBeacon(&new.Spec.ForProvider, valMap)
+	DecodeHostVirtualSwitch_Failback(&new.Spec.ForProvider, valMap)
+	DecodeHostVirtualSwitch_HostSystemId(&new.Spec.ForProvider, valMap)
+	DecodeHostVirtualSwitch_LinkDiscoveryOperation(&new.Spec.ForProvider, valMap)
+	DecodeHostVirtualSwitch_LinkDiscoveryProtocol(&new.Spec.ForProvider, valMap)
 	DecodeHostVirtualSwitch_Mtu(&new.Spec.ForProvider, valMap)
-	DecodeHostVirtualSwitch_ShapingAverageBandwidth(&new.Spec.ForProvider, valMap)
-	DecodeHostVirtualSwitch_ActiveNics(&new.Spec.ForProvider, valMap)
+	DecodeHostVirtualSwitch_Name(&new.Spec.ForProvider, valMap)
+	DecodeHostVirtualSwitch_NetworkAdapters(&new.Spec.ForProvider, valMap)
 	DecodeHostVirtualSwitch_NotifySwitches(&new.Spec.ForProvider, valMap)
 	DecodeHostVirtualSwitch_NumberOfPorts(&new.Spec.ForProvider, valMap)
-	DecodeHostVirtualSwitch_TeamingPolicy(&new.Spec.ForProvider, valMap)
-	DecodeHostVirtualSwitch_CheckBeacon(&new.Spec.ForProvider, valMap)
-	DecodeHostVirtualSwitch_LinkDiscoveryOperation(&new.Spec.ForProvider, valMap)
-	DecodeHostVirtualSwitch_NetworkAdapters(&new.Spec.ForProvider, valMap)
-	DecodeHostVirtualSwitch_ShapingPeakBandwidth(&new.Spec.ForProvider, valMap)
-	DecodeHostVirtualSwitch_Failback(&new.Spec.ForProvider, valMap)
-	DecodeHostVirtualSwitch_LinkDiscoveryProtocol(&new.Spec.ForProvider, valMap)
-	DecodeHostVirtualSwitch_Name(&new.Spec.ForProvider, valMap)
+	DecodeHostVirtualSwitch_ShapingAverageBandwidth(&new.Spec.ForProvider, valMap)
 	DecodeHostVirtualSwitch_ShapingBurstSize(&new.Spec.ForProvider, valMap)
 	DecodeHostVirtualSwitch_ShapingEnabled(&new.Spec.ForProvider, valMap)
+	DecodeHostVirtualSwitch_ShapingPeakBandwidth(&new.Spec.ForProvider, valMap)
 	DecodeHostVirtualSwitch_StandbyNics(&new.Spec.ForProvider, valMap)
-	DecodeHostVirtualSwitch_HostSystemId(&new.Spec.ForProvider, valMap)
+	DecodeHostVirtualSwitch_TeamingPolicy(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeHostVirtualSwitch_ActiveNics(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["active_nics"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.ActiveNics = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -89,22 +98,47 @@ func DecodeHostVirtualSwitch_BeaconInterval(p *HostVirtualSwitchParameters, vals
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeHostVirtualSwitch_CheckBeacon(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
+	p.CheckBeacon = ctwhy.ValueAsBool(vals["check_beacon"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeHostVirtualSwitch_Failback(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
+	p.Failback = ctwhy.ValueAsBool(vals["failback"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeHostVirtualSwitch_HostSystemId(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
+	p.HostSystemId = ctwhy.ValueAsString(vals["host_system_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeHostVirtualSwitch_LinkDiscoveryOperation(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
+	p.LinkDiscoveryOperation = ctwhy.ValueAsString(vals["link_discovery_operation"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeHostVirtualSwitch_LinkDiscoveryProtocol(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
+	p.LinkDiscoveryProtocol = ctwhy.ValueAsString(vals["link_discovery_protocol"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeHostVirtualSwitch_Mtu(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
 	p.Mtu = ctwhy.ValueAsInt64(vals["mtu"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeHostVirtualSwitch_ShapingAverageBandwidth(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
-	p.ShapingAverageBandwidth = ctwhy.ValueAsInt64(vals["shaping_average_bandwidth"])
+func DecodeHostVirtualSwitch_Name(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
-func DecodeHostVirtualSwitch_ActiveNics(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
+func DecodeHostVirtualSwitch_NetworkAdapters(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["active_nics"]) {
+	for _, value := range ctwhy.ValueAsList(vals["network_adapters"]) {
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
-	p.ActiveNics = goVals
+	p.NetworkAdapters = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -118,47 +152,8 @@ func DecodeHostVirtualSwitch_NumberOfPorts(p *HostVirtualSwitchParameters, vals 
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeHostVirtualSwitch_TeamingPolicy(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
-	p.TeamingPolicy = ctwhy.ValueAsString(vals["teaming_policy"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHostVirtualSwitch_CheckBeacon(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
-	p.CheckBeacon = ctwhy.ValueAsBool(vals["check_beacon"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHostVirtualSwitch_LinkDiscoveryOperation(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
-	p.LinkDiscoveryOperation = ctwhy.ValueAsString(vals["link_discovery_operation"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeHostVirtualSwitch_NetworkAdapters(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["network_adapters"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.NetworkAdapters = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHostVirtualSwitch_ShapingPeakBandwidth(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
-	p.ShapingPeakBandwidth = ctwhy.ValueAsInt64(vals["shaping_peak_bandwidth"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHostVirtualSwitch_Failback(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
-	p.Failback = ctwhy.ValueAsBool(vals["failback"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHostVirtualSwitch_LinkDiscoveryProtocol(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
-	p.LinkDiscoveryProtocol = ctwhy.ValueAsString(vals["link_discovery_protocol"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHostVirtualSwitch_Name(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
+func DecodeHostVirtualSwitch_ShapingAverageBandwidth(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
+	p.ShapingAverageBandwidth = ctwhy.ValueAsInt64(vals["shaping_average_bandwidth"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -171,6 +166,11 @@ func DecodeHostVirtualSwitch_ShapingEnabled(p *HostVirtualSwitchParameters, vals
 	p.ShapingEnabled = ctwhy.ValueAsBool(vals["shaping_enabled"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeHostVirtualSwitch_ShapingPeakBandwidth(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
+	p.ShapingPeakBandwidth = ctwhy.ValueAsInt64(vals["shaping_peak_bandwidth"])
+}
+
 //primitiveCollectionTypeDecodeTemplate
 func DecodeHostVirtualSwitch_StandbyNics(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
@@ -181,6 +181,6 @@ func DecodeHostVirtualSwitch_StandbyNics(p *HostVirtualSwitchParameters, vals ma
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeHostVirtualSwitch_HostSystemId(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
-	p.HostSystemId = ctwhy.ValueAsString(vals["host_system_id"])
+func DecodeHostVirtualSwitch_TeamingPolicy(p *HostVirtualSwitchParameters, vals map[string]cty.Value) {
+	p.TeamingPolicy = ctwhy.ValueAsString(vals["teaming_policy"])
 }

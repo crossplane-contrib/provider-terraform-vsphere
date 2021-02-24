@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,30 +46,30 @@ type HostList struct {
 
 // A HostSpec defines the desired state of a Host
 type HostSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  HostParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       HostParameters `json:"forProvider"`
 }
 
 // A HostParameters defines the desired state of a Host
 type HostParameters struct {
-	Datacenter     string `json:"datacenter"`
-	Username       string `json:"username"`
 	Cluster        string `json:"cluster"`
+	ClusterManaged bool   `json:"cluster_managed"`
 	Connected      bool   `json:"connected"`
+	Datacenter     string `json:"datacenter"`
+	Force          bool   `json:"force"`
 	Hostname       string `json:"hostname"`
 	License        string `json:"license"`
 	Lockdown       string `json:"lockdown"`
 	Maintenance    bool   `json:"maintenance"`
 	Password       string `json:"password"`
-	ClusterManaged bool   `json:"cluster_managed"`
-	Force          bool   `json:"force"`
 	Thumbprint     string `json:"thumbprint"`
+	Username       string `json:"username"`
 }
 
 // A HostStatus defines the observed state of a Host
 type HostStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     HostObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          HostObservation `json:"atProvider"`
 }
 
 // A HostObservation records the observed state of a Host

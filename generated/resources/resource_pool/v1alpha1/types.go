@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,32 +46,32 @@ type ResourcePoolList struct {
 
 // A ResourcePoolSpec defines the desired state of a ResourcePool
 type ResourcePoolSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ResourcePoolParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       ResourcePoolParameters `json:"forProvider"`
 }
 
 // A ResourcePoolParameters defines the desired state of a ResourcePool
 type ResourcePoolParameters struct {
-	MemoryShareLevel     string            `json:"memory_share_level"`
-	ParentResourcePoolId string            `json:"parent_resource_pool_id"`
-	Tags                 []string          `json:"tags,omitempty"`
-	CpuReservation       int64             `json:"cpu_reservation"`
-	Name                 string            `json:"name"`
 	CpuExpandable        bool              `json:"cpu_expandable"`
 	CpuLimit             int64             `json:"cpu_limit"`
+	CpuReservation       int64             `json:"cpu_reservation"`
+	CpuShareLevel        string            `json:"cpu_share_level"`
 	CpuShares            int64             `json:"cpu_shares"`
+	CustomAttributes     map[string]string `json:"custom_attributes,omitempty"`
 	MemoryExpandable     bool              `json:"memory_expandable"`
 	MemoryLimit          int64             `json:"memory_limit"`
-	MemoryShares         int64             `json:"memory_shares"`
-	CpuShareLevel        string            `json:"cpu_share_level"`
-	CustomAttributes     map[string]string `json:"custom_attributes,omitempty"`
 	MemoryReservation    int64             `json:"memory_reservation"`
+	MemoryShareLevel     string            `json:"memory_share_level"`
+	MemoryShares         int64             `json:"memory_shares"`
+	Name                 string            `json:"name"`
+	ParentResourcePoolId string            `json:"parent_resource_pool_id"`
+	Tags                 []string          `json:"tags,omitempty"`
 }
 
 // A ResourcePoolStatus defines the observed state of a ResourcePool
 type ResourcePoolStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ResourcePoolObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          ResourcePoolObservation `json:"atProvider"`
 }
 
 // A ResourcePoolObservation records the observed state of a ResourcePool

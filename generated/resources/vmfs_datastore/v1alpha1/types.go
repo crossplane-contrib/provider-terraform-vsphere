@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,34 +46,34 @@ type VmfsDatastoreList struct {
 
 // A VmfsDatastoreSpec defines the desired state of a VmfsDatastore
 type VmfsDatastoreSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VmfsDatastoreParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       VmfsDatastoreParameters `json:"forProvider"`
 }
 
 // A VmfsDatastoreParameters defines the desired state of a VmfsDatastore
 type VmfsDatastoreParameters struct {
 	CustomAttributes   map[string]string `json:"custom_attributes,omitempty"`
-	Folder             string            `json:"folder"`
-	Tags               []string          `json:"tags,omitempty"`
 	DatastoreClusterId string            `json:"datastore_cluster_id"`
 	Disks              []string          `json:"disks,omitempty"`
+	Folder             string            `json:"folder"`
 	HostSystemId       string            `json:"host_system_id"`
 	Name               string            `json:"name"`
+	Tags               []string          `json:"tags,omitempty"`
 }
 
 // A VmfsDatastoreStatus defines the observed state of a VmfsDatastore
 type VmfsDatastoreStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VmfsDatastoreObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          VmfsDatastoreObservation `json:"atProvider"`
 }
 
 // A VmfsDatastoreObservation records the observed state of a VmfsDatastore
 type VmfsDatastoreObservation struct {
+	Accessible         bool   `json:"accessible"`
 	Capacity           int64  `json:"capacity"`
 	FreeSpace          int64  `json:"free_space"`
-	UncommittedSpace   int64  `json:"uncommitted_space"`
-	Accessible         bool   `json:"accessible"`
 	MaintenanceMode    string `json:"maintenance_mode"`
 	MultipleHostAccess bool   `json:"multiple_host_access"`
+	UncommittedSpace   int64  `json:"uncommitted_space"`
 	Url                string `json:"url"`
 }

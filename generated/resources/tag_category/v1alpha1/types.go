@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,22 +46,22 @@ type TagCategoryList struct {
 
 // A TagCategorySpec defines the desired state of a TagCategory
 type TagCategorySpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  TagCategoryParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       TagCategoryParameters `json:"forProvider"`
 }
 
 // A TagCategoryParameters defines the desired state of a TagCategory
 type TagCategoryParameters struct {
+	AssociableTypes []string `json:"associable_types,omitempty"`
 	Cardinality     string   `json:"cardinality"`
 	Description     string   `json:"description"`
 	Name            string   `json:"name"`
-	AssociableTypes []string `json:"associable_types,omitempty"`
 }
 
 // A TagCategoryStatus defines the observed state of a TagCategory
 type TagCategoryStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     TagCategoryObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          TagCategoryObservation `json:"atProvider"`
 }
 
 // A TagCategoryObservation records the observed state of a TagCategory

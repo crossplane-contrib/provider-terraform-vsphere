@@ -5,9 +5,11 @@ go 1.14
 replace github.com/crossplane-contrib/terraform-runtime => /Users/kasey/src/crossplane-contrib/terraform-provider-runtime
 
 require (
+	github.com/crossplane-contrib/terraform-provider-gen v0.0.0-20210211205231-04187a50b2e1 // indirect
 	github.com/crossplane-contrib/terraform-runtime v0.0.0-00010101000000-000000000000
-	github.com/crossplane/crossplane-runtime v0.11.1-0.20201116232334-1b691efff491
-	github.com/crossplane/crossplane-tools v0.0.0-20201007233256-88b291e145bb
+	github.com/crossplane/crossplane-runtime v0.12.0
+	github.com/crossplane/crossplane-tools v0.0.0-20201201125637-9ddc70edfd0d
+	github.com/crossplane/provider-gcp v0.15.0 // indirect
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/hashicorp/terraform v0.13.5
 	github.com/kr/pretty v0.2.1 // indirect
@@ -23,7 +25,6 @@ require (
 
 replace (
 	github.com/aws/aws-sdk-go-v2 => github.com/aws/aws-sdk-go-v2 v0.23.0
-	github.com/crossplane/crossplane-runtime => github.com/crossplane/crossplane-runtime v0.10.0
 	k8s.io/api => k8s.io/api v0.18.6
 	k8s.io/apimachinery => k8s.io/apimachinery v0.18.6
 	k8s.io/client-go => k8s.io/client-go v0.18.6

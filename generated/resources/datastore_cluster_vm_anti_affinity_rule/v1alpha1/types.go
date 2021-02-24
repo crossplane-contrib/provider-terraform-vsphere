@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,8 +46,8 @@ type DatastoreClusterVmAntiAffinityRuleList struct {
 
 // A DatastoreClusterVmAntiAffinityRuleSpec defines the desired state of a DatastoreClusterVmAntiAffinityRule
 type DatastoreClusterVmAntiAffinityRuleSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DatastoreClusterVmAntiAffinityRuleParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       DatastoreClusterVmAntiAffinityRuleParameters `json:"forProvider"`
 }
 
 // A DatastoreClusterVmAntiAffinityRuleParameters defines the desired state of a DatastoreClusterVmAntiAffinityRule
@@ -61,8 +61,8 @@ type DatastoreClusterVmAntiAffinityRuleParameters struct {
 
 // A DatastoreClusterVmAntiAffinityRuleStatus defines the observed state of a DatastoreClusterVmAntiAffinityRule
 type DatastoreClusterVmAntiAffinityRuleStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DatastoreClusterVmAntiAffinityRuleObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          DatastoreClusterVmAntiAffinityRuleObservation `json:"atProvider"`
 }
 
 // A DatastoreClusterVmAntiAffinityRuleObservation records the observed state of a DatastoreClusterVmAntiAffinityRule

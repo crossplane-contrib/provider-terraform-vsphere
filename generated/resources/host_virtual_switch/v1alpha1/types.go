@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,39 +46,39 @@ type HostVirtualSwitchList struct {
 
 // A HostVirtualSwitchSpec defines the desired state of a HostVirtualSwitch
 type HostVirtualSwitchSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  HostVirtualSwitchParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       HostVirtualSwitchParameters `json:"forProvider"`
 }
 
 // A HostVirtualSwitchParameters defines the desired state of a HostVirtualSwitch
 type HostVirtualSwitchParameters struct {
+	ActiveNics              []string `json:"active_nics,omitempty"`
 	AllowForgedTransmits    bool     `json:"allow_forged_transmits"`
 	AllowMacChanges         bool     `json:"allow_mac_changes"`
 	AllowPromiscuous        bool     `json:"allow_promiscuous"`
 	BeaconInterval          int64    `json:"beacon_interval"`
+	CheckBeacon             bool     `json:"check_beacon"`
+	Failback                bool     `json:"failback"`
+	HostSystemId            string   `json:"host_system_id"`
+	LinkDiscoveryOperation  string   `json:"link_discovery_operation"`
+	LinkDiscoveryProtocol   string   `json:"link_discovery_protocol"`
 	Mtu                     int64    `json:"mtu"`
-	ShapingAverageBandwidth int64    `json:"shaping_average_bandwidth"`
-	ActiveNics              []string `json:"active_nics,omitempty"`
+	Name                    string   `json:"name"`
+	NetworkAdapters         []string `json:"network_adapters,omitempty"`
 	NotifySwitches          bool     `json:"notify_switches"`
 	NumberOfPorts           int64    `json:"number_of_ports"`
-	TeamingPolicy           string   `json:"teaming_policy"`
-	CheckBeacon             bool     `json:"check_beacon"`
-	LinkDiscoveryOperation  string   `json:"link_discovery_operation"`
-	NetworkAdapters         []string `json:"network_adapters,omitempty"`
-	ShapingPeakBandwidth    int64    `json:"shaping_peak_bandwidth"`
-	Failback                bool     `json:"failback"`
-	LinkDiscoveryProtocol   string   `json:"link_discovery_protocol"`
-	Name                    string   `json:"name"`
+	ShapingAverageBandwidth int64    `json:"shaping_average_bandwidth"`
 	ShapingBurstSize        int64    `json:"shaping_burst_size"`
 	ShapingEnabled          bool     `json:"shaping_enabled"`
+	ShapingPeakBandwidth    int64    `json:"shaping_peak_bandwidth"`
 	StandbyNics             []string `json:"standby_nics,omitempty"`
-	HostSystemId            string   `json:"host_system_id"`
+	TeamingPolicy           string   `json:"teaming_policy"`
 }
 
 // A HostVirtualSwitchStatus defines the observed state of a HostVirtualSwitch
 type HostVirtualSwitchStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     HostVirtualSwitchObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          HostVirtualSwitchObservation `json:"atProvider"`
 }
 
 // A HostVirtualSwitchObservation records the observed state of a HostVirtualSwitch

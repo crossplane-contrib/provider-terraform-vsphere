@@ -39,19 +39,24 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeFile(prev *File, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeFile_CreateDirectories(&new.Spec.ForProvider, valMap)
 	DecodeFile_Datacenter(&new.Spec.ForProvider, valMap)
 	DecodeFile_Datastore(&new.Spec.ForProvider, valMap)
 	DecodeFile_DestinationFile(&new.Spec.ForProvider, valMap)
 	DecodeFile_SourceDatacenter(&new.Spec.ForProvider, valMap)
 	DecodeFile_SourceDatastore(&new.Spec.ForProvider, valMap)
 	DecodeFile_SourceFile(&new.Spec.ForProvider, valMap)
-	DecodeFile_CreateDirectories(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeFile_CreateDirectories(p *FileParameters, vals map[string]cty.Value) {
+	p.CreateDirectories = ctwhy.ValueAsBool(vals["create_directories"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -82,9 +87,4 @@ func DecodeFile_SourceDatastore(p *FileParameters, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeFile_SourceFile(p *FileParameters, vals map[string]cty.Value) {
 	p.SourceFile = ctwhy.ValueAsString(vals["source_file"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeFile_CreateDirectories(p *FileParameters, vals map[string]cty.Value) {
-	p.CreateDirectories = ctwhy.ValueAsBool(vals["create_directories"])
 }

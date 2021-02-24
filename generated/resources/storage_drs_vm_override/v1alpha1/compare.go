@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeStorageDrsVmOverride_DatastoreClusterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeStorageDrsVmOverride_SdrsAutomationLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,11 +56,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeStorageDrsVmOverride_DatastoreClusterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -65,6 +65,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeStorageDrsVmOverride_DatastoreClusterId(k *StorageDrsVmOverrideParameters, p *StorageDrsVmOverrideParameters, md *plugin.MergeDescription) bool {
+	if k.DatastoreClusterId != p.DatastoreClusterId {
+		p.DatastoreClusterId = k.DatastoreClusterId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -101,16 +111,6 @@ func MergeStorageDrsVmOverride_SdrsIntraVmAffinity(k *StorageDrsVmOverrideParame
 func MergeStorageDrsVmOverride_VirtualMachineId(k *StorageDrsVmOverrideParameters, p *StorageDrsVmOverrideParameters, md *plugin.MergeDescription) bool {
 	if k.VirtualMachineId != p.VirtualMachineId {
 		p.VirtualMachineId = k.VirtualMachineId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeStorageDrsVmOverride_DatastoreClusterId(k *StorageDrsVmOverrideParameters, p *StorageDrsVmOverrideParameters, md *plugin.MergeDescription) bool {
-	if k.DatastoreClusterId != p.DatastoreClusterId {
-		p.DatastoreClusterId = k.DatastoreClusterId
 		md.NeedsProviderUpdate = true
 		return true
 	}

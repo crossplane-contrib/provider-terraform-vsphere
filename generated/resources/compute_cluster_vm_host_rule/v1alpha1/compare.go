@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeComputeClusterVmHostRule_AffinityHostGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeComputeClusterVmHostRule_AntiAffinityHostGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,11 +66,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeComputeClusterVmHostRule_AffinityHostGroupName(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -75,6 +75,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeComputeClusterVmHostRule_AffinityHostGroupName(k *ComputeClusterVmHostRuleParameters, p *ComputeClusterVmHostRuleParameters, md *plugin.MergeDescription) bool {
+	if k.AffinityHostGroupName != p.AffinityHostGroupName {
+		p.AffinityHostGroupName = k.AffinityHostGroupName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -131,16 +141,6 @@ func MergeComputeClusterVmHostRule_Name(k *ComputeClusterVmHostRuleParameters, p
 func MergeComputeClusterVmHostRule_VmGroupName(k *ComputeClusterVmHostRuleParameters, p *ComputeClusterVmHostRuleParameters, md *plugin.MergeDescription) bool {
 	if k.VmGroupName != p.VmGroupName {
 		p.VmGroupName = k.VmGroupName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeComputeClusterVmHostRule_AffinityHostGroupName(k *ComputeClusterVmHostRuleParameters, p *ComputeClusterVmHostRuleParameters, md *plugin.MergeDescription) bool {
-	if k.AffinityHostGroupName != p.AffinityHostGroupName {
-		p.AffinityHostGroupName = k.AffinityHostGroupName
 		md.NeedsProviderUpdate = true
 		return true
 	}

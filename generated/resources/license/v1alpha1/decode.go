@@ -41,10 +41,10 @@ func DecodeLicense(prev *License, ctyValue cty.Value) (resource.Managed, error) 
 	new := prev.DeepCopy()
 	DecodeLicense_Labels(&new.Spec.ForProvider, valMap)
 	DecodeLicense_LicenseKey(&new.Spec.ForProvider, valMap)
-	DecodeLicense_Used(&new.Status.AtProvider, valMap)
 	DecodeLicense_EditionKey(&new.Status.AtProvider, valMap)
 	DecodeLicense_Name(&new.Status.AtProvider, valMap)
 	DecodeLicense_Total(&new.Status.AtProvider, valMap)
+	DecodeLicense_Used(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -73,11 +73,6 @@ func DecodeLicense_LicenseKey(p *LicenseParameters, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeLicense_Used(p *LicenseObservation, vals map[string]cty.Value) {
-	p.Used = ctwhy.ValueAsInt64(vals["used"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeLicense_EditionKey(p *LicenseObservation, vals map[string]cty.Value) {
 	p.EditionKey = ctwhy.ValueAsString(vals["edition_key"])
 }
@@ -90,4 +85,9 @@ func DecodeLicense_Name(p *LicenseObservation, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeLicense_Total(p *LicenseObservation, vals map[string]cty.Value) {
 	p.Total = ctwhy.ValueAsInt64(vals["total"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeLicense_Used(p *LicenseObservation, vals map[string]cty.Value) {
+	p.Used = ctwhy.ValueAsInt64(vals["used"])
 }

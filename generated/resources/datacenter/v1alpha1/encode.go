@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDatacenter(r Datacenter) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeDatacenter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatacenter_CustomAttributes(r.Spec.ForProvider, ctyVal)
 	EncodeDatacenter_Folder(r.Spec.ForProvider, ctyVal)
 	EncodeDatacenter_Name(r.Spec.ForProvider, ctyVal)
+	EncodeDatacenter_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDatacenter_Moid(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -48,18 +48,6 @@ func EncodeDatacenter(r Datacenter) cty.Value {
 	en := meta.GetExternalName(&r)
 	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeDatacenter_Tags(p DatacenterParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Tags {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["tags"] = cty.SetValEmpty(cty.String)
-	} else {
-		vals["tags"] = cty.SetVal(colVals)
-    }
 }
 
 func EncodeDatacenter_CustomAttributes(p DatacenterParameters, vals map[string]cty.Value) {
@@ -80,6 +68,18 @@ func EncodeDatacenter_Folder(p DatacenterParameters, vals map[string]cty.Value) 
 
 func EncodeDatacenter_Name(p DatacenterParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeDatacenter_Tags(p DatacenterParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Tags {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["tags"] = cty.SetValEmpty(cty.String)
+	} else {
+		vals["tags"] = cty.SetVal(colVals)
+    }
 }
 
 func EncodeDatacenter_Moid(p DatacenterObservation, vals map[string]cty.Value) {

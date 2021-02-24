@@ -41,11 +41,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeLicense_Used(&k.Status.AtProvider, &p.Status.AtProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeLicense_EditionKey(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -57,6 +52,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeLicense_Total(&k.Status.AtProvider, &p.Status.AtProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeLicense_Used(&k.Status.AtProvider, &p.Status.AtProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -92,16 +92,6 @@ func MergeLicense_LicenseKey(k *LicenseParameters, p *LicenseParameters, md *plu
 }
 
 //mergePrimitiveTemplateStatus
-func MergeLicense_Used(k *LicenseObservation, p *LicenseObservation, md *plugin.MergeDescription) bool {
-	if k.Used != p.Used {
-		k.Used = p.Used
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
 func MergeLicense_EditionKey(k *LicenseObservation, p *LicenseObservation, md *plugin.MergeDescription) bool {
 	if k.EditionKey != p.EditionKey {
 		k.EditionKey = p.EditionKey
@@ -125,6 +115,16 @@ func MergeLicense_Name(k *LicenseObservation, p *LicenseObservation, md *plugin.
 func MergeLicense_Total(k *LicenseObservation, p *LicenseObservation, md *plugin.MergeDescription) bool {
 	if k.Total != p.Total {
 		k.Total = p.Total
+		md.StatusUpdated = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateStatus
+func MergeLicense_Used(k *LicenseObservation, p *LicenseObservation, md *plugin.MergeDescription) bool {
+	if k.Used != p.Used {
+		k.Used = p.Used
 		md.StatusUpdated = true
 		return true
 	}

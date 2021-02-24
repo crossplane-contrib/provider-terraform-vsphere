@@ -17,20 +17,20 @@ limitations under the License.
 
 package v1alpha1
 
-import runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
 // GetCondition of this HostVirtualSwitch.
-func (mg *HostVirtualSwitch) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
+func (mg *HostVirtualSwitch) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this HostVirtualSwitch.
-func (mg *HostVirtualSwitch) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
+func (mg *HostVirtualSwitch) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetProviderConfigReference of this HostVirtualSwitch.
-func (mg *HostVirtualSwitch) GetProviderConfigReference() *runtimev1alpha1.Reference {
+func (mg *HostVirtualSwitch) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
@@ -38,27 +38,27 @@ func (mg *HostVirtualSwitch) GetProviderConfigReference() *runtimev1alpha1.Refer
 GetProviderReference of this HostVirtualSwitch.
 Deprecated: Use GetProviderConfigReference.
 */
-func (mg *HostVirtualSwitch) GetProviderReference() *runtimev1alpha1.Reference {
+func (mg *HostVirtualSwitch) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
 // GetWriteConnectionSecretToReference of this HostVirtualSwitch.
-func (mg *HostVirtualSwitch) GetWriteConnectionSecretToReference() *runtimev1alpha1.SecretReference {
+func (mg *HostVirtualSwitch) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this HostVirtualSwitch.
-func (mg *HostVirtualSwitch) SetConditions(c ...runtimev1alpha1.Condition) {
+func (mg *HostVirtualSwitch) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this HostVirtualSwitch.
-func (mg *HostVirtualSwitch) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
+func (mg *HostVirtualSwitch) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetProviderConfigReference of this HostVirtualSwitch.
-func (mg *HostVirtualSwitch) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
+func (mg *HostVirtualSwitch) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
@@ -66,11 +66,11 @@ func (mg *HostVirtualSwitch) SetProviderConfigReference(r *runtimev1alpha1.Refer
 SetProviderReference of this HostVirtualSwitch.
 Deprecated: Use SetProviderConfigReference.
 */
-func (mg *HostVirtualSwitch) SetProviderReference(r *runtimev1alpha1.Reference) {
+func (mg *HostVirtualSwitch) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
 }
 
 // SetWriteConnectionSecretToReference of this HostVirtualSwitch.
-func (mg *HostVirtualSwitch) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
+func (mg *HostVirtualSwitch) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,8 +46,8 @@ type TagList struct {
 
 // A TagSpec defines the desired state of a Tag
 type TagSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  TagParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       TagParameters `json:"forProvider"`
 }
 
 // A TagParameters defines the desired state of a Tag
@@ -59,8 +59,8 @@ type TagParameters struct {
 
 // A TagStatus defines the observed state of a Tag
 type TagStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     TagObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          TagObservation `json:"atProvider"`
 }
 
 // A TagObservation records the observed state of a Tag

@@ -39,55 +39,26 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeResourcePool(prev *ResourcePool, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeResourcePool_MemoryShareLevel(&new.Spec.ForProvider, valMap)
-	DecodeResourcePool_ParentResourcePoolId(&new.Spec.ForProvider, valMap)
-	DecodeResourcePool_Tags(&new.Spec.ForProvider, valMap)
-	DecodeResourcePool_CpuReservation(&new.Spec.ForProvider, valMap)
-	DecodeResourcePool_Name(&new.Spec.ForProvider, valMap)
 	DecodeResourcePool_CpuExpandable(&new.Spec.ForProvider, valMap)
 	DecodeResourcePool_CpuLimit(&new.Spec.ForProvider, valMap)
+	DecodeResourcePool_CpuReservation(&new.Spec.ForProvider, valMap)
+	DecodeResourcePool_CpuShareLevel(&new.Spec.ForProvider, valMap)
 	DecodeResourcePool_CpuShares(&new.Spec.ForProvider, valMap)
+	DecodeResourcePool_CustomAttributes(&new.Spec.ForProvider, valMap)
 	DecodeResourcePool_MemoryExpandable(&new.Spec.ForProvider, valMap)
 	DecodeResourcePool_MemoryLimit(&new.Spec.ForProvider, valMap)
-	DecodeResourcePool_MemoryShares(&new.Spec.ForProvider, valMap)
-	DecodeResourcePool_CpuShareLevel(&new.Spec.ForProvider, valMap)
-	DecodeResourcePool_CustomAttributes(&new.Spec.ForProvider, valMap)
 	DecodeResourcePool_MemoryReservation(&new.Spec.ForProvider, valMap)
+	DecodeResourcePool_MemoryShareLevel(&new.Spec.ForProvider, valMap)
+	DecodeResourcePool_MemoryShares(&new.Spec.ForProvider, valMap)
+	DecodeResourcePool_Name(&new.Spec.ForProvider, valMap)
+	DecodeResourcePool_ParentResourcePoolId(&new.Spec.ForProvider, valMap)
+	DecodeResourcePool_Tags(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeResourcePool_MemoryShareLevel(p *ResourcePoolParameters, vals map[string]cty.Value) {
-	p.MemoryShareLevel = ctwhy.ValueAsString(vals["memory_share_level"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeResourcePool_ParentResourcePoolId(p *ResourcePoolParameters, vals map[string]cty.Value) {
-	p.ParentResourcePoolId = ctwhy.ValueAsString(vals["parent_resource_pool_id"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeResourcePool_Tags(p *ResourcePoolParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["tags"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.Tags = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeResourcePool_CpuReservation(p *ResourcePoolParameters, vals map[string]cty.Value) {
-	p.CpuReservation = ctwhy.ValueAsInt64(vals["cpu_reservation"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeResourcePool_Name(p *ResourcePoolParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -101,28 +72,18 @@ func DecodeResourcePool_CpuLimit(p *ResourcePoolParameters, vals map[string]cty.
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeResourcePool_CpuShares(p *ResourcePoolParameters, vals map[string]cty.Value) {
-	p.CpuShares = ctwhy.ValueAsInt64(vals["cpu_shares"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeResourcePool_MemoryExpandable(p *ResourcePoolParameters, vals map[string]cty.Value) {
-	p.MemoryExpandable = ctwhy.ValueAsBool(vals["memory_expandable"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeResourcePool_MemoryLimit(p *ResourcePoolParameters, vals map[string]cty.Value) {
-	p.MemoryLimit = ctwhy.ValueAsInt64(vals["memory_limit"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeResourcePool_MemoryShares(p *ResourcePoolParameters, vals map[string]cty.Value) {
-	p.MemoryShares = ctwhy.ValueAsInt64(vals["memory_shares"])
+func DecodeResourcePool_CpuReservation(p *ResourcePoolParameters, vals map[string]cty.Value) {
+	p.CpuReservation = ctwhy.ValueAsInt64(vals["cpu_reservation"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeResourcePool_CpuShareLevel(p *ResourcePoolParameters, vals map[string]cty.Value) {
 	p.CpuShareLevel = ctwhy.ValueAsString(vals["cpu_share_level"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeResourcePool_CpuShares(p *ResourcePoolParameters, vals map[string]cty.Value) {
+	p.CpuShares = ctwhy.ValueAsInt64(vals["cpu_shares"])
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -141,6 +102,45 @@ func DecodeResourcePool_CustomAttributes(p *ResourcePoolParameters, vals map[str
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeResourcePool_MemoryExpandable(p *ResourcePoolParameters, vals map[string]cty.Value) {
+	p.MemoryExpandable = ctwhy.ValueAsBool(vals["memory_expandable"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeResourcePool_MemoryLimit(p *ResourcePoolParameters, vals map[string]cty.Value) {
+	p.MemoryLimit = ctwhy.ValueAsInt64(vals["memory_limit"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeResourcePool_MemoryReservation(p *ResourcePoolParameters, vals map[string]cty.Value) {
 	p.MemoryReservation = ctwhy.ValueAsInt64(vals["memory_reservation"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeResourcePool_MemoryShareLevel(p *ResourcePoolParameters, vals map[string]cty.Value) {
+	p.MemoryShareLevel = ctwhy.ValueAsString(vals["memory_share_level"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeResourcePool_MemoryShares(p *ResourcePoolParameters, vals map[string]cty.Value) {
+	p.MemoryShares = ctwhy.ValueAsInt64(vals["memory_shares"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeResourcePool_Name(p *ResourcePoolParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeResourcePool_ParentResourcePoolId(p *ResourcePoolParameters, vals map[string]cty.Value) {
+	p.ParentResourcePoolId = ctwhy.ValueAsString(vals["parent_resource_pool_id"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeResourcePool_Tags(p *ResourcePoolParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["tags"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Tags = goVals
 }

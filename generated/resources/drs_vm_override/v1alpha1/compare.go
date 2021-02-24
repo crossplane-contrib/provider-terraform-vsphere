@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeDrsVmOverride_ComputeClusterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDrsVmOverride_DrsAutomationLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,11 +51,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDrsVmOverride_ComputeClusterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -60,6 +60,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDrsVmOverride_ComputeClusterId(k *DrsVmOverrideParameters, p *DrsVmOverrideParameters, md *plugin.MergeDescription) bool {
+	if k.ComputeClusterId != p.ComputeClusterId {
+		p.ComputeClusterId = k.ComputeClusterId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -86,16 +96,6 @@ func MergeDrsVmOverride_DrsEnabled(k *DrsVmOverrideParameters, p *DrsVmOverrideP
 func MergeDrsVmOverride_VirtualMachineId(k *DrsVmOverrideParameters, p *DrsVmOverrideParameters, md *plugin.MergeDescription) bool {
 	if k.VirtualMachineId != p.VirtualMachineId {
 		p.VirtualMachineId = k.VirtualMachineId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDrsVmOverride_ComputeClusterId(k *DrsVmOverrideParameters, p *DrsVmOverrideParameters, md *plugin.MergeDescription) bool {
-	if k.ComputeClusterId != p.ComputeClusterId {
-		p.ComputeClusterId = k.ComputeClusterId
 		md.NeedsProviderUpdate = true
 		return true
 	}

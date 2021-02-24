@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeComputeClusterVmAffinityRule_VirtualMachineIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeComputeClusterVmAffinityRule_ComputeClusterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,6 +51,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeComputeClusterVmAffinityRule_VirtualMachineIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -65,16 +65,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeComputeClusterVmAffinityRule_VirtualMachineIds(k *ComputeClusterVmAffinityRuleParameters, p *ComputeClusterVmAffinityRuleParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.VirtualMachineIds, p.VirtualMachineIds) {
-		p.VirtualMachineIds = k.VirtualMachineIds
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -111,6 +101,16 @@ func MergeComputeClusterVmAffinityRule_Mandatory(k *ComputeClusterVmAffinityRule
 func MergeComputeClusterVmAffinityRule_Name(k *ComputeClusterVmAffinityRuleParameters, p *ComputeClusterVmAffinityRuleParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeComputeClusterVmAffinityRule_VirtualMachineIds(k *ComputeClusterVmAffinityRuleParameters, p *ComputeClusterVmAffinityRuleParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.VirtualMachineIds, p.VirtualMachineIds) {
+		p.VirtualMachineIds = k.VirtualMachineIds
 		md.NeedsProviderUpdate = true
 		return true
 	}

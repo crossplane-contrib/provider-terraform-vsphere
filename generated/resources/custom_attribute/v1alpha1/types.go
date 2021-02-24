@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,8 +46,8 @@ type CustomAttributeList struct {
 
 // A CustomAttributeSpec defines the desired state of a CustomAttribute
 type CustomAttributeSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  CustomAttributeParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       CustomAttributeParameters `json:"forProvider"`
 }
 
 // A CustomAttributeParameters defines the desired state of a CustomAttribute
@@ -58,8 +58,8 @@ type CustomAttributeParameters struct {
 
 // A CustomAttributeStatus defines the observed state of a CustomAttribute
 type CustomAttributeStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     CustomAttributeObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          CustomAttributeObservation `json:"atProvider"`
 }
 
 // A CustomAttributeObservation records the observed state of a CustomAttribute

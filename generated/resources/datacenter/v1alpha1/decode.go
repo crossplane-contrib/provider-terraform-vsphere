@@ -39,25 +39,16 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDatacenter(prev *Datacenter, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeDatacenter_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDatacenter_CustomAttributes(&new.Spec.ForProvider, valMap)
 	DecodeDatacenter_Folder(&new.Spec.ForProvider, valMap)
 	DecodeDatacenter_Name(&new.Spec.ForProvider, valMap)
+	DecodeDatacenter_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDatacenter_Moid(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeDatacenter_Tags(p *DatacenterParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["tags"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.Tags = goVals
 }
 
 //primitiveMapTypeDecodeTemplate
@@ -83,6 +74,15 @@ func DecodeDatacenter_Folder(p *DatacenterParameters, vals map[string]cty.Value)
 //primitiveTypeDecodeTemplate
 func DecodeDatacenter_Name(p *DatacenterParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeDatacenter_Tags(p *DatacenterParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["tags"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Tags = goVals
 }
 
 //primitiveTypeDecodeTemplate

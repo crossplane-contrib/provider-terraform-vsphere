@@ -39,26 +39,17 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeComputeClusterVmAffinityRule(prev *ComputeClusterVmAffinityRule, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeComputeClusterVmAffinityRule_VirtualMachineIds(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmAffinityRule_ComputeClusterId(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmAffinityRule_Enabled(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmAffinityRule_Mandatory(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmAffinityRule_Name(&new.Spec.ForProvider, valMap)
+	DecodeComputeClusterVmAffinityRule_VirtualMachineIds(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeComputeClusterVmAffinityRule_VirtualMachineIds(p *ComputeClusterVmAffinityRuleParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["virtual_machine_ids"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.VirtualMachineIds = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -79,4 +70,13 @@ func DecodeComputeClusterVmAffinityRule_Mandatory(p *ComputeClusterVmAffinityRul
 //primitiveTypeDecodeTemplate
 func DecodeComputeClusterVmAffinityRule_Name(p *ComputeClusterVmAffinityRuleParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeComputeClusterVmAffinityRule_VirtualMachineIds(p *ComputeClusterVmAffinityRuleParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["virtual_machine_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.VirtualMachineIds = goVals
 }

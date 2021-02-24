@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,25 +46,25 @@ type VirtualMachineSnapshotList struct {
 
 // A VirtualMachineSnapshotSpec defines the desired state of a VirtualMachineSnapshot
 type VirtualMachineSnapshotSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VirtualMachineSnapshotParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       VirtualMachineSnapshotParameters `json:"forProvider"`
 }
 
 // A VirtualMachineSnapshotParameters defines the desired state of a VirtualMachineSnapshot
 type VirtualMachineSnapshotParameters struct {
-	VirtualMachineUuid string `json:"virtual_machine_uuid"`
 	Consolidate        bool   `json:"consolidate"`
 	Description        string `json:"description"`
 	Memory             bool   `json:"memory"`
 	Quiesce            bool   `json:"quiesce"`
 	RemoveChildren     bool   `json:"remove_children"`
 	SnapshotName       string `json:"snapshot_name"`
+	VirtualMachineUuid string `json:"virtual_machine_uuid"`
 }
 
 // A VirtualMachineSnapshotStatus defines the observed state of a VirtualMachineSnapshot
 type VirtualMachineSnapshotStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VirtualMachineSnapshotObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          VirtualMachineSnapshotObservation `json:"atProvider"`
 }
 
 // A VirtualMachineSnapshotObservation records the observed state of a VirtualMachineSnapshot

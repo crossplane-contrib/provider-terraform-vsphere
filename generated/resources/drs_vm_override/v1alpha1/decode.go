@@ -39,16 +39,21 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeDrsVmOverride(prev *DrsVmOverride, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeDrsVmOverride_ComputeClusterId(&new.Spec.ForProvider, valMap)
 	DecodeDrsVmOverride_DrsAutomationLevel(&new.Spec.ForProvider, valMap)
 	DecodeDrsVmOverride_DrsEnabled(&new.Spec.ForProvider, valMap)
 	DecodeDrsVmOverride_VirtualMachineId(&new.Spec.ForProvider, valMap)
-	DecodeDrsVmOverride_ComputeClusterId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDrsVmOverride_ComputeClusterId(p *DrsVmOverrideParameters, vals map[string]cty.Value) {
+	p.ComputeClusterId = ctwhy.ValueAsString(vals["compute_cluster_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -64,9 +69,4 @@ func DecodeDrsVmOverride_DrsEnabled(p *DrsVmOverrideParameters, vals map[string]
 //primitiveTypeDecodeTemplate
 func DecodeDrsVmOverride_VirtualMachineId(p *DrsVmOverrideParameters, vals map[string]cty.Value) {
 	p.VirtualMachineId = ctwhy.ValueAsString(vals["virtual_machine_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDrsVmOverride_ComputeClusterId(p *DrsVmOverrideParameters, vals map[string]cty.Value) {
-	p.ComputeClusterId = ctwhy.ValueAsString(vals["compute_cluster_id"])
 }

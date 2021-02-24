@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,25 +46,25 @@ type ComputeClusterVmHostRuleList struct {
 
 // A ComputeClusterVmHostRuleSpec defines the desired state of a ComputeClusterVmHostRule
 type ComputeClusterVmHostRuleSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ComputeClusterVmHostRuleParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       ComputeClusterVmHostRuleParameters `json:"forProvider"`
 }
 
 // A ComputeClusterVmHostRuleParameters defines the desired state of a ComputeClusterVmHostRule
 type ComputeClusterVmHostRuleParameters struct {
+	AffinityHostGroupName     string `json:"affinity_host_group_name"`
 	AntiAffinityHostGroupName string `json:"anti_affinity_host_group_name"`
 	ComputeClusterId          string `json:"compute_cluster_id"`
 	Enabled                   bool   `json:"enabled"`
 	Mandatory                 bool   `json:"mandatory"`
 	Name                      string `json:"name"`
 	VmGroupName               string `json:"vm_group_name"`
-	AffinityHostGroupName     string `json:"affinity_host_group_name"`
 }
 
 // A ComputeClusterVmHostRuleStatus defines the observed state of a ComputeClusterVmHostRule
 type ComputeClusterVmHostRuleStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ComputeClusterVmHostRuleObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          ComputeClusterVmHostRuleObservation `json:"atProvider"`
 }
 
 // A ComputeClusterVmHostRuleObservation records the observed state of a ComputeClusterVmHostRule

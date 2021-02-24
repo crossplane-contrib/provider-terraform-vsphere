@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeComputeClusterVmHostRule(r ComputeClusterVmHostRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeComputeClusterVmHostRule_AffinityHostGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmHostRule_AntiAffinityHostGroupName(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmHostRule_ComputeClusterId(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmHostRule_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmHostRule_Mandatory(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmHostRule_Name(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmHostRule_VmGroupName(r.Spec.ForProvider, ctyVal)
-	EncodeComputeClusterVmHostRule_AffinityHostGroupName(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,6 +51,10 @@ func EncodeComputeClusterVmHostRule(r ComputeClusterVmHostRule) cty.Value {
 	en := meta.GetExternalName(&r)
 	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeComputeClusterVmHostRule_AffinityHostGroupName(p ComputeClusterVmHostRuleParameters, vals map[string]cty.Value) {
+	vals["affinity_host_group_name"] = cty.StringVal(p.AffinityHostGroupName)
 }
 
 func EncodeComputeClusterVmHostRule_AntiAffinityHostGroupName(p ComputeClusterVmHostRuleParameters, vals map[string]cty.Value) {
@@ -75,8 +79,4 @@ func EncodeComputeClusterVmHostRule_Name(p ComputeClusterVmHostRuleParameters, v
 
 func EncodeComputeClusterVmHostRule_VmGroupName(p ComputeClusterVmHostRuleParameters, vals map[string]cty.Value) {
 	vals["vm_group_name"] = cty.StringVal(p.VmGroupName)
-}
-
-func EncodeComputeClusterVmHostRule_AffinityHostGroupName(p ComputeClusterVmHostRuleParameters, vals map[string]cty.Value) {
-	vals["affinity_host_group_name"] = cty.StringVal(p.AffinityHostGroupName)
 }

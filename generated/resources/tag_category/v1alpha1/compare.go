@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeTagCategory_AssociableTypes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeTagCategory_Cardinality(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -46,11 +51,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeTagCategory_AssociableTypes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -60,6 +60,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeTagCategory_AssociableTypes(k *TagCategoryParameters, p *TagCategoryParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.AssociableTypes, p.AssociableTypes) {
+		p.AssociableTypes = k.AssociableTypes
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -86,16 +96,6 @@ func MergeTagCategory_Description(k *TagCategoryParameters, p *TagCategoryParame
 func MergeTagCategory_Name(k *TagCategoryParameters, p *TagCategoryParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeTagCategory_AssociableTypes(k *TagCategoryParameters, p *TagCategoryParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.AssociableTypes, p.AssociableTypes) {
-		p.AssociableTypes = k.AssociableTypes
 		md.NeedsProviderUpdate = true
 		return true
 	}

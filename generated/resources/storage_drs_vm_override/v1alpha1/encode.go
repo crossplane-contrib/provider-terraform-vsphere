@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeStorageDrsVmOverride(r StorageDrsVmOverride) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeStorageDrsVmOverride_DatastoreClusterId(r.Spec.ForProvider, ctyVal)
 	EncodeStorageDrsVmOverride_SdrsAutomationLevel(r.Spec.ForProvider, ctyVal)
 	EncodeStorageDrsVmOverride_SdrsEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeStorageDrsVmOverride_SdrsIntraVmAffinity(r.Spec.ForProvider, ctyVal)
 	EncodeStorageDrsVmOverride_VirtualMachineId(r.Spec.ForProvider, ctyVal)
-	EncodeStorageDrsVmOverride_DatastoreClusterId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -49,6 +49,10 @@ func EncodeStorageDrsVmOverride(r StorageDrsVmOverride) cty.Value {
 	en := meta.GetExternalName(&r)
 	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeStorageDrsVmOverride_DatastoreClusterId(p StorageDrsVmOverrideParameters, vals map[string]cty.Value) {
+	vals["datastore_cluster_id"] = cty.StringVal(p.DatastoreClusterId)
 }
 
 func EncodeStorageDrsVmOverride_SdrsAutomationLevel(p StorageDrsVmOverrideParameters, vals map[string]cty.Value) {
@@ -65,8 +69,4 @@ func EncodeStorageDrsVmOverride_SdrsIntraVmAffinity(p StorageDrsVmOverrideParame
 
 func EncodeStorageDrsVmOverride_VirtualMachineId(p StorageDrsVmOverrideParameters, vals map[string]cty.Value) {
 	vals["virtual_machine_id"] = cty.StringVal(p.VirtualMachineId)
-}
-
-func EncodeStorageDrsVmOverride_DatastoreClusterId(p StorageDrsVmOverrideParameters, vals map[string]cty.Value) {
-	vals["datastore_cluster_id"] = cty.StringVal(p.DatastoreClusterId)
 }

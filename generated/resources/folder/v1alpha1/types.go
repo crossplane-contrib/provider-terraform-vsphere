@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,8 +46,8 @@ type FolderList struct {
 
 // A FolderSpec defines the desired state of a Folder
 type FolderSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  FolderParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       FolderParameters `json:"forProvider"`
 }
 
 // A FolderParameters defines the desired state of a Folder
@@ -61,8 +61,8 @@ type FolderParameters struct {
 
 // A FolderStatus defines the observed state of a Folder
 type FolderStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     FolderObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          FolderObservation `json:"atProvider"`
 }
 
 // A FolderObservation records the observed state of a Folder

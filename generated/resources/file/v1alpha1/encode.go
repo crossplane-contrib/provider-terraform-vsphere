@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeFile(r File) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeFile_CreateDirectories(r.Spec.ForProvider, ctyVal)
 	EncodeFile_Datacenter(r.Spec.ForProvider, ctyVal)
 	EncodeFile_Datastore(r.Spec.ForProvider, ctyVal)
 	EncodeFile_DestinationFile(r.Spec.ForProvider, ctyVal)
 	EncodeFile_SourceDatacenter(r.Spec.ForProvider, ctyVal)
 	EncodeFile_SourceDatastore(r.Spec.ForProvider, ctyVal)
 	EncodeFile_SourceFile(r.Spec.ForProvider, ctyVal)
-	EncodeFile_CreateDirectories(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,6 +51,10 @@ func EncodeFile(r File) cty.Value {
 	en := meta.GetExternalName(&r)
 	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeFile_CreateDirectories(p FileParameters, vals map[string]cty.Value) {
+	vals["create_directories"] = cty.BoolVal(p.CreateDirectories)
 }
 
 func EncodeFile_Datacenter(p FileParameters, vals map[string]cty.Value) {
@@ -75,8 +79,4 @@ func EncodeFile_SourceDatastore(p FileParameters, vals map[string]cty.Value) {
 
 func EncodeFile_SourceFile(p FileParameters, vals map[string]cty.Value) {
 	vals["source_file"] = cty.StringVal(p.SourceFile)
-}
-
-func EncodeFile_CreateDirectories(p FileParameters, vals map[string]cty.Value) {
-	vals["create_directories"] = cty.BoolVal(p.CreateDirectories)
 }

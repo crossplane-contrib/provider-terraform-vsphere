@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,28 +46,28 @@ type VappEntityList struct {
 
 // A VappEntitySpec defines the desired state of a VappEntity
 type VappEntitySpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VappEntityParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       VappEntityParameters `json:"forProvider"`
 }
 
 // A VappEntityParameters defines the desired state of a VappEntity
 type VappEntityParameters struct {
-	StopAction       string            `json:"stop_action"`
-	WaitForGuest     bool              `json:"wait_for_guest"`
 	ContainerId      string            `json:"container_id"`
 	CustomAttributes map[string]string `json:"custom_attributes,omitempty"`
 	StartAction      string            `json:"start_action"`
-	TargetId         string            `json:"target_id"`
 	StartDelay       int64             `json:"start_delay"`
 	StartOrder       int64             `json:"start_order"`
+	StopAction       string            `json:"stop_action"`
 	StopDelay        int64             `json:"stop_delay"`
 	Tags             []string          `json:"tags,omitempty"`
+	TargetId         string            `json:"target_id"`
+	WaitForGuest     bool              `json:"wait_for_guest"`
 }
 
 // A VappEntityStatus defines the observed state of a VappEntity
 type VappEntityStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VappEntityObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          VappEntityObservation `json:"atProvider"`
 }
 
 // A VappEntityObservation records the observed state of a VappEntity

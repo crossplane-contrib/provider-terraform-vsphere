@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,23 +46,23 @@ type StorageDrsVmOverrideList struct {
 
 // A StorageDrsVmOverrideSpec defines the desired state of a StorageDrsVmOverride
 type StorageDrsVmOverrideSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  StorageDrsVmOverrideParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       StorageDrsVmOverrideParameters `json:"forProvider"`
 }
 
 // A StorageDrsVmOverrideParameters defines the desired state of a StorageDrsVmOverride
 type StorageDrsVmOverrideParameters struct {
+	DatastoreClusterId  string `json:"datastore_cluster_id"`
 	SdrsAutomationLevel string `json:"sdrs_automation_level"`
 	SdrsEnabled         string `json:"sdrs_enabled"`
 	SdrsIntraVmAffinity string `json:"sdrs_intra_vm_affinity"`
 	VirtualMachineId    string `json:"virtual_machine_id"`
-	DatastoreClusterId  string `json:"datastore_cluster_id"`
 }
 
 // A StorageDrsVmOverrideStatus defines the observed state of a StorageDrsVmOverride
 type StorageDrsVmOverrideStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     StorageDrsVmOverrideObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          StorageDrsVmOverrideObservation `json:"atProvider"`
 }
 
 // A StorageDrsVmOverrideObservation records the observed state of a StorageDrsVmOverride

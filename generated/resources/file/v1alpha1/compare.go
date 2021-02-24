@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeFile_CreateDirectories(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeFile_Datacenter(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,11 +66,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeFile_CreateDirectories(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -75,6 +75,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveTemplateSpec
+func MergeFile_CreateDirectories(k *FileParameters, p *FileParameters, md *plugin.MergeDescription) bool {
+	if k.CreateDirectories != p.CreateDirectories {
+		p.CreateDirectories = k.CreateDirectories
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -131,16 +141,6 @@ func MergeFile_SourceDatastore(k *FileParameters, p *FileParameters, md *plugin.
 func MergeFile_SourceFile(k *FileParameters, p *FileParameters, md *plugin.MergeDescription) bool {
 	if k.SourceFile != p.SourceFile {
 		p.SourceFile = k.SourceFile
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeFile_CreateDirectories(k *FileParameters, p *FileParameters, md *plugin.MergeDescription) bool {
-	if k.CreateDirectories != p.CreateDirectories {
-		p.CreateDirectories = k.CreateDirectories
 		md.NeedsProviderUpdate = true
 		return true
 	}

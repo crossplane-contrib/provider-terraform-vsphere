@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,39 +46,39 @@ type NasDatastoreList struct {
 
 // A NasDatastoreSpec defines the desired state of a NasDatastore
 type NasDatastoreSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  NasDatastoreParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       NasDatastoreParameters `json:"forProvider"`
 }
 
 // A NasDatastoreParameters defines the desired state of a NasDatastore
 type NasDatastoreParameters struct {
 	AccessMode         string            `json:"access_mode"`
 	CustomAttributes   map[string]string `json:"custom_attributes,omitempty"`
-	SecurityType       string            `json:"security_type"`
-	Tags               []string          `json:"tags,omitempty"`
-	Folder             string            `json:"folder"`
-	RemoteHosts        []string          `json:"remote_hosts,omitempty"`
-	RemotePath         string            `json:"remote_path"`
 	DatastoreClusterId string            `json:"datastore_cluster_id"`
+	Folder             string            `json:"folder"`
 	HostSystemIds      []string          `json:"host_system_ids,omitempty"`
 	Name               string            `json:"name"`
+	RemoteHosts        []string          `json:"remote_hosts,omitempty"`
+	RemotePath         string            `json:"remote_path"`
+	SecurityType       string            `json:"security_type"`
+	Tags               []string          `json:"tags,omitempty"`
 	Type               string            `json:"type"`
 }
 
 // A NasDatastoreStatus defines the observed state of a NasDatastore
 type NasDatastoreStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     NasDatastoreObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          NasDatastoreObservation `json:"atProvider"`
 }
 
 // A NasDatastoreObservation records the observed state of a NasDatastore
 type NasDatastoreObservation struct {
-	Capacity           int64  `json:"capacity"`
-	ProtocolEndpoint   string `json:"protocol_endpoint"`
 	Accessible         bool   `json:"accessible"`
+	Capacity           int64  `json:"capacity"`
 	FreeSpace          int64  `json:"free_space"`
-	Url                string `json:"url"`
 	MaintenanceMode    string `json:"maintenance_mode"`
 	MultipleHostAccess bool   `json:"multiple_host_access"`
+	ProtocolEndpoint   string `json:"protocol_endpoint"`
 	UncommittedSpace   int64  `json:"uncommitted_space"`
+	Url                string `json:"url"`
 }

@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeContentLibraryItem_SourceUuid(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeContentLibraryItem_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeContentLibraryItem_Description(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -61,6 +51,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeContentLibraryItem_SourceUuid(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeContentLibraryItem_Type(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -70,26 +70,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeContentLibraryItem_SourceUuid(k *ContentLibraryItemParameters, p *ContentLibraryItemParameters, md *plugin.MergeDescription) bool {
-	if k.SourceUuid != p.SourceUuid {
-		p.SourceUuid = k.SourceUuid
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeContentLibraryItem_Type(k *ContentLibraryItemParameters, p *ContentLibraryItemParameters, md *plugin.MergeDescription) bool {
-	if k.Type != p.Type {
-		p.Type = k.Type
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -126,6 +106,26 @@ func MergeContentLibraryItem_LibraryId(k *ContentLibraryItemParameters, p *Conte
 func MergeContentLibraryItem_Name(k *ContentLibraryItemParameters, p *ContentLibraryItemParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeContentLibraryItem_SourceUuid(k *ContentLibraryItemParameters, p *ContentLibraryItemParameters, md *plugin.MergeDescription) bool {
+	if k.SourceUuid != p.SourceUuid {
+		p.SourceUuid = k.SourceUuid
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeContentLibraryItem_Type(k *ContentLibraryItemParameters, p *ContentLibraryItemParameters, md *plugin.MergeDescription) bool {
+	if k.Type != p.Type {
+		p.Type = k.Type
 		md.NeedsProviderUpdate = true
 		return true
 	}

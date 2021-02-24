@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,8 +46,8 @@ type DpmHostOverrideList struct {
 
 // A DpmHostOverrideSpec defines the desired state of a DpmHostOverride
 type DpmHostOverrideSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DpmHostOverrideParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       DpmHostOverrideParameters `json:"forProvider"`
 }
 
 // A DpmHostOverrideParameters defines the desired state of a DpmHostOverride
@@ -60,8 +60,8 @@ type DpmHostOverrideParameters struct {
 
 // A DpmHostOverrideStatus defines the observed state of a DpmHostOverride
 type DpmHostOverrideStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DpmHostOverrideObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          DpmHostOverrideObservation `json:"atProvider"`
 }
 
 // A DpmHostOverrideObservation records the observed state of a DpmHostOverride

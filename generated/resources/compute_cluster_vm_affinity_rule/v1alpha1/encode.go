@@ -37,11 +37,11 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeComputeClusterVmAffinityRule(r ComputeClusterVmAffinityRule) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeComputeClusterVmAffinityRule_VirtualMachineIds(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmAffinityRule_ComputeClusterId(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmAffinityRule_Enabled(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmAffinityRule_Mandatory(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmAffinityRule_Name(r.Spec.ForProvider, ctyVal)
+	EncodeComputeClusterVmAffinityRule_VirtualMachineIds(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -49,18 +49,6 @@ func EncodeComputeClusterVmAffinityRule(r ComputeClusterVmAffinityRule) cty.Valu
 	en := meta.GetExternalName(&r)
 	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeComputeClusterVmAffinityRule_VirtualMachineIds(p ComputeClusterVmAffinityRuleParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.VirtualMachineIds {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["virtual_machine_ids"] = cty.SetValEmpty(cty.String)
-	} else {
-		vals["virtual_machine_ids"] = cty.SetVal(colVals)
-    }
 }
 
 func EncodeComputeClusterVmAffinityRule_ComputeClusterId(p ComputeClusterVmAffinityRuleParameters, vals map[string]cty.Value) {
@@ -77,4 +65,16 @@ func EncodeComputeClusterVmAffinityRule_Mandatory(p ComputeClusterVmAffinityRule
 
 func EncodeComputeClusterVmAffinityRule_Name(p ComputeClusterVmAffinityRuleParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeComputeClusterVmAffinityRule_VirtualMachineIds(p ComputeClusterVmAffinityRuleParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.VirtualMachineIds {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["virtual_machine_ids"] = cty.SetValEmpty(cty.String)
+	} else {
+		vals["virtual_machine_ids"] = cty.SetVal(colVals)
+    }
 }

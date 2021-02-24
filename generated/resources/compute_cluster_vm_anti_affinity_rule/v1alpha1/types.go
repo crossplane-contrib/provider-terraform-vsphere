@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,8 +46,8 @@ type ComputeClusterVmAntiAffinityRuleList struct {
 
 // A ComputeClusterVmAntiAffinityRuleSpec defines the desired state of a ComputeClusterVmAntiAffinityRule
 type ComputeClusterVmAntiAffinityRuleSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ComputeClusterVmAntiAffinityRuleParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       ComputeClusterVmAntiAffinityRuleParameters `json:"forProvider"`
 }
 
 // A ComputeClusterVmAntiAffinityRuleParameters defines the desired state of a ComputeClusterVmAntiAffinityRule
@@ -61,8 +61,8 @@ type ComputeClusterVmAntiAffinityRuleParameters struct {
 
 // A ComputeClusterVmAntiAffinityRuleStatus defines the observed state of a ComputeClusterVmAntiAffinityRule
 type ComputeClusterVmAntiAffinityRuleStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ComputeClusterVmAntiAffinityRuleObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          ComputeClusterVmAntiAffinityRuleObservation `json:"atProvider"`
 }
 
 // A ComputeClusterVmAntiAffinityRuleObservation records the observed state of a ComputeClusterVmAntiAffinityRule

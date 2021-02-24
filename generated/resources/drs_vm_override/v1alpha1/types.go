@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,22 +46,22 @@ type DrsVmOverrideList struct {
 
 // A DrsVmOverrideSpec defines the desired state of a DrsVmOverride
 type DrsVmOverrideSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DrsVmOverrideParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       DrsVmOverrideParameters `json:"forProvider"`
 }
 
 // A DrsVmOverrideParameters defines the desired state of a DrsVmOverride
 type DrsVmOverrideParameters struct {
+	ComputeClusterId   string `json:"compute_cluster_id"`
 	DrsAutomationLevel string `json:"drs_automation_level"`
 	DrsEnabled         bool   `json:"drs_enabled"`
 	VirtualMachineId   string `json:"virtual_machine_id"`
-	ComputeClusterId   string `json:"compute_cluster_id"`
 }
 
 // A DrsVmOverrideStatus defines the observed state of a DrsVmOverride
 type DrsVmOverrideStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DrsVmOverrideObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          DrsVmOverrideObservation `json:"atProvider"`
 }
 
 // A DrsVmOverrideObservation records the observed state of a DrsVmOverride

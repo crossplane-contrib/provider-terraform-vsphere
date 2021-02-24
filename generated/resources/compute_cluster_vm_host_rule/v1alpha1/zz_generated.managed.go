@@ -17,20 +17,20 @@ limitations under the License.
 
 package v1alpha1
 
-import runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
 // GetCondition of this ComputeClusterVmHostRule.
-func (mg *ComputeClusterVmHostRule) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
+func (mg *ComputeClusterVmHostRule) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ComputeClusterVmHostRule.
-func (mg *ComputeClusterVmHostRule) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
+func (mg *ComputeClusterVmHostRule) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetProviderConfigReference of this ComputeClusterVmHostRule.
-func (mg *ComputeClusterVmHostRule) GetProviderConfigReference() *runtimev1alpha1.Reference {
+func (mg *ComputeClusterVmHostRule) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
@@ -38,27 +38,27 @@ func (mg *ComputeClusterVmHostRule) GetProviderConfigReference() *runtimev1alpha
 GetProviderReference of this ComputeClusterVmHostRule.
 Deprecated: Use GetProviderConfigReference.
 */
-func (mg *ComputeClusterVmHostRule) GetProviderReference() *runtimev1alpha1.Reference {
+func (mg *ComputeClusterVmHostRule) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
 // GetWriteConnectionSecretToReference of this ComputeClusterVmHostRule.
-func (mg *ComputeClusterVmHostRule) GetWriteConnectionSecretToReference() *runtimev1alpha1.SecretReference {
+func (mg *ComputeClusterVmHostRule) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ComputeClusterVmHostRule.
-func (mg *ComputeClusterVmHostRule) SetConditions(c ...runtimev1alpha1.Condition) {
+func (mg *ComputeClusterVmHostRule) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ComputeClusterVmHostRule.
-func (mg *ComputeClusterVmHostRule) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
+func (mg *ComputeClusterVmHostRule) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetProviderConfigReference of this ComputeClusterVmHostRule.
-func (mg *ComputeClusterVmHostRule) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
+func (mg *ComputeClusterVmHostRule) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
@@ -66,11 +66,11 @@ func (mg *ComputeClusterVmHostRule) SetProviderConfigReference(r *runtimev1alpha
 SetProviderReference of this ComputeClusterVmHostRule.
 Deprecated: Use SetProviderConfigReference.
 */
-func (mg *ComputeClusterVmHostRule) SetProviderReference(r *runtimev1alpha1.Reference) {
+func (mg *ComputeClusterVmHostRule) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ComputeClusterVmHostRule.
-func (mg *ComputeClusterVmHostRule) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
+func (mg *ComputeClusterVmHostRule) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

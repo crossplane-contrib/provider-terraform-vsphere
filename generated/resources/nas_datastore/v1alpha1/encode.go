@@ -39,23 +39,23 @@ func EncodeNasDatastore(r NasDatastore) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeNasDatastore_AccessMode(r.Spec.ForProvider, ctyVal)
 	EncodeNasDatastore_CustomAttributes(r.Spec.ForProvider, ctyVal)
-	EncodeNasDatastore_SecurityType(r.Spec.ForProvider, ctyVal)
-	EncodeNasDatastore_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeNasDatastore_Folder(r.Spec.ForProvider, ctyVal)
-	EncodeNasDatastore_RemoteHosts(r.Spec.ForProvider, ctyVal)
-	EncodeNasDatastore_RemotePath(r.Spec.ForProvider, ctyVal)
 	EncodeNasDatastore_DatastoreClusterId(r.Spec.ForProvider, ctyVal)
+	EncodeNasDatastore_Folder(r.Spec.ForProvider, ctyVal)
 	EncodeNasDatastore_HostSystemIds(r.Spec.ForProvider, ctyVal)
 	EncodeNasDatastore_Name(r.Spec.ForProvider, ctyVal)
+	EncodeNasDatastore_RemoteHosts(r.Spec.ForProvider, ctyVal)
+	EncodeNasDatastore_RemotePath(r.Spec.ForProvider, ctyVal)
+	EncodeNasDatastore_SecurityType(r.Spec.ForProvider, ctyVal)
+	EncodeNasDatastore_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeNasDatastore_Type(r.Spec.ForProvider, ctyVal)
-	EncodeNasDatastore_Capacity(r.Status.AtProvider, ctyVal)
-	EncodeNasDatastore_ProtocolEndpoint(r.Status.AtProvider, ctyVal)
 	EncodeNasDatastore_Accessible(r.Status.AtProvider, ctyVal)
+	EncodeNasDatastore_Capacity(r.Status.AtProvider, ctyVal)
 	EncodeNasDatastore_FreeSpace(r.Status.AtProvider, ctyVal)
-	EncodeNasDatastore_Url(r.Status.AtProvider, ctyVal)
 	EncodeNasDatastore_MaintenanceMode(r.Status.AtProvider, ctyVal)
 	EncodeNasDatastore_MultipleHostAccess(r.Status.AtProvider, ctyVal)
+	EncodeNasDatastore_ProtocolEndpoint(r.Status.AtProvider, ctyVal)
 	EncodeNasDatastore_UncommittedSpace(r.Status.AtProvider, ctyVal)
+	EncodeNasDatastore_Url(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -80,44 +80,12 @@ func EncodeNasDatastore_CustomAttributes(p NasDatastoreParameters, vals map[stri
 	vals["custom_attributes"] = cty.MapVal(mVals)
 }
 
-func EncodeNasDatastore_SecurityType(p NasDatastoreParameters, vals map[string]cty.Value) {
-	vals["security_type"] = cty.StringVal(p.SecurityType)
-}
-
-func EncodeNasDatastore_Tags(p NasDatastoreParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Tags {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["tags"] = cty.SetValEmpty(cty.String)
-	} else {
-		vals["tags"] = cty.SetVal(colVals)
-    }
+func EncodeNasDatastore_DatastoreClusterId(p NasDatastoreParameters, vals map[string]cty.Value) {
+	vals["datastore_cluster_id"] = cty.StringVal(p.DatastoreClusterId)
 }
 
 func EncodeNasDatastore_Folder(p NasDatastoreParameters, vals map[string]cty.Value) {
 	vals["folder"] = cty.StringVal(p.Folder)
-}
-
-func EncodeNasDatastore_RemoteHosts(p NasDatastoreParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.RemoteHosts {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["remote_hosts"] = cty.ListValEmpty(cty.String)
-	} else {
-		vals["remote_hosts"] = cty.ListVal(colVals)
-    }
-}
-
-func EncodeNasDatastore_RemotePath(p NasDatastoreParameters, vals map[string]cty.Value) {
-	vals["remote_path"] = cty.StringVal(p.RemotePath)
-}
-
-func EncodeNasDatastore_DatastoreClusterId(p NasDatastoreParameters, vals map[string]cty.Value) {
-	vals["datastore_cluster_id"] = cty.StringVal(p.DatastoreClusterId)
 }
 
 func EncodeNasDatastore_HostSystemIds(p NasDatastoreParameters, vals map[string]cty.Value) {
@@ -136,28 +104,52 @@ func EncodeNasDatastore_Name(p NasDatastoreParameters, vals map[string]cty.Value
 	vals["name"] = cty.StringVal(p.Name)
 }
 
+func EncodeNasDatastore_RemoteHosts(p NasDatastoreParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.RemoteHosts {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["remote_hosts"] = cty.ListValEmpty(cty.String)
+	} else {
+		vals["remote_hosts"] = cty.ListVal(colVals)
+    }
+}
+
+func EncodeNasDatastore_RemotePath(p NasDatastoreParameters, vals map[string]cty.Value) {
+	vals["remote_path"] = cty.StringVal(p.RemotePath)
+}
+
+func EncodeNasDatastore_SecurityType(p NasDatastoreParameters, vals map[string]cty.Value) {
+	vals["security_type"] = cty.StringVal(p.SecurityType)
+}
+
+func EncodeNasDatastore_Tags(p NasDatastoreParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Tags {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["tags"] = cty.SetValEmpty(cty.String)
+	} else {
+		vals["tags"] = cty.SetVal(colVals)
+    }
+}
+
 func EncodeNasDatastore_Type(p NasDatastoreParameters, vals map[string]cty.Value) {
 	vals["type"] = cty.StringVal(p.Type)
-}
-
-func EncodeNasDatastore_Capacity(p NasDatastoreObservation, vals map[string]cty.Value) {
-	vals["capacity"] = cty.NumberIntVal(p.Capacity)
-}
-
-func EncodeNasDatastore_ProtocolEndpoint(p NasDatastoreObservation, vals map[string]cty.Value) {
-	vals["protocol_endpoint"] = cty.StringVal(p.ProtocolEndpoint)
 }
 
 func EncodeNasDatastore_Accessible(p NasDatastoreObservation, vals map[string]cty.Value) {
 	vals["accessible"] = cty.BoolVal(p.Accessible)
 }
 
-func EncodeNasDatastore_FreeSpace(p NasDatastoreObservation, vals map[string]cty.Value) {
-	vals["free_space"] = cty.NumberIntVal(p.FreeSpace)
+func EncodeNasDatastore_Capacity(p NasDatastoreObservation, vals map[string]cty.Value) {
+	vals["capacity"] = cty.NumberIntVal(p.Capacity)
 }
 
-func EncodeNasDatastore_Url(p NasDatastoreObservation, vals map[string]cty.Value) {
-	vals["url"] = cty.StringVal(p.Url)
+func EncodeNasDatastore_FreeSpace(p NasDatastoreObservation, vals map[string]cty.Value) {
+	vals["free_space"] = cty.NumberIntVal(p.FreeSpace)
 }
 
 func EncodeNasDatastore_MaintenanceMode(p NasDatastoreObservation, vals map[string]cty.Value) {
@@ -168,6 +160,14 @@ func EncodeNasDatastore_MultipleHostAccess(p NasDatastoreObservation, vals map[s
 	vals["multiple_host_access"] = cty.BoolVal(p.MultipleHostAccess)
 }
 
+func EncodeNasDatastore_ProtocolEndpoint(p NasDatastoreObservation, vals map[string]cty.Value) {
+	vals["protocol_endpoint"] = cty.StringVal(p.ProtocolEndpoint)
+}
+
 func EncodeNasDatastore_UncommittedSpace(p NasDatastoreObservation, vals map[string]cty.Value) {
 	vals["uncommitted_space"] = cty.NumberIntVal(p.UncommittedSpace)
+}
+
+func EncodeNasDatastore_Url(p NasDatastoreObservation, vals map[string]cty.Value) {
+	vals["url"] = cty.StringVal(p.Url)
 }

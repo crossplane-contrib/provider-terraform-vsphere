@@ -31,6 +31,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeHostVirtualSwitch_ActiveNics(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeHostVirtualSwitch_AllowForgedTransmits(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -51,17 +56,42 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeHostVirtualSwitch_CheckBeacon(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeHostVirtualSwitch_Failback(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeHostVirtualSwitch_HostSystemId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeHostVirtualSwitch_LinkDiscoveryOperation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeHostVirtualSwitch_LinkDiscoveryProtocol(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeHostVirtualSwitch_Mtu(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeHostVirtualSwitch_ShapingAverageBandwidth(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeHostVirtualSwitch_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeHostVirtualSwitch_ActiveNics(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeHostVirtualSwitch_NetworkAdapters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,42 +106,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeHostVirtualSwitch_TeamingPolicy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHostVirtualSwitch_CheckBeacon(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHostVirtualSwitch_LinkDiscoveryOperation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHostVirtualSwitch_NetworkAdapters(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHostVirtualSwitch_ShapingPeakBandwidth(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHostVirtualSwitch_Failback(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHostVirtualSwitch_LinkDiscoveryProtocol(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHostVirtualSwitch_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeHostVirtualSwitch_ShapingAverageBandwidth(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -126,12 +121,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeHostVirtualSwitch_ShapingPeakBandwidth(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeHostVirtualSwitch_StandbyNics(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeHostVirtualSwitch_HostSystemId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeHostVirtualSwitch_TeamingPolicy(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -145,6 +145,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeHostVirtualSwitch_ActiveNics(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.ActiveNics, p.ActiveNics) {
+		p.ActiveNics = k.ActiveNics
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -188,6 +198,56 @@ func MergeHostVirtualSwitch_BeaconInterval(k *HostVirtualSwitchParameters, p *Ho
 }
 
 //mergePrimitiveTemplateSpec
+func MergeHostVirtualSwitch_CheckBeacon(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
+	if k.CheckBeacon != p.CheckBeacon {
+		p.CheckBeacon = k.CheckBeacon
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeHostVirtualSwitch_Failback(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
+	if k.Failback != p.Failback {
+		p.Failback = k.Failback
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeHostVirtualSwitch_HostSystemId(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
+	if k.HostSystemId != p.HostSystemId {
+		p.HostSystemId = k.HostSystemId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeHostVirtualSwitch_LinkDiscoveryOperation(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
+	if k.LinkDiscoveryOperation != p.LinkDiscoveryOperation {
+		p.LinkDiscoveryOperation = k.LinkDiscoveryOperation
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeHostVirtualSwitch_LinkDiscoveryProtocol(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
+	if k.LinkDiscoveryProtocol != p.LinkDiscoveryProtocol {
+		p.LinkDiscoveryProtocol = k.LinkDiscoveryProtocol
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeHostVirtualSwitch_Mtu(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
 	if k.Mtu != p.Mtu {
 		p.Mtu = k.Mtu
@@ -198,9 +258,9 @@ func MergeHostVirtualSwitch_Mtu(k *HostVirtualSwitchParameters, p *HostVirtualSw
 }
 
 //mergePrimitiveTemplateSpec
-func MergeHostVirtualSwitch_ShapingAverageBandwidth(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
-	if k.ShapingAverageBandwidth != p.ShapingAverageBandwidth {
-		p.ShapingAverageBandwidth = k.ShapingAverageBandwidth
+func MergeHostVirtualSwitch_Name(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -208,9 +268,9 @@ func MergeHostVirtualSwitch_ShapingAverageBandwidth(k *HostVirtualSwitchParamete
 }
 
 //mergePrimitiveContainerTemplateSpec
-func MergeHostVirtualSwitch_ActiveNics(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.ActiveNics, p.ActiveNics) {
-		p.ActiveNics = k.ActiveNics
+func MergeHostVirtualSwitch_NetworkAdapters(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.NetworkAdapters, p.NetworkAdapters) {
+		p.NetworkAdapters = k.NetworkAdapters
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -238,79 +298,9 @@ func MergeHostVirtualSwitch_NumberOfPorts(k *HostVirtualSwitchParameters, p *Hos
 }
 
 //mergePrimitiveTemplateSpec
-func MergeHostVirtualSwitch_TeamingPolicy(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
-	if k.TeamingPolicy != p.TeamingPolicy {
-		p.TeamingPolicy = k.TeamingPolicy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeHostVirtualSwitch_CheckBeacon(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
-	if k.CheckBeacon != p.CheckBeacon {
-		p.CheckBeacon = k.CheckBeacon
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeHostVirtualSwitch_LinkDiscoveryOperation(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
-	if k.LinkDiscoveryOperation != p.LinkDiscoveryOperation {
-		p.LinkDiscoveryOperation = k.LinkDiscoveryOperation
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeHostVirtualSwitch_NetworkAdapters(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.NetworkAdapters, p.NetworkAdapters) {
-		p.NetworkAdapters = k.NetworkAdapters
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeHostVirtualSwitch_ShapingPeakBandwidth(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
-	if k.ShapingPeakBandwidth != p.ShapingPeakBandwidth {
-		p.ShapingPeakBandwidth = k.ShapingPeakBandwidth
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeHostVirtualSwitch_Failback(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
-	if k.Failback != p.Failback {
-		p.Failback = k.Failback
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeHostVirtualSwitch_LinkDiscoveryProtocol(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
-	if k.LinkDiscoveryProtocol != p.LinkDiscoveryProtocol {
-		p.LinkDiscoveryProtocol = k.LinkDiscoveryProtocol
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeHostVirtualSwitch_Name(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
+func MergeHostVirtualSwitch_ShapingAverageBandwidth(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
+	if k.ShapingAverageBandwidth != p.ShapingAverageBandwidth {
+		p.ShapingAverageBandwidth = k.ShapingAverageBandwidth
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -337,6 +327,16 @@ func MergeHostVirtualSwitch_ShapingEnabled(k *HostVirtualSwitchParameters, p *Ho
 	return false
 }
 
+//mergePrimitiveTemplateSpec
+func MergeHostVirtualSwitch_ShapingPeakBandwidth(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
+	if k.ShapingPeakBandwidth != p.ShapingPeakBandwidth {
+		p.ShapingPeakBandwidth = k.ShapingPeakBandwidth
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveContainerTemplateSpec
 func MergeHostVirtualSwitch_StandbyNics(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareStringSlices(k.StandbyNics, p.StandbyNics) {
@@ -348,9 +348,9 @@ func MergeHostVirtualSwitch_StandbyNics(k *HostVirtualSwitchParameters, p *HostV
 }
 
 //mergePrimitiveTemplateSpec
-func MergeHostVirtualSwitch_HostSystemId(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
-	if k.HostSystemId != p.HostSystemId {
-		p.HostSystemId = k.HostSystemId
+func MergeHostVirtualSwitch_TeamingPolicy(k *HostVirtualSwitchParameters, p *HostVirtualSwitchParameters, md *plugin.MergeDescription) bool {
+	if k.TeamingPolicy != p.TeamingPolicy {
+		p.TeamingPolicy = k.TeamingPolicy
 		md.NeedsProviderUpdate = true
 		return true
 	}

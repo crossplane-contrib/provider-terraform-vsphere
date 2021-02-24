@@ -31,32 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeVappContainer_CustomAttributes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVappContainer_MemoryLimit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVappContainer_MemoryReservation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVappContainer_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVappContainer_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVappContainer_ParentResourcePoolId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeVappContainer_CpuExpandable(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,17 +56,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVappContainer_ParentFolderId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVappContainer_CpuExpandable(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeVappContainer_CustomAttributes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeVappContainer_MemoryExpandable(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVappContainer_MemoryLimit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVappContainer_MemoryReservation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -102,6 +82,26 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeVappContainer_MemoryShares(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVappContainer_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVappContainer_ParentFolderId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVappContainer_ParentResourcePoolId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVappContainer_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -117,60 +117,10 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeVappContainer_CustomAttributes(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.CustomAttributes, p.CustomAttributes) {
-		p.CustomAttributes = k.CustomAttributes
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveTemplateSpec
-func MergeVappContainer_MemoryLimit(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
-	if k.MemoryLimit != p.MemoryLimit {
-		p.MemoryLimit = k.MemoryLimit
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVappContainer_MemoryReservation(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
-	if k.MemoryReservation != p.MemoryReservation {
-		p.MemoryReservation = k.MemoryReservation
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVappContainer_Name(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeVappContainer_Tags(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVappContainer_ParentResourcePoolId(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
-	if k.ParentResourcePoolId != p.ParentResourcePoolId {
-		p.ParentResourcePoolId = k.ParentResourcePoolId
+func MergeVappContainer_CpuExpandable(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
+	if k.CpuExpandable != p.CpuExpandable {
+		p.CpuExpandable = k.CpuExpandable
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -217,20 +167,10 @@ func MergeVappContainer_CpuShares(k *VappContainerParameters, p *VappContainerPa
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeVappContainer_ParentFolderId(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
-	if k.ParentFolderId != p.ParentFolderId {
-		p.ParentFolderId = k.ParentFolderId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVappContainer_CpuExpandable(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
-	if k.CpuExpandable != p.CpuExpandable {
-		p.CpuExpandable = k.CpuExpandable
+//mergePrimitiveContainerTemplateSpec
+func MergeVappContainer_CustomAttributes(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.CustomAttributes, p.CustomAttributes) {
+		p.CustomAttributes = k.CustomAttributes
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -241,6 +181,26 @@ func MergeVappContainer_CpuExpandable(k *VappContainerParameters, p *VappContain
 func MergeVappContainer_MemoryExpandable(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
 	if k.MemoryExpandable != p.MemoryExpandable {
 		p.MemoryExpandable = k.MemoryExpandable
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVappContainer_MemoryLimit(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
+	if k.MemoryLimit != p.MemoryLimit {
+		p.MemoryLimit = k.MemoryLimit
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVappContainer_MemoryReservation(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
+	if k.MemoryReservation != p.MemoryReservation {
+		p.MemoryReservation = k.MemoryReservation
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -261,6 +221,46 @@ func MergeVappContainer_MemoryShareLevel(k *VappContainerParameters, p *VappCont
 func MergeVappContainer_MemoryShares(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
 	if k.MemoryShares != p.MemoryShares {
 		p.MemoryShares = k.MemoryShares
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVappContainer_Name(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVappContainer_ParentFolderId(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
+	if k.ParentFolderId != p.ParentFolderId {
+		p.ParentFolderId = k.ParentFolderId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVappContainer_ParentResourcePoolId(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
+	if k.ParentResourcePoolId != p.ParentResourcePoolId {
+		p.ParentResourcePoolId = k.ParentResourcePoolId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeVappContainer_Tags(k *VappContainerParameters, p *VappContainerParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

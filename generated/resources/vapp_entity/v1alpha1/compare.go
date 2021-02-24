@@ -31,16 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeVappEntity_StopAction(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVappEntity_WaitForGuest(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVappEntity_ContainerId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -56,17 +46,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeVappEntity_TargetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVappEntity_StartDelay(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeVappEntity_StartOrder(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVappEntity_StopAction(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,6 +71,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeVappEntity_TargetId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVappEntity_WaitForGuest(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -90,26 +90,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVappEntity_StopAction(k *VappEntityParameters, p *VappEntityParameters, md *plugin.MergeDescription) bool {
-	if k.StopAction != p.StopAction {
-		p.StopAction = k.StopAction
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVappEntity_WaitForGuest(k *VappEntityParameters, p *VappEntityParameters, md *plugin.MergeDescription) bool {
-	if k.WaitForGuest != p.WaitForGuest {
-		p.WaitForGuest = k.WaitForGuest
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -143,16 +123,6 @@ func MergeVappEntity_StartAction(k *VappEntityParameters, p *VappEntityParameter
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVappEntity_TargetId(k *VappEntityParameters, p *VappEntityParameters, md *plugin.MergeDescription) bool {
-	if k.TargetId != p.TargetId {
-		p.TargetId = k.TargetId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeVappEntity_StartDelay(k *VappEntityParameters, p *VappEntityParameters, md *plugin.MergeDescription) bool {
 	if k.StartDelay != p.StartDelay {
 		p.StartDelay = k.StartDelay
@@ -173,6 +143,16 @@ func MergeVappEntity_StartOrder(k *VappEntityParameters, p *VappEntityParameters
 }
 
 //mergePrimitiveTemplateSpec
+func MergeVappEntity_StopAction(k *VappEntityParameters, p *VappEntityParameters, md *plugin.MergeDescription) bool {
+	if k.StopAction != p.StopAction {
+		p.StopAction = k.StopAction
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeVappEntity_StopDelay(k *VappEntityParameters, p *VappEntityParameters, md *plugin.MergeDescription) bool {
 	if k.StopDelay != p.StopDelay {
 		p.StopDelay = k.StopDelay
@@ -186,6 +166,26 @@ func MergeVappEntity_StopDelay(k *VappEntityParameters, p *VappEntityParameters,
 func MergeVappEntity_Tags(k *VappEntityParameters, p *VappEntityParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareStringSlices(k.Tags, p.Tags) {
 		p.Tags = k.Tags
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVappEntity_TargetId(k *VappEntityParameters, p *VappEntityParameters, md *plugin.MergeDescription) bool {
+	if k.TargetId != p.TargetId {
+		p.TargetId = k.TargetId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVappEntity_WaitForGuest(k *VappEntityParameters, p *VappEntityParameters, md *plugin.MergeDescription) bool {
+	if k.WaitForGuest != p.WaitForGuest {
+		p.WaitForGuest = k.WaitForGuest
 		md.NeedsProviderUpdate = true
 		return true
 	}

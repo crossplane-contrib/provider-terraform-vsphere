@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,8 +46,8 @@ type VirtualDiskList struct {
 
 // A VirtualDiskSpec defines the desired state of a VirtualDisk
 type VirtualDiskSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VirtualDiskParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       VirtualDiskParameters `json:"forProvider"`
 }
 
 // A VirtualDiskParameters defines the desired state of a VirtualDisk
@@ -63,8 +63,8 @@ type VirtualDiskParameters struct {
 
 // A VirtualDiskStatus defines the observed state of a VirtualDisk
 type VirtualDiskStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VirtualDiskObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          VirtualDiskObservation `json:"atProvider"`
 }
 
 // A VirtualDiskObservation records the observed state of a VirtualDisk

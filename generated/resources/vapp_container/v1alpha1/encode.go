@@ -37,21 +37,21 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVappContainer(r VappContainer) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVappContainer_CustomAttributes(r.Spec.ForProvider, ctyVal)
-	EncodeVappContainer_MemoryLimit(r.Spec.ForProvider, ctyVal)
-	EncodeVappContainer_MemoryReservation(r.Spec.ForProvider, ctyVal)
-	EncodeVappContainer_Name(r.Spec.ForProvider, ctyVal)
-	EncodeVappContainer_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeVappContainer_ParentResourcePoolId(r.Spec.ForProvider, ctyVal)
+	EncodeVappContainer_CpuExpandable(r.Spec.ForProvider, ctyVal)
 	EncodeVappContainer_CpuLimit(r.Spec.ForProvider, ctyVal)
 	EncodeVappContainer_CpuReservation(r.Spec.ForProvider, ctyVal)
 	EncodeVappContainer_CpuShareLevel(r.Spec.ForProvider, ctyVal)
 	EncodeVappContainer_CpuShares(r.Spec.ForProvider, ctyVal)
-	EncodeVappContainer_ParentFolderId(r.Spec.ForProvider, ctyVal)
-	EncodeVappContainer_CpuExpandable(r.Spec.ForProvider, ctyVal)
+	EncodeVappContainer_CustomAttributes(r.Spec.ForProvider, ctyVal)
 	EncodeVappContainer_MemoryExpandable(r.Spec.ForProvider, ctyVal)
+	EncodeVappContainer_MemoryLimit(r.Spec.ForProvider, ctyVal)
+	EncodeVappContainer_MemoryReservation(r.Spec.ForProvider, ctyVal)
 	EncodeVappContainer_MemoryShareLevel(r.Spec.ForProvider, ctyVal)
 	EncodeVappContainer_MemoryShares(r.Spec.ForProvider, ctyVal)
+	EncodeVappContainer_Name(r.Spec.ForProvider, ctyVal)
+	EncodeVappContainer_ParentFolderId(r.Spec.ForProvider, ctyVal)
+	EncodeVappContainer_ParentResourcePoolId(r.Spec.ForProvider, ctyVal)
+	EncodeVappContainer_Tags(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -61,44 +61,8 @@ func EncodeVappContainer(r VappContainer) cty.Value {
 	return cty.ObjectVal(ctyVal)
 }
 
-func EncodeVappContainer_CustomAttributes(p VappContainerParameters, vals map[string]cty.Value) {
-	if len(p.CustomAttributes) == 0 {
-		vals["custom_attributes"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.CustomAttributes {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["custom_attributes"] = cty.MapVal(mVals)
-}
-
-func EncodeVappContainer_MemoryLimit(p VappContainerParameters, vals map[string]cty.Value) {
-	vals["memory_limit"] = cty.NumberIntVal(p.MemoryLimit)
-}
-
-func EncodeVappContainer_MemoryReservation(p VappContainerParameters, vals map[string]cty.Value) {
-	vals["memory_reservation"] = cty.NumberIntVal(p.MemoryReservation)
-}
-
-func EncodeVappContainer_Name(p VappContainerParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeVappContainer_Tags(p VappContainerParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Tags {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["tags"] = cty.SetValEmpty(cty.String)
-	} else {
-		vals["tags"] = cty.SetVal(colVals)
-    }
-}
-
-func EncodeVappContainer_ParentResourcePoolId(p VappContainerParameters, vals map[string]cty.Value) {
-	vals["parent_resource_pool_id"] = cty.StringVal(p.ParentResourcePoolId)
+func EncodeVappContainer_CpuExpandable(p VappContainerParameters, vals map[string]cty.Value) {
+	vals["cpu_expandable"] = cty.BoolVal(p.CpuExpandable)
 }
 
 func EncodeVappContainer_CpuLimit(p VappContainerParameters, vals map[string]cty.Value) {
@@ -117,16 +81,28 @@ func EncodeVappContainer_CpuShares(p VappContainerParameters, vals map[string]ct
 	vals["cpu_shares"] = cty.NumberIntVal(p.CpuShares)
 }
 
-func EncodeVappContainer_ParentFolderId(p VappContainerParameters, vals map[string]cty.Value) {
-	vals["parent_folder_id"] = cty.StringVal(p.ParentFolderId)
-}
-
-func EncodeVappContainer_CpuExpandable(p VappContainerParameters, vals map[string]cty.Value) {
-	vals["cpu_expandable"] = cty.BoolVal(p.CpuExpandable)
+func EncodeVappContainer_CustomAttributes(p VappContainerParameters, vals map[string]cty.Value) {
+	if len(p.CustomAttributes) == 0 {
+		vals["custom_attributes"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.CustomAttributes {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["custom_attributes"] = cty.MapVal(mVals)
 }
 
 func EncodeVappContainer_MemoryExpandable(p VappContainerParameters, vals map[string]cty.Value) {
 	vals["memory_expandable"] = cty.BoolVal(p.MemoryExpandable)
+}
+
+func EncodeVappContainer_MemoryLimit(p VappContainerParameters, vals map[string]cty.Value) {
+	vals["memory_limit"] = cty.NumberIntVal(p.MemoryLimit)
+}
+
+func EncodeVappContainer_MemoryReservation(p VappContainerParameters, vals map[string]cty.Value) {
+	vals["memory_reservation"] = cty.NumberIntVal(p.MemoryReservation)
 }
 
 func EncodeVappContainer_MemoryShareLevel(p VappContainerParameters, vals map[string]cty.Value) {
@@ -135,4 +111,28 @@ func EncodeVappContainer_MemoryShareLevel(p VappContainerParameters, vals map[st
 
 func EncodeVappContainer_MemoryShares(p VappContainerParameters, vals map[string]cty.Value) {
 	vals["memory_shares"] = cty.NumberIntVal(p.MemoryShares)
+}
+
+func EncodeVappContainer_Name(p VappContainerParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeVappContainer_ParentFolderId(p VappContainerParameters, vals map[string]cty.Value) {
+	vals["parent_folder_id"] = cty.StringVal(p.ParentFolderId)
+}
+
+func EncodeVappContainer_ParentResourcePoolId(p VappContainerParameters, vals map[string]cty.Value) {
+	vals["parent_resource_pool_id"] = cty.StringVal(p.ParentResourcePoolId)
+}
+
+func EncodeVappContainer_Tags(p VappContainerParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Tags {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["tags"] = cty.SetValEmpty(cty.String)
+	} else {
+		vals["tags"] = cty.SetVal(colVals)
+    }
 }

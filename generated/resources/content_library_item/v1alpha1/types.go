@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,24 +46,24 @@ type ContentLibraryItemList struct {
 
 // A ContentLibraryItemSpec defines the desired state of a ContentLibraryItem
 type ContentLibraryItemSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ContentLibraryItemParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       ContentLibraryItemParameters `json:"forProvider"`
 }
 
 // A ContentLibraryItemParameters defines the desired state of a ContentLibraryItem
 type ContentLibraryItemParameters struct {
-	SourceUuid  string `json:"source_uuid"`
-	Type        string `json:"type"`
 	Description string `json:"description"`
 	FileUrl     string `json:"file_url"`
 	LibraryId   string `json:"library_id"`
 	Name        string `json:"name"`
+	SourceUuid  string `json:"source_uuid"`
+	Type        string `json:"type"`
 }
 
 // A ContentLibraryItemStatus defines the observed state of a ContentLibraryItem
 type ContentLibraryItemStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ContentLibraryItemObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          ContentLibraryItemObservation `json:"atProvider"`
 }
 
 // A ContentLibraryItemObservation records the observed state of a ContentLibraryItem

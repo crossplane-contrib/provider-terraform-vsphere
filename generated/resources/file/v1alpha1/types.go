@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,25 +46,25 @@ type FileList struct {
 
 // A FileSpec defines the desired state of a File
 type FileSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  FileParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       FileParameters `json:"forProvider"`
 }
 
 // A FileParameters defines the desired state of a File
 type FileParameters struct {
+	CreateDirectories bool   `json:"create_directories"`
 	Datacenter        string `json:"datacenter"`
 	Datastore         string `json:"datastore"`
 	DestinationFile   string `json:"destination_file"`
 	SourceDatacenter  string `json:"source_datacenter"`
 	SourceDatastore   string `json:"source_datastore"`
 	SourceFile        string `json:"source_file"`
-	CreateDirectories bool   `json:"create_directories"`
 }
 
 // A FileStatus defines the observed state of a File
 type FileStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     FileObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          FileObservation `json:"atProvider"`
 }
 
 // A FileObservation records the observed state of a File

@@ -39,16 +39,25 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeTagCategory(prev *TagCategory, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeTagCategory_AssociableTypes(&new.Spec.ForProvider, valMap)
 	DecodeTagCategory_Cardinality(&new.Spec.ForProvider, valMap)
 	DecodeTagCategory_Description(&new.Spec.ForProvider, valMap)
 	DecodeTagCategory_Name(&new.Spec.ForProvider, valMap)
-	DecodeTagCategory_AssociableTypes(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeTagCategory_AssociableTypes(p *TagCategoryParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["associable_types"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.AssociableTypes = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -64,13 +73,4 @@ func DecodeTagCategory_Description(p *TagCategoryParameters, vals map[string]cty
 //primitiveTypeDecodeTemplate
 func DecodeTagCategory_Name(p *TagCategoryParameters, vals map[string]cty.Value) {
 	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeTagCategory_AssociableTypes(p *TagCategoryParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["associable_types"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.AssociableTypes = goVals
 }

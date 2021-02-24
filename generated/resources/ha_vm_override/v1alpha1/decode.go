@@ -39,21 +39,21 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeHaVmOverride(prev *HaVmOverride, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
-	DecodeHaVmOverride_HaVmMaximumResets(&new.Spec.ForProvider, valMap)
 	DecodeHaVmOverride_ComputeClusterId(&new.Spec.ForProvider, valMap)
-	DecodeHaVmOverride_HaDatastoreApdResponseDelay(&new.Spec.ForProvider, valMap)
 	DecodeHaVmOverride_HaDatastoreApdRecoveryAction(&new.Spec.ForProvider, valMap)
-	DecodeHaVmOverride_HaVmMaximumFailureWindow(&new.Spec.ForProvider, valMap)
-	DecodeHaVmOverride_HaVmMonitoringUseClusterDefaults(&new.Spec.ForProvider, valMap)
-	DecodeHaVmOverride_HaVmRestartTimeout(&new.Spec.ForProvider, valMap)
-	DecodeHaVmOverride_VirtualMachineId(&new.Spec.ForProvider, valMap)
+	DecodeHaVmOverride_HaDatastoreApdResponse(&new.Spec.ForProvider, valMap)
+	DecodeHaVmOverride_HaDatastoreApdResponseDelay(&new.Spec.ForProvider, valMap)
 	DecodeHaVmOverride_HaDatastorePdlResponse(&new.Spec.ForProvider, valMap)
 	DecodeHaVmOverride_HaHostIsolationResponse(&new.Spec.ForProvider, valMap)
 	DecodeHaVmOverride_HaVmFailureInterval(&new.Spec.ForProvider, valMap)
+	DecodeHaVmOverride_HaVmMaximumFailureWindow(&new.Spec.ForProvider, valMap)
+	DecodeHaVmOverride_HaVmMaximumResets(&new.Spec.ForProvider, valMap)
 	DecodeHaVmOverride_HaVmMinimumUptime(&new.Spec.ForProvider, valMap)
 	DecodeHaVmOverride_HaVmMonitoring(&new.Spec.ForProvider, valMap)
+	DecodeHaVmOverride_HaVmMonitoringUseClusterDefaults(&new.Spec.ForProvider, valMap)
 	DecodeHaVmOverride_HaVmRestartPriority(&new.Spec.ForProvider, valMap)
-	DecodeHaVmOverride_HaDatastoreApdResponse(&new.Spec.ForProvider, valMap)
+	DecodeHaVmOverride_HaVmRestartTimeout(&new.Spec.ForProvider, valMap)
+	DecodeHaVmOverride_VirtualMachineId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -63,18 +63,8 @@ func DecodeHaVmOverride(prev *HaVmOverride, ctyValue cty.Value) (resource.Manage
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeHaVmOverride_HaVmMaximumResets(p *HaVmOverrideParameters, vals map[string]cty.Value) {
-	p.HaVmMaximumResets = ctwhy.ValueAsInt64(vals["ha_vm_maximum_resets"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeHaVmOverride_ComputeClusterId(p *HaVmOverrideParameters, vals map[string]cty.Value) {
 	p.ComputeClusterId = ctwhy.ValueAsString(vals["compute_cluster_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHaVmOverride_HaDatastoreApdResponseDelay(p *HaVmOverrideParameters, vals map[string]cty.Value) {
-	p.HaDatastoreApdResponseDelay = ctwhy.ValueAsInt64(vals["ha_datastore_apd_response_delay"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -83,23 +73,13 @@ func DecodeHaVmOverride_HaDatastoreApdRecoveryAction(p *HaVmOverrideParameters, 
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeHaVmOverride_HaVmMaximumFailureWindow(p *HaVmOverrideParameters, vals map[string]cty.Value) {
-	p.HaVmMaximumFailureWindow = ctwhy.ValueAsInt64(vals["ha_vm_maximum_failure_window"])
+func DecodeHaVmOverride_HaDatastoreApdResponse(p *HaVmOverrideParameters, vals map[string]cty.Value) {
+	p.HaDatastoreApdResponse = ctwhy.ValueAsString(vals["ha_datastore_apd_response"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeHaVmOverride_HaVmMonitoringUseClusterDefaults(p *HaVmOverrideParameters, vals map[string]cty.Value) {
-	p.HaVmMonitoringUseClusterDefaults = ctwhy.ValueAsBool(vals["ha_vm_monitoring_use_cluster_defaults"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHaVmOverride_HaVmRestartTimeout(p *HaVmOverrideParameters, vals map[string]cty.Value) {
-	p.HaVmRestartTimeout = ctwhy.ValueAsInt64(vals["ha_vm_restart_timeout"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHaVmOverride_VirtualMachineId(p *HaVmOverrideParameters, vals map[string]cty.Value) {
-	p.VirtualMachineId = ctwhy.ValueAsString(vals["virtual_machine_id"])
+func DecodeHaVmOverride_HaDatastoreApdResponseDelay(p *HaVmOverrideParameters, vals map[string]cty.Value) {
+	p.HaDatastoreApdResponseDelay = ctwhy.ValueAsInt64(vals["ha_datastore_apd_response_delay"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -118,6 +98,16 @@ func DecodeHaVmOverride_HaVmFailureInterval(p *HaVmOverrideParameters, vals map[
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeHaVmOverride_HaVmMaximumFailureWindow(p *HaVmOverrideParameters, vals map[string]cty.Value) {
+	p.HaVmMaximumFailureWindow = ctwhy.ValueAsInt64(vals["ha_vm_maximum_failure_window"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeHaVmOverride_HaVmMaximumResets(p *HaVmOverrideParameters, vals map[string]cty.Value) {
+	p.HaVmMaximumResets = ctwhy.ValueAsInt64(vals["ha_vm_maximum_resets"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeHaVmOverride_HaVmMinimumUptime(p *HaVmOverrideParameters, vals map[string]cty.Value) {
 	p.HaVmMinimumUptime = ctwhy.ValueAsInt64(vals["ha_vm_minimum_uptime"])
 }
@@ -128,11 +118,21 @@ func DecodeHaVmOverride_HaVmMonitoring(p *HaVmOverrideParameters, vals map[strin
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeHaVmOverride_HaVmMonitoringUseClusterDefaults(p *HaVmOverrideParameters, vals map[string]cty.Value) {
+	p.HaVmMonitoringUseClusterDefaults = ctwhy.ValueAsBool(vals["ha_vm_monitoring_use_cluster_defaults"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeHaVmOverride_HaVmRestartPriority(p *HaVmOverrideParameters, vals map[string]cty.Value) {
 	p.HaVmRestartPriority = ctwhy.ValueAsString(vals["ha_vm_restart_priority"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeHaVmOverride_HaDatastoreApdResponse(p *HaVmOverrideParameters, vals map[string]cty.Value) {
-	p.HaDatastoreApdResponse = ctwhy.ValueAsString(vals["ha_datastore_apd_response"])
+func DecodeHaVmOverride_HaVmRestartTimeout(p *HaVmOverrideParameters, vals map[string]cty.Value) {
+	p.HaVmRestartTimeout = ctwhy.ValueAsInt64(vals["ha_vm_restart_timeout"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeHaVmOverride_VirtualMachineId(p *HaVmOverrideParameters, vals map[string]cty.Value) {
+	p.VirtualMachineId = ctwhy.ValueAsString(vals["virtual_machine_id"])
 }

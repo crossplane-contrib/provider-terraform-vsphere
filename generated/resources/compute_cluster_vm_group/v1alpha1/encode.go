@@ -37,9 +37,9 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeComputeClusterVmGroup(r ComputeClusterVmGroup) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeComputeClusterVmGroup_ComputeClusterId(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmGroup_Name(r.Spec.ForProvider, ctyVal)
 	EncodeComputeClusterVmGroup_VirtualMachineIds(r.Spec.ForProvider, ctyVal)
-	EncodeComputeClusterVmGroup_ComputeClusterId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -47,6 +47,10 @@ func EncodeComputeClusterVmGroup(r ComputeClusterVmGroup) cty.Value {
 	en := meta.GetExternalName(&r)
 	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeComputeClusterVmGroup_ComputeClusterId(p ComputeClusterVmGroupParameters, vals map[string]cty.Value) {
+	vals["compute_cluster_id"] = cty.StringVal(p.ComputeClusterId)
 }
 
 func EncodeComputeClusterVmGroup_Name(p ComputeClusterVmGroupParameters, vals map[string]cty.Value) {
@@ -63,8 +67,4 @@ func EncodeComputeClusterVmGroup_VirtualMachineIds(p ComputeClusterVmGroupParame
 	} else {
 		vals["virtual_machine_ids"] = cty.SetVal(colVals)
     }
-}
-
-func EncodeComputeClusterVmGroup_ComputeClusterId(p ComputeClusterVmGroupParameters, vals map[string]cty.Value) {
-	vals["compute_cluster_id"] = cty.StringVal(p.ComputeClusterId)
 }

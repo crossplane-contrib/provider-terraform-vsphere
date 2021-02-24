@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,23 +46,23 @@ type ComputeClusterVmAffinityRuleList struct {
 
 // A ComputeClusterVmAffinityRuleSpec defines the desired state of a ComputeClusterVmAffinityRule
 type ComputeClusterVmAffinityRuleSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ComputeClusterVmAffinityRuleParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       ComputeClusterVmAffinityRuleParameters `json:"forProvider"`
 }
 
 // A ComputeClusterVmAffinityRuleParameters defines the desired state of a ComputeClusterVmAffinityRule
 type ComputeClusterVmAffinityRuleParameters struct {
-	VirtualMachineIds []string `json:"virtual_machine_ids,omitempty"`
 	ComputeClusterId  string   `json:"compute_cluster_id"`
 	Enabled           bool     `json:"enabled"`
 	Mandatory         bool     `json:"mandatory"`
 	Name              string   `json:"name"`
+	VirtualMachineIds []string `json:"virtual_machine_ids,omitempty"`
 }
 
 // A ComputeClusterVmAffinityRuleStatus defines the observed state of a ComputeClusterVmAffinityRule
 type ComputeClusterVmAffinityRuleStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ComputeClusterVmAffinityRuleObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          ComputeClusterVmAffinityRuleObservation `json:"atProvider"`
 }
 
 // A ComputeClusterVmAffinityRuleObservation records the observed state of a ComputeClusterVmAffinityRule

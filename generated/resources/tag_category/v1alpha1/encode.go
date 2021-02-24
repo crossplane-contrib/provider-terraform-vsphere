@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeTagCategory(r TagCategory) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeTagCategory_AssociableTypes(r.Spec.ForProvider, ctyVal)
 	EncodeTagCategory_Cardinality(r.Spec.ForProvider, ctyVal)
 	EncodeTagCategory_Description(r.Spec.ForProvider, ctyVal)
 	EncodeTagCategory_Name(r.Spec.ForProvider, ctyVal)
-	EncodeTagCategory_AssociableTypes(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -48,18 +48,6 @@ func EncodeTagCategory(r TagCategory) cty.Value {
 	en := meta.GetExternalName(&r)
 	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeTagCategory_Cardinality(p TagCategoryParameters, vals map[string]cty.Value) {
-	vals["cardinality"] = cty.StringVal(p.Cardinality)
-}
-
-func EncodeTagCategory_Description(p TagCategoryParameters, vals map[string]cty.Value) {
-	vals["description"] = cty.StringVal(p.Description)
-}
-
-func EncodeTagCategory_Name(p TagCategoryParameters, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
 }
 
 func EncodeTagCategory_AssociableTypes(p TagCategoryParameters, vals map[string]cty.Value) {
@@ -72,4 +60,16 @@ func EncodeTagCategory_AssociableTypes(p TagCategoryParameters, vals map[string]
 	} else {
 		vals["associable_types"] = cty.SetVal(colVals)
     }
+}
+
+func EncodeTagCategory_Cardinality(p TagCategoryParameters, vals map[string]cty.Value) {
+	vals["cardinality"] = cty.StringVal(p.Cardinality)
+}
+
+func EncodeTagCategory_Description(p TagCategoryParameters, vals map[string]cty.Value) {
+	vals["description"] = cty.StringVal(p.Description)
+}
+
+func EncodeTagCategory_Name(p TagCategoryParameters, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
 }

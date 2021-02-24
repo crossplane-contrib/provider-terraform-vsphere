@@ -31,17 +31,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeComputeClusterVmGroup_ComputeClusterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeComputeClusterVmGroup_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeComputeClusterVmGroup_VirtualMachineIds(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeComputeClusterVmGroup_ComputeClusterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -58,6 +58,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
+func MergeComputeClusterVmGroup_ComputeClusterId(k *ComputeClusterVmGroupParameters, p *ComputeClusterVmGroupParameters, md *plugin.MergeDescription) bool {
+	if k.ComputeClusterId != p.ComputeClusterId {
+		p.ComputeClusterId = k.ComputeClusterId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeComputeClusterVmGroup_Name(k *ComputeClusterVmGroupParameters, p *ComputeClusterVmGroupParameters, md *plugin.MergeDescription) bool {
 	if k.Name != p.Name {
 		p.Name = k.Name
@@ -71,16 +81,6 @@ func MergeComputeClusterVmGroup_Name(k *ComputeClusterVmGroupParameters, p *Comp
 func MergeComputeClusterVmGroup_VirtualMachineIds(k *ComputeClusterVmGroupParameters, p *ComputeClusterVmGroupParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareStringSlices(k.VirtualMachineIds, p.VirtualMachineIds) {
 		p.VirtualMachineIds = k.VirtualMachineIds
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeComputeClusterVmGroup_ComputeClusterId(k *ComputeClusterVmGroupParameters, p *ComputeClusterVmGroupParameters, md *plugin.MergeDescription) bool {
-	if k.ComputeClusterId != p.ComputeClusterId {
-		p.ComputeClusterId = k.ComputeClusterId
 		md.NeedsProviderUpdate = true
 		return true
 	}

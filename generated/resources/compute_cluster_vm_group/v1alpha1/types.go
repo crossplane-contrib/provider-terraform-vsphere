@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,21 +46,21 @@ type ComputeClusterVmGroupList struct {
 
 // A ComputeClusterVmGroupSpec defines the desired state of a ComputeClusterVmGroup
 type ComputeClusterVmGroupSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ComputeClusterVmGroupParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       ComputeClusterVmGroupParameters `json:"forProvider"`
 }
 
 // A ComputeClusterVmGroupParameters defines the desired state of a ComputeClusterVmGroup
 type ComputeClusterVmGroupParameters struct {
+	ComputeClusterId  string   `json:"compute_cluster_id"`
 	Name              string   `json:"name"`
 	VirtualMachineIds []string `json:"virtual_machine_ids,omitempty"`
-	ComputeClusterId  string   `json:"compute_cluster_id"`
 }
 
 // A ComputeClusterVmGroupStatus defines the observed state of a ComputeClusterVmGroup
 type ComputeClusterVmGroupStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ComputeClusterVmGroupObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          ComputeClusterVmGroupObservation `json:"atProvider"`
 }
 
 // A ComputeClusterVmGroupObservation records the observed state of a ComputeClusterVmGroup

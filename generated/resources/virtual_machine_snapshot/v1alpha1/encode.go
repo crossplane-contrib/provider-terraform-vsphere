@@ -37,13 +37,13 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeVirtualMachineSnapshot(r VirtualMachineSnapshot) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeVirtualMachineSnapshot_VirtualMachineUuid(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachineSnapshot_Consolidate(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachineSnapshot_Description(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachineSnapshot_Memory(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachineSnapshot_Quiesce(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachineSnapshot_RemoveChildren(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachineSnapshot_SnapshotName(r.Spec.ForProvider, ctyVal)
+	EncodeVirtualMachineSnapshot_VirtualMachineUuid(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -51,10 +51,6 @@ func EncodeVirtualMachineSnapshot(r VirtualMachineSnapshot) cty.Value {
 	en := meta.GetExternalName(&r)
 	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeVirtualMachineSnapshot_VirtualMachineUuid(p VirtualMachineSnapshotParameters, vals map[string]cty.Value) {
-	vals["virtual_machine_uuid"] = cty.StringVal(p.VirtualMachineUuid)
 }
 
 func EncodeVirtualMachineSnapshot_Consolidate(p VirtualMachineSnapshotParameters, vals map[string]cty.Value) {
@@ -79,4 +75,8 @@ func EncodeVirtualMachineSnapshot_RemoveChildren(p VirtualMachineSnapshotParamet
 
 func EncodeVirtualMachineSnapshot_SnapshotName(p VirtualMachineSnapshotParameters, vals map[string]cty.Value) {
 	vals["snapshot_name"] = cty.StringVal(p.SnapshotName)
+}
+
+func EncodeVirtualMachineSnapshot_VirtualMachineUuid(p VirtualMachineSnapshotParameters, vals map[string]cty.Value) {
+	vals["virtual_machine_uuid"] = cty.StringVal(p.VirtualMachineUuid)
 }

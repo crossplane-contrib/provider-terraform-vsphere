@@ -31,17 +31,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeHaVmOverride_HaVmMaximumResets(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeHaVmOverride_ComputeClusterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHaVmOverride_HaDatastoreApdResponseDelay(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -51,22 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeHaVmOverride_HaVmMaximumFailureWindow(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeHaVmOverride_HaDatastoreApdResponse(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeHaVmOverride_HaVmMonitoringUseClusterDefaults(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHaVmOverride_HaVmRestartTimeout(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHaVmOverride_VirtualMachineId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeHaVmOverride_HaDatastoreApdResponseDelay(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,6 +66,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeHaVmOverride_HaVmMaximumFailureWindow(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeHaVmOverride_HaVmMaximumResets(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeHaVmOverride_HaVmMinimumUptime(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -96,12 +86,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeHaVmOverride_HaVmMonitoringUseClusterDefaults(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeHaVmOverride_HaVmRestartPriority(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeHaVmOverride_HaDatastoreApdResponse(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeHaVmOverride_HaVmRestartTimeout(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeHaVmOverride_VirtualMachineId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -118,29 +118,9 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeHaVmOverride_HaVmMaximumResets(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
-	if k.HaVmMaximumResets != p.HaVmMaximumResets {
-		p.HaVmMaximumResets = k.HaVmMaximumResets
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeHaVmOverride_ComputeClusterId(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
 	if k.ComputeClusterId != p.ComputeClusterId {
 		p.ComputeClusterId = k.ComputeClusterId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeHaVmOverride_HaDatastoreApdResponseDelay(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
-	if k.HaDatastoreApdResponseDelay != p.HaDatastoreApdResponseDelay {
-		p.HaDatastoreApdResponseDelay = k.HaDatastoreApdResponseDelay
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -158,9 +138,9 @@ func MergeHaVmOverride_HaDatastoreApdRecoveryAction(k *HaVmOverrideParameters, p
 }
 
 //mergePrimitiveTemplateSpec
-func MergeHaVmOverride_HaVmMaximumFailureWindow(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
-	if k.HaVmMaximumFailureWindow != p.HaVmMaximumFailureWindow {
-		p.HaVmMaximumFailureWindow = k.HaVmMaximumFailureWindow
+func MergeHaVmOverride_HaDatastoreApdResponse(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
+	if k.HaDatastoreApdResponse != p.HaDatastoreApdResponse {
+		p.HaDatastoreApdResponse = k.HaDatastoreApdResponse
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -168,29 +148,9 @@ func MergeHaVmOverride_HaVmMaximumFailureWindow(k *HaVmOverrideParameters, p *Ha
 }
 
 //mergePrimitiveTemplateSpec
-func MergeHaVmOverride_HaVmMonitoringUseClusterDefaults(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
-	if k.HaVmMonitoringUseClusterDefaults != p.HaVmMonitoringUseClusterDefaults {
-		p.HaVmMonitoringUseClusterDefaults = k.HaVmMonitoringUseClusterDefaults
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeHaVmOverride_HaVmRestartTimeout(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
-	if k.HaVmRestartTimeout != p.HaVmRestartTimeout {
-		p.HaVmRestartTimeout = k.HaVmRestartTimeout
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeHaVmOverride_VirtualMachineId(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
-	if k.VirtualMachineId != p.VirtualMachineId {
-		p.VirtualMachineId = k.VirtualMachineId
+func MergeHaVmOverride_HaDatastoreApdResponseDelay(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
+	if k.HaDatastoreApdResponseDelay != p.HaDatastoreApdResponseDelay {
+		p.HaDatastoreApdResponseDelay = k.HaDatastoreApdResponseDelay
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -228,6 +188,26 @@ func MergeHaVmOverride_HaVmFailureInterval(k *HaVmOverrideParameters, p *HaVmOve
 }
 
 //mergePrimitiveTemplateSpec
+func MergeHaVmOverride_HaVmMaximumFailureWindow(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
+	if k.HaVmMaximumFailureWindow != p.HaVmMaximumFailureWindow {
+		p.HaVmMaximumFailureWindow = k.HaVmMaximumFailureWindow
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeHaVmOverride_HaVmMaximumResets(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
+	if k.HaVmMaximumResets != p.HaVmMaximumResets {
+		p.HaVmMaximumResets = k.HaVmMaximumResets
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeHaVmOverride_HaVmMinimumUptime(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
 	if k.HaVmMinimumUptime != p.HaVmMinimumUptime {
 		p.HaVmMinimumUptime = k.HaVmMinimumUptime
@@ -248,6 +228,16 @@ func MergeHaVmOverride_HaVmMonitoring(k *HaVmOverrideParameters, p *HaVmOverride
 }
 
 //mergePrimitiveTemplateSpec
+func MergeHaVmOverride_HaVmMonitoringUseClusterDefaults(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
+	if k.HaVmMonitoringUseClusterDefaults != p.HaVmMonitoringUseClusterDefaults {
+		p.HaVmMonitoringUseClusterDefaults = k.HaVmMonitoringUseClusterDefaults
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeHaVmOverride_HaVmRestartPriority(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
 	if k.HaVmRestartPriority != p.HaVmRestartPriority {
 		p.HaVmRestartPriority = k.HaVmRestartPriority
@@ -258,9 +248,19 @@ func MergeHaVmOverride_HaVmRestartPriority(k *HaVmOverrideParameters, p *HaVmOve
 }
 
 //mergePrimitiveTemplateSpec
-func MergeHaVmOverride_HaDatastoreApdResponse(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
-	if k.HaDatastoreApdResponse != p.HaDatastoreApdResponse {
-		p.HaDatastoreApdResponse = k.HaDatastoreApdResponse
+func MergeHaVmOverride_HaVmRestartTimeout(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
+	if k.HaVmRestartTimeout != p.HaVmRestartTimeout {
+		p.HaVmRestartTimeout = k.HaVmRestartTimeout
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeHaVmOverride_VirtualMachineId(k *HaVmOverrideParameters, p *HaVmOverrideParameters, md *plugin.MergeDescription) bool {
+	if k.VirtualMachineId != p.VirtualMachineId {
+		p.VirtualMachineId = k.VirtualMachineId
 		md.NeedsProviderUpdate = true
 		return true
 	}

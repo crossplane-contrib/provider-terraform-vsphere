@@ -17,20 +17,20 @@ limitations under the License.
 
 package v1alpha1
 
-import runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
 // GetCondition of this VappEntity.
-func (mg *VappEntity) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
+func (mg *VappEntity) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this VappEntity.
-func (mg *VappEntity) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
+func (mg *VappEntity) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetProviderConfigReference of this VappEntity.
-func (mg *VappEntity) GetProviderConfigReference() *runtimev1alpha1.Reference {
+func (mg *VappEntity) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
@@ -38,27 +38,27 @@ func (mg *VappEntity) GetProviderConfigReference() *runtimev1alpha1.Reference {
 GetProviderReference of this VappEntity.
 Deprecated: Use GetProviderConfigReference.
 */
-func (mg *VappEntity) GetProviderReference() *runtimev1alpha1.Reference {
+func (mg *VappEntity) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
 // GetWriteConnectionSecretToReference of this VappEntity.
-func (mg *VappEntity) GetWriteConnectionSecretToReference() *runtimev1alpha1.SecretReference {
+func (mg *VappEntity) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this VappEntity.
-func (mg *VappEntity) SetConditions(c ...runtimev1alpha1.Condition) {
+func (mg *VappEntity) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this VappEntity.
-func (mg *VappEntity) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
+func (mg *VappEntity) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetProviderConfigReference of this VappEntity.
-func (mg *VappEntity) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
+func (mg *VappEntity) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
@@ -66,11 +66,11 @@ func (mg *VappEntity) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
 SetProviderReference of this VappEntity.
 Deprecated: Use SetProviderConfigReference.
 */
-func (mg *VappEntity) SetProviderReference(r *runtimev1alpha1.Reference) {
+func (mg *VappEntity) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
 }
 
 // SetWriteConnectionSecretToReference of this VappEntity.
-func (mg *VappEntity) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
+func (mg *VappEntity) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

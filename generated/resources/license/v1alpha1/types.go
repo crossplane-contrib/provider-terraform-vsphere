@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,8 +46,8 @@ type LicenseList struct {
 
 // A LicenseSpec defines the desired state of a License
 type LicenseSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  LicenseParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       LicenseParameters `json:"forProvider"`
 }
 
 // A LicenseParameters defines the desired state of a License
@@ -58,14 +58,14 @@ type LicenseParameters struct {
 
 // A LicenseStatus defines the observed state of a License
 type LicenseStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     LicenseObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          LicenseObservation `json:"atProvider"`
 }
 
 // A LicenseObservation records the observed state of a License
 type LicenseObservation struct {
-	Used       int64  `json:"used"`
 	EditionKey string `json:"edition_key"`
 	Name       string `json:"name"`
 	Total      int64  `json:"total"`
+	Used       int64  `json:"used"`
 }

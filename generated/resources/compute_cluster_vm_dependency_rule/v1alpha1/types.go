@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,8 +46,8 @@ type ComputeClusterVmDependencyRuleList struct {
 
 // A ComputeClusterVmDependencyRuleSpec defines the desired state of a ComputeClusterVmDependencyRule
 type ComputeClusterVmDependencyRuleSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ComputeClusterVmDependencyRuleParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       ComputeClusterVmDependencyRuleParameters `json:"forProvider"`
 }
 
 // A ComputeClusterVmDependencyRuleParameters defines the desired state of a ComputeClusterVmDependencyRule
@@ -62,8 +62,8 @@ type ComputeClusterVmDependencyRuleParameters struct {
 
 // A ComputeClusterVmDependencyRuleStatus defines the observed state of a ComputeClusterVmDependencyRule
 type ComputeClusterVmDependencyRuleStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ComputeClusterVmDependencyRuleObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          ComputeClusterVmDependencyRuleObservation `json:"atProvider"`
 }
 
 // A ComputeClusterVmDependencyRuleObservation records the observed state of a ComputeClusterVmDependencyRule

@@ -1,0 +1,528 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.0
+  creationTimestamp: null
+  name: virtualmachines.virtual-machine.terraform-provider-vsphere.crossplane.io
+spec:
+  group: virtual-machine.terraform-provider-vsphere.crossplane.io
+  names:
+    kind: VirtualMachine
+    listKind: VirtualMachineList
+    plural: virtualmachines
+    singular: virtualmachine
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: VirtualMachine is a managed resource representing a resource mirrored in the cloud
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: A VirtualMachineSpec defines the desired state of a VirtualMachine
+            properties:
+              deletionPolicy:
+                description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                description: A VirtualMachineParameters defines the desired state of a VirtualMachine
+                properties:
+                  alternate_guest_name:
+                    type: string
+                  annotation:
+                    type: string
+                  boot_delay:
+                    format: int64
+                    type: integer
+                  boot_retry_delay:
+                    format: int64
+                    type: integer
+                  boot_retry_enabled:
+                    type: boolean
+                  cdrom:
+                    properties:
+                      client_device:
+                        type: boolean
+                      datastore_id:
+                        type: string
+                      device_address:
+                        type: string
+                      key:
+                        format: int64
+                        type: integer
+                      path:
+                        type: string
+                    type: object
+                  clone:
+                    properties:
+                      customize:
+                        properties:
+                          dns_server_list:
+                            items:
+                              type: string
+                            type: array
+                          dns_suffix_list:
+                            items:
+                              type: string
+                            type: array
+                          ipv4_gateway:
+                            type: string
+                          ipv6_gateway:
+                            type: string
+                          linux_options:
+                            properties:
+                              domain:
+                                type: string
+                              host_name:
+                                type: string
+                              hw_clock_utc:
+                                type: boolean
+                              time_zone:
+                                type: string
+                            type: object
+                          network_interface:
+                            properties:
+                              dns_domain:
+                                type: string
+                              dns_server_list:
+                                items:
+                                  type: string
+                                type: array
+                              ipv4_address:
+                                type: string
+                              ipv4_netmask:
+                                format: int64
+                                type: integer
+                              ipv6_address:
+                                type: string
+                              ipv6_netmask:
+                                format: int64
+                                type: integer
+                            type: object
+                          timeout:
+                            format: int64
+                            type: integer
+                          windows_options:
+                            properties:
+                              admin_password:
+                                type: string
+                              auto_logon:
+                                type: boolean
+                              auto_logon_count:
+                                format: int64
+                                type: integer
+                              computer_name:
+                                type: string
+                              domain_admin_password:
+                                type: string
+                              domain_admin_user:
+                                type: string
+                              full_name:
+                                type: string
+                              join_domain:
+                                type: string
+                              organization_name:
+                                type: string
+                              product_key:
+                                type: string
+                              run_once_command_list:
+                                items:
+                                  type: string
+                                type: array
+                              time_zone:
+                                format: int64
+                                type: integer
+                              workgroup:
+                                type: string
+                            type: object
+                          windows_sysprep_text:
+                            type: string
+                        type: object
+                      linked_clone:
+                        type: boolean
+                      ovf_network_map:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      ovf_storage_map:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      template_uuid:
+                        type: string
+                      timeout:
+                        format: int64
+                        type: integer
+                    type: object
+                  cpu_hot_add_enabled:
+                    type: boolean
+                  cpu_hot_remove_enabled:
+                    type: boolean
+                  cpu_limit:
+                    format: int64
+                    type: integer
+                  cpu_performance_counters_enabled:
+                    type: boolean
+                  cpu_reservation:
+                    format: int64
+                    type: integer
+                  cpu_share_count:
+                    format: int64
+                    type: integer
+                  cpu_share_level:
+                    type: string
+                  custom_attributes:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  datacenter_id:
+                    type: string
+                  datastore_cluster_id:
+                    type: string
+                  datastore_id:
+                    type: string
+                  disk:
+                    items:
+                      properties:
+                        attach:
+                          type: boolean
+                        controller_type:
+                          type: string
+                        datastore_id:
+                          type: string
+                        device_address:
+                          type: string
+                        disk_mode:
+                          type: string
+                        disk_sharing:
+                          type: string
+                        eagerly_scrub:
+                          type: boolean
+                        io_limit:
+                          format: int64
+                          type: integer
+                        io_reservation:
+                          format: int64
+                          type: integer
+                        io_share_count:
+                          format: int64
+                          type: integer
+                        io_share_level:
+                          type: string
+                        keep_on_remove:
+                          type: boolean
+                        key:
+                          format: int64
+                          type: integer
+                        label:
+                          type: string
+                        name:
+                          type: string
+                        path:
+                          type: string
+                        size:
+                          format: int64
+                          type: integer
+                        storage_policy_id:
+                          type: string
+                        thin_provisioned:
+                          type: boolean
+                        unit_number:
+                          format: int64
+                          type: integer
+                        uuid:
+                          type: string
+                        write_through:
+                          type: boolean
+                      type: object
+                    type: array
+                  efi_secure_boot_enabled:
+                    type: boolean
+                  enable_disk_uuid:
+                    type: boolean
+                  enable_logging:
+                    type: boolean
+                  ept_rvi_mode:
+                    type: string
+                  extra_config:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  firmware:
+                    type: string
+                  folder:
+                    type: string
+                  force_power_off:
+                    type: boolean
+                  guest_id:
+                    type: string
+                  hardware_version:
+                    format: int64
+                    type: integer
+                  host_system_id:
+                    type: string
+                  hv_mode:
+                    type: string
+                  ide_controller_count:
+                    format: int64
+                    type: integer
+                  ignored_guest_ips:
+                    items:
+                      type: string
+                    type: array
+                  latency_sensitivity:
+                    type: string
+                  memory:
+                    format: int64
+                    type: integer
+                  memory_hot_add_enabled:
+                    type: boolean
+                  memory_limit:
+                    format: int64
+                    type: integer
+                  memory_reservation:
+                    format: int64
+                    type: integer
+                  memory_share_count:
+                    format: int64
+                    type: integer
+                  memory_share_level:
+                    type: string
+                  migrate_wait_timeout:
+                    format: int64
+                    type: integer
+                  name:
+                    type: string
+                  nested_hv_enabled:
+                    type: boolean
+                  network_interface:
+                    items:
+                      properties:
+                        adapter_type:
+                          type: string
+                        bandwidth_limit:
+                          format: int64
+                          type: integer
+                        bandwidth_reservation:
+                          format: int64
+                          type: integer
+                        bandwidth_share_count:
+                          format: int64
+                          type: integer
+                        bandwidth_share_level:
+                          type: string
+                        device_address:
+                          type: string
+                        key:
+                          format: int64
+                          type: integer
+                        mac_address:
+                          type: string
+                        network_id:
+                          type: string
+                        ovf_mapping:
+                          type: string
+                        use_static_mac:
+                          type: boolean
+                      type: object
+                    type: array
+                  num_cores_per_socket:
+                    format: int64
+                    type: integer
+                  num_cpus:
+                    format: int64
+                    type: integer
+                  ovf_deploy:
+                    properties:
+                      allow_unverified_ssl_cert:
+                        type: boolean
+                      disk_provisioning:
+                        type: string
+                      ip_allocation_policy:
+                        type: string
+                      ip_protocol:
+                        type: string
+                      local_ovf_path:
+                        type: string
+                      ovf_network_map:
+                        additionalProperties:
+                          type: string
+                        type: object
+                      remote_ovf_url:
+                        type: string
+                    type: object
+                  pci_device_id:
+                    items:
+                      type: string
+                    type: array
+                  poweron_timeout:
+                    format: int64
+                    type: integer
+                  resource_pool_id:
+                    type: string
+                  run_tools_scripts_after_power_on:
+                    type: boolean
+                  run_tools_scripts_after_resume:
+                    type: boolean
+                  run_tools_scripts_before_guest_reboot:
+                    type: boolean
+                  run_tools_scripts_before_guest_shutdown:
+                    type: boolean
+                  run_tools_scripts_before_guest_standby:
+                    type: boolean
+                  sata_controller_count:
+                    format: int64
+                    type: integer
+                  scsi_bus_sharing:
+                    type: string
+                  scsi_controller_count:
+                    format: int64
+                    type: integer
+                  scsi_type:
+                    type: string
+                  shutdown_wait_timeout:
+                    format: int64
+                    type: integer
+                  storage_policy_id:
+                    type: string
+                  swap_placement_policy:
+                    type: string
+                  sync_time_with_host:
+                    type: boolean
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                  vapp:
+                    properties:
+                      properties:
+                        additionalProperties:
+                          type: string
+                        type: object
+                    type: object
+                  wait_for_guest_ip_timeout:
+                    format: int64
+                    type: integer
+                  wait_for_guest_net_routable:
+                    type: boolean
+                  wait_for_guest_net_timeout:
+                    format: int64
+                    type: integer
+                type: object
+              providerConfigRef:
+                description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            type: object
+          status:
+            description: A VirtualMachineStatus defines the observed state of a VirtualMachine
+            properties:
+              atProvider:
+                description: A VirtualMachineObservation records the observed state of a VirtualMachine
+                properties:
+                  change_version:
+                    type: string
+                  default_ip_address:
+                    type: string
+                  guest_ip_addresses:
+                    items:
+                      type: string
+                    type: array
+                  imported:
+                    type: boolean
+                  moid:
+                    type: string
+                  reboot_required:
+                    type: boolean
+                  uuid:
+                    type: string
+                  vapp_transport:
+                    items:
+                      type: string
+                    type: array
+                  vmware_tools_status:
+                    type: string
+                  vmx_path:
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True, False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

@@ -17,20 +17,20 @@ limitations under the License.
 
 package v1alpha1
 
-import runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
 // GetCondition of this HaVmOverride.
-func (mg *HaVmOverride) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
+func (mg *HaVmOverride) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this HaVmOverride.
-func (mg *HaVmOverride) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
+func (mg *HaVmOverride) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetProviderConfigReference of this HaVmOverride.
-func (mg *HaVmOverride) GetProviderConfigReference() *runtimev1alpha1.Reference {
+func (mg *HaVmOverride) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
@@ -38,27 +38,27 @@ func (mg *HaVmOverride) GetProviderConfigReference() *runtimev1alpha1.Reference 
 GetProviderReference of this HaVmOverride.
 Deprecated: Use GetProviderConfigReference.
 */
-func (mg *HaVmOverride) GetProviderReference() *runtimev1alpha1.Reference {
+func (mg *HaVmOverride) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
 // GetWriteConnectionSecretToReference of this HaVmOverride.
-func (mg *HaVmOverride) GetWriteConnectionSecretToReference() *runtimev1alpha1.SecretReference {
+func (mg *HaVmOverride) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this HaVmOverride.
-func (mg *HaVmOverride) SetConditions(c ...runtimev1alpha1.Condition) {
+func (mg *HaVmOverride) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this HaVmOverride.
-func (mg *HaVmOverride) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
+func (mg *HaVmOverride) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetProviderConfigReference of this HaVmOverride.
-func (mg *HaVmOverride) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
+func (mg *HaVmOverride) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
@@ -66,11 +66,11 @@ func (mg *HaVmOverride) SetProviderConfigReference(r *runtimev1alpha1.Reference)
 SetProviderReference of this HaVmOverride.
 Deprecated: Use SetProviderConfigReference.
 */
-func (mg *HaVmOverride) SetProviderReference(r *runtimev1alpha1.Reference) {
+func (mg *HaVmOverride) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
 }
 
 // SetWriteConnectionSecretToReference of this HaVmOverride.
-func (mg *HaVmOverride) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
+func (mg *HaVmOverride) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

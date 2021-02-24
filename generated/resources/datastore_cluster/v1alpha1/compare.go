@@ -31,7 +31,72 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
+	updated = MergeDatastoreCluster_CustomAttributes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_DatacenterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_Folder(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_SdrsAdvancedOptions(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_SdrsAutomationLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDatastoreCluster_SdrsDefaultIntraVmAffinity(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_SdrsEnabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_SdrsFreeSpaceThreshold(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_SdrsFreeSpaceThresholdMode(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_SdrsFreeSpaceUtilizationDifference(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_SdrsIoBalanceAutomationLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_SdrsIoLatencyThreshold(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_SdrsIoLoadBalanceEnabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -41,7 +106,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDatastoreCluster_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDatastoreCluster_SdrsIoReservableIopsThreshold(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -56,27 +121,17 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDatastoreCluster_SdrsLoadBalanceInterval(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDatastoreCluster_SdrsPolicyEnforcementAutomationLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDatastoreCluster_SdrsRuleEnforcementAutomationLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_CustomAttributes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_DatacenterId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_SdrsFreeSpaceUtilizationDifference(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_SdrsIoLatencyThreshold(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -96,62 +151,7 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeDatastoreCluster_SdrsPolicyEnforcementAutomationLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_Folder(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_SdrsAutomationLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_SdrsFreeSpaceThreshold(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_SdrsIoBalanceAutomationLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_SdrsLoadBalanceInterval(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_SdrsIoReservableIopsThreshold(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_SdrsAdvancedOptions(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_SdrsEnabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_SdrsFreeSpaceThresholdMode(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDatastoreCluster_SdrsIoLoadBalanceEnabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeDatastoreCluster_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -167,10 +167,140 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	return *md
 }
 
+//mergePrimitiveContainerTemplateSpec
+func MergeDatastoreCluster_CustomAttributes(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.CustomAttributes, p.CustomAttributes) {
+		p.CustomAttributes = k.CustomAttributes
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_DatacenterId(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.DatacenterId != p.DatacenterId {
+		p.DatacenterId = k.DatacenterId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_Folder(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.Folder != p.Folder {
+		p.Folder = k.Folder
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_Name(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeDatastoreCluster_SdrsAdvancedOptions(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.SdrsAdvancedOptions, p.SdrsAdvancedOptions) {
+		p.SdrsAdvancedOptions = k.SdrsAdvancedOptions
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_SdrsAutomationLevel(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.SdrsAutomationLevel != p.SdrsAutomationLevel {
+		p.SdrsAutomationLevel = k.SdrsAutomationLevel
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveTemplateSpec
 func MergeDatastoreCluster_SdrsDefaultIntraVmAffinity(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
 	if k.SdrsDefaultIntraVmAffinity != p.SdrsDefaultIntraVmAffinity {
 		p.SdrsDefaultIntraVmAffinity = k.SdrsDefaultIntraVmAffinity
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_SdrsEnabled(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.SdrsEnabled != p.SdrsEnabled {
+		p.SdrsEnabled = k.SdrsEnabled
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_SdrsFreeSpaceThreshold(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.SdrsFreeSpaceThreshold != p.SdrsFreeSpaceThreshold {
+		p.SdrsFreeSpaceThreshold = k.SdrsFreeSpaceThreshold
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_SdrsFreeSpaceThresholdMode(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.SdrsFreeSpaceThresholdMode != p.SdrsFreeSpaceThresholdMode {
+		p.SdrsFreeSpaceThresholdMode = k.SdrsFreeSpaceThresholdMode
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_SdrsFreeSpaceUtilizationDifference(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.SdrsFreeSpaceUtilizationDifference != p.SdrsFreeSpaceUtilizationDifference {
+		p.SdrsFreeSpaceUtilizationDifference = k.SdrsFreeSpaceUtilizationDifference
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_SdrsIoBalanceAutomationLevel(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.SdrsIoBalanceAutomationLevel != p.SdrsIoBalanceAutomationLevel {
+		p.SdrsIoBalanceAutomationLevel = k.SdrsIoBalanceAutomationLevel
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_SdrsIoLatencyThreshold(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.SdrsIoLatencyThreshold != p.SdrsIoLatencyThreshold {
+		p.SdrsIoLatencyThreshold = k.SdrsIoLatencyThreshold
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_SdrsIoLoadBalanceEnabled(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.SdrsIoLoadBalanceEnabled != p.SdrsIoLoadBalanceEnabled {
+		p.SdrsIoLoadBalanceEnabled = k.SdrsIoLoadBalanceEnabled
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -187,10 +317,10 @@ func MergeDatastoreCluster_SdrsIoLoadImbalanceThreshold(k *DatastoreClusterParam
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeDatastoreCluster_Tags(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Tags, p.Tags) {
-		p.Tags = k.Tags
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_SdrsIoReservableIopsThreshold(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.SdrsIoReservableIopsThreshold != p.SdrsIoReservableIopsThreshold {
+		p.SdrsIoReservableIopsThreshold = k.SdrsIoReservableIopsThreshold
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -218,49 +348,29 @@ func MergeDatastoreCluster_SdrsIoReservableThresholdMode(k *DatastoreClusterPara
 }
 
 //mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_SdrsLoadBalanceInterval(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.SdrsLoadBalanceInterval != p.SdrsLoadBalanceInterval {
+		p.SdrsLoadBalanceInterval = k.SdrsLoadBalanceInterval
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDatastoreCluster_SdrsPolicyEnforcementAutomationLevel(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if k.SdrsPolicyEnforcementAutomationLevel != p.SdrsPolicyEnforcementAutomationLevel {
+		p.SdrsPolicyEnforcementAutomationLevel = k.SdrsPolicyEnforcementAutomationLevel
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeDatastoreCluster_SdrsRuleEnforcementAutomationLevel(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
 	if k.SdrsRuleEnforcementAutomationLevel != p.SdrsRuleEnforcementAutomationLevel {
 		p.SdrsRuleEnforcementAutomationLevel = k.SdrsRuleEnforcementAutomationLevel
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeDatastoreCluster_CustomAttributes(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.CustomAttributes, p.CustomAttributes) {
-		p.CustomAttributes = k.CustomAttributes
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_DatacenterId(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.DatacenterId != p.DatacenterId {
-		p.DatacenterId = k.DatacenterId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_SdrsFreeSpaceUtilizationDifference(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.SdrsFreeSpaceUtilizationDifference != p.SdrsFreeSpaceUtilizationDifference {
-		p.SdrsFreeSpaceUtilizationDifference = k.SdrsFreeSpaceUtilizationDifference
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_SdrsIoLatencyThreshold(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.SdrsIoLatencyThreshold != p.SdrsIoLatencyThreshold {
-		p.SdrsIoLatencyThreshold = k.SdrsIoLatencyThreshold
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -297,120 +407,10 @@ func MergeDatastoreCluster_SdrsVmEvacuationAutomationLevel(k *DatastoreClusterPa
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_SdrsPolicyEnforcementAutomationLevel(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.SdrsPolicyEnforcementAutomationLevel != p.SdrsPolicyEnforcementAutomationLevel {
-		p.SdrsPolicyEnforcementAutomationLevel = k.SdrsPolicyEnforcementAutomationLevel
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_Folder(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.Folder != p.Folder {
-		p.Folder = k.Folder
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_SdrsAutomationLevel(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.SdrsAutomationLevel != p.SdrsAutomationLevel {
-		p.SdrsAutomationLevel = k.SdrsAutomationLevel
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_SdrsFreeSpaceThreshold(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.SdrsFreeSpaceThreshold != p.SdrsFreeSpaceThreshold {
-		p.SdrsFreeSpaceThreshold = k.SdrsFreeSpaceThreshold
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_SdrsIoBalanceAutomationLevel(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.SdrsIoBalanceAutomationLevel != p.SdrsIoBalanceAutomationLevel {
-		p.SdrsIoBalanceAutomationLevel = k.SdrsIoBalanceAutomationLevel
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_SdrsLoadBalanceInterval(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.SdrsLoadBalanceInterval != p.SdrsLoadBalanceInterval {
-		p.SdrsLoadBalanceInterval = k.SdrsLoadBalanceInterval
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_SdrsIoReservableIopsThreshold(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.SdrsIoReservableIopsThreshold != p.SdrsIoReservableIopsThreshold {
-		p.SdrsIoReservableIopsThreshold = k.SdrsIoReservableIopsThreshold
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_Name(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergePrimitiveContainerTemplateSpec
-func MergeDatastoreCluster_SdrsAdvancedOptions(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.SdrsAdvancedOptions, p.SdrsAdvancedOptions) {
-		p.SdrsAdvancedOptions = k.SdrsAdvancedOptions
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_SdrsEnabled(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.SdrsEnabled != p.SdrsEnabled {
-		p.SdrsEnabled = k.SdrsEnabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_SdrsFreeSpaceThresholdMode(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.SdrsFreeSpaceThresholdMode != p.SdrsFreeSpaceThresholdMode {
-		p.SdrsFreeSpaceThresholdMode = k.SdrsFreeSpaceThresholdMode
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDatastoreCluster_SdrsIoLoadBalanceEnabled(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
-	if k.SdrsIoLoadBalanceEnabled != p.SdrsIoLoadBalanceEnabled {
-		p.SdrsIoLoadBalanceEnabled = k.SdrsIoLoadBalanceEnabled
+func MergeDatastoreCluster_Tags(k *DatastoreClusterParameters, p *DatastoreClusterParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

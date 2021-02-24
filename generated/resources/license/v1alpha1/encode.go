@@ -39,10 +39,10 @@ func EncodeLicense(r License) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeLicense_Labels(r.Spec.ForProvider, ctyVal)
 	EncodeLicense_LicenseKey(r.Spec.ForProvider, ctyVal)
-	EncodeLicense_Used(r.Status.AtProvider, ctyVal)
 	EncodeLicense_EditionKey(r.Status.AtProvider, ctyVal)
 	EncodeLicense_Name(r.Status.AtProvider, ctyVal)
 	EncodeLicense_Total(r.Status.AtProvider, ctyVal)
+	EncodeLicense_Used(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
 	// before code generation
@@ -67,10 +67,6 @@ func EncodeLicense_LicenseKey(p LicenseParameters, vals map[string]cty.Value) {
 	vals["license_key"] = cty.StringVal(p.LicenseKey)
 }
 
-func EncodeLicense_Used(p LicenseObservation, vals map[string]cty.Value) {
-	vals["used"] = cty.NumberIntVal(p.Used)
-}
-
 func EncodeLicense_EditionKey(p LicenseObservation, vals map[string]cty.Value) {
 	vals["edition_key"] = cty.StringVal(p.EditionKey)
 }
@@ -81,4 +77,8 @@ func EncodeLicense_Name(p LicenseObservation, vals map[string]cty.Value) {
 
 func EncodeLicense_Total(p LicenseObservation, vals map[string]cty.Value) {
 	vals["total"] = cty.NumberIntVal(p.Total)
+}
+
+func EncodeLicense_Used(p LicenseObservation, vals map[string]cty.Value) {
+	vals["used"] = cty.NumberIntVal(p.Used)
 }

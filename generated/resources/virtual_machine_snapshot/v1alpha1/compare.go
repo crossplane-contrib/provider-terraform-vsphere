@@ -31,11 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeVirtualMachineSnapshot_VirtualMachineUuid(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVirtualMachineSnapshot_Consolidate(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -66,6 +61,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeVirtualMachineSnapshot_VirtualMachineUuid(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 
 	for key, v := range p.Annotations {
 		if k.Annotations[key] != v {
@@ -75,16 +75,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachineSnapshot_VirtualMachineUuid(k *VirtualMachineSnapshotParameters, p *VirtualMachineSnapshotParameters, md *plugin.MergeDescription) bool {
-	if k.VirtualMachineUuid != p.VirtualMachineUuid {
-		p.VirtualMachineUuid = k.VirtualMachineUuid
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -141,6 +131,16 @@ func MergeVirtualMachineSnapshot_RemoveChildren(k *VirtualMachineSnapshotParamet
 func MergeVirtualMachineSnapshot_SnapshotName(k *VirtualMachineSnapshotParameters, p *VirtualMachineSnapshotParameters, md *plugin.MergeDescription) bool {
 	if k.SnapshotName != p.SnapshotName {
 		p.SnapshotName = k.SnapshotName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachineSnapshot_VirtualMachineUuid(k *VirtualMachineSnapshotParameters, p *VirtualMachineSnapshotParameters, md *plugin.MergeDescription) bool {
+	if k.VirtualMachineUuid != p.VirtualMachineUuid {
+		p.VirtualMachineUuid = k.VirtualMachineUuid
 		md.NeedsProviderUpdate = true
 		return true
 	}

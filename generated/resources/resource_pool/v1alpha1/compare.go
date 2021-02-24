@@ -31,31 +31,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeResourcePool_MemoryShareLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeResourcePool_ParentResourcePoolId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeResourcePool_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeResourcePool_CpuReservation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeResourcePool_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeResourcePool_CpuExpandable(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -66,7 +41,22 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeResourcePool_CpuReservation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeResourcePool_CpuShareLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeResourcePool_CpuShares(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeResourcePool_CustomAttributes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -81,22 +71,32 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeResourcePool_MemoryReservation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeResourcePool_MemoryShareLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeResourcePool_MemoryShares(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeResourcePool_CpuShareLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeResourcePool_Name(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeResourcePool_CustomAttributes(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeResourcePool_ParentResourcePoolId(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeResourcePool_MemoryReservation(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeResourcePool_Tags(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -110,56 +110,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 	md.AnyFieldUpdated = anyChildUpdated
 	return *md
-}
-
-//mergePrimitiveTemplateSpec
-func MergeResourcePool_MemoryShareLevel(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
-	if k.MemoryShareLevel != p.MemoryShareLevel {
-		p.MemoryShareLevel = k.MemoryShareLevel
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeResourcePool_ParentResourcePoolId(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
-	if k.ParentResourcePoolId != p.ParentResourcePoolId {
-		p.ParentResourcePoolId = k.ParentResourcePoolId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeResourcePool_Tags(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Tags, p.Tags) {
-		p.Tags = k.Tags
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeResourcePool_CpuReservation(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
-	if k.CpuReservation != p.CpuReservation {
-		p.CpuReservation = k.CpuReservation
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeResourcePool_Name(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -183,9 +133,39 @@ func MergeResourcePool_CpuLimit(k *ResourcePoolParameters, p *ResourcePoolParame
 }
 
 //mergePrimitiveTemplateSpec
+func MergeResourcePool_CpuReservation(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
+	if k.CpuReservation != p.CpuReservation {
+		p.CpuReservation = k.CpuReservation
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeResourcePool_CpuShareLevel(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
+	if k.CpuShareLevel != p.CpuShareLevel {
+		p.CpuShareLevel = k.CpuShareLevel
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeResourcePool_CpuShares(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
 	if k.CpuShares != p.CpuShares {
 		p.CpuShares = k.CpuShares
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeResourcePool_CustomAttributes(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.CustomAttributes, p.CustomAttributes) {
+		p.CustomAttributes = k.CustomAttributes
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -213,6 +193,26 @@ func MergeResourcePool_MemoryLimit(k *ResourcePoolParameters, p *ResourcePoolPar
 }
 
 //mergePrimitiveTemplateSpec
+func MergeResourcePool_MemoryReservation(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
+	if k.MemoryReservation != p.MemoryReservation {
+		p.MemoryReservation = k.MemoryReservation
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeResourcePool_MemoryShareLevel(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
+	if k.MemoryShareLevel != p.MemoryShareLevel {
+		p.MemoryShareLevel = k.MemoryShareLevel
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeResourcePool_MemoryShares(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
 	if k.MemoryShares != p.MemoryShares {
 		p.MemoryShares = k.MemoryShares
@@ -223,19 +223,9 @@ func MergeResourcePool_MemoryShares(k *ResourcePoolParameters, p *ResourcePoolPa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeResourcePool_CpuShareLevel(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
-	if k.CpuShareLevel != p.CpuShareLevel {
-		p.CpuShareLevel = k.CpuShareLevel
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeResourcePool_CustomAttributes(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.CustomAttributes, p.CustomAttributes) {
-		p.CustomAttributes = k.CustomAttributes
+func MergeResourcePool_Name(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -243,9 +233,19 @@ func MergeResourcePool_CustomAttributes(k *ResourcePoolParameters, p *ResourcePo
 }
 
 //mergePrimitiveTemplateSpec
-func MergeResourcePool_MemoryReservation(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
-	if k.MemoryReservation != p.MemoryReservation {
-		p.MemoryReservation = k.MemoryReservation
+func MergeResourcePool_ParentResourcePoolId(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
+	if k.ParentResourcePoolId != p.ParentResourcePoolId {
+		p.ParentResourcePoolId = k.ParentResourcePoolId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeResourcePool_Tags(k *ResourcePoolParameters, p *ResourcePoolParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Tags, p.Tags) {
+		p.Tags = k.Tags
 		md.NeedsProviderUpdate = true
 		return true
 	}

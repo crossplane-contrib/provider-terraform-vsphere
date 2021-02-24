@@ -31,22 +31,27 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	updated := false
 	anyChildUpdated := false
 
-	updated = MergeHost_Datacenter(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHost_Username(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeHost_Cluster(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
+	updated = MergeHost_ClusterManaged(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeHost_Connected(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeHost_Datacenter(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeHost_Force(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -76,17 +81,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeHost_ClusterManaged(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeHost_Force(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeHost_Thumbprint(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeHost_Username(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -103,26 +103,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 }
 
 //mergePrimitiveTemplateSpec
-func MergeHost_Datacenter(k *HostParameters, p *HostParameters, md *plugin.MergeDescription) bool {
-	if k.Datacenter != p.Datacenter {
-		p.Datacenter = k.Datacenter
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeHost_Username(k *HostParameters, p *HostParameters, md *plugin.MergeDescription) bool {
-	if k.Username != p.Username {
-		p.Username = k.Username
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeHost_Cluster(k *HostParameters, p *HostParameters, md *plugin.MergeDescription) bool {
 	if k.Cluster != p.Cluster {
 		p.Cluster = k.Cluster
@@ -133,9 +113,39 @@ func MergeHost_Cluster(k *HostParameters, p *HostParameters, md *plugin.MergeDes
 }
 
 //mergePrimitiveTemplateSpec
+func MergeHost_ClusterManaged(k *HostParameters, p *HostParameters, md *plugin.MergeDescription) bool {
+	if k.ClusterManaged != p.ClusterManaged {
+		p.ClusterManaged = k.ClusterManaged
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeHost_Connected(k *HostParameters, p *HostParameters, md *plugin.MergeDescription) bool {
 	if k.Connected != p.Connected {
 		p.Connected = k.Connected
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeHost_Datacenter(k *HostParameters, p *HostParameters, md *plugin.MergeDescription) bool {
+	if k.Datacenter != p.Datacenter {
+		p.Datacenter = k.Datacenter
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeHost_Force(k *HostParameters, p *HostParameters, md *plugin.MergeDescription) bool {
+	if k.Force != p.Force {
+		p.Force = k.Force
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -193,29 +203,19 @@ func MergeHost_Password(k *HostParameters, p *HostParameters, md *plugin.MergeDe
 }
 
 //mergePrimitiveTemplateSpec
-func MergeHost_ClusterManaged(k *HostParameters, p *HostParameters, md *plugin.MergeDescription) bool {
-	if k.ClusterManaged != p.ClusterManaged {
-		p.ClusterManaged = k.ClusterManaged
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeHost_Force(k *HostParameters, p *HostParameters, md *plugin.MergeDescription) bool {
-	if k.Force != p.Force {
-		p.Force = k.Force
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeHost_Thumbprint(k *HostParameters, p *HostParameters, md *plugin.MergeDescription) bool {
 	if k.Thumbprint != p.Thumbprint {
 		p.Thumbprint = k.Thumbprint
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeHost_Username(k *HostParameters, p *HostParameters, md *plugin.MergeDescription) bool {
+	if k.Username != p.Username {
+		p.Username = k.Username
 		md.NeedsProviderUpdate = true
 		return true
 	}

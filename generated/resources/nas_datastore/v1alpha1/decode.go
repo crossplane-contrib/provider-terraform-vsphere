@@ -41,23 +41,23 @@ func DecodeNasDatastore(prev *NasDatastore, ctyValue cty.Value) (resource.Manage
 	new := prev.DeepCopy()
 	DecodeNasDatastore_AccessMode(&new.Spec.ForProvider, valMap)
 	DecodeNasDatastore_CustomAttributes(&new.Spec.ForProvider, valMap)
-	DecodeNasDatastore_SecurityType(&new.Spec.ForProvider, valMap)
-	DecodeNasDatastore_Tags(&new.Spec.ForProvider, valMap)
-	DecodeNasDatastore_Folder(&new.Spec.ForProvider, valMap)
-	DecodeNasDatastore_RemoteHosts(&new.Spec.ForProvider, valMap)
-	DecodeNasDatastore_RemotePath(&new.Spec.ForProvider, valMap)
 	DecodeNasDatastore_DatastoreClusterId(&new.Spec.ForProvider, valMap)
+	DecodeNasDatastore_Folder(&new.Spec.ForProvider, valMap)
 	DecodeNasDatastore_HostSystemIds(&new.Spec.ForProvider, valMap)
 	DecodeNasDatastore_Name(&new.Spec.ForProvider, valMap)
+	DecodeNasDatastore_RemoteHosts(&new.Spec.ForProvider, valMap)
+	DecodeNasDatastore_RemotePath(&new.Spec.ForProvider, valMap)
+	DecodeNasDatastore_SecurityType(&new.Spec.ForProvider, valMap)
+	DecodeNasDatastore_Tags(&new.Spec.ForProvider, valMap)
 	DecodeNasDatastore_Type(&new.Spec.ForProvider, valMap)
-	DecodeNasDatastore_Capacity(&new.Status.AtProvider, valMap)
-	DecodeNasDatastore_ProtocolEndpoint(&new.Status.AtProvider, valMap)
 	DecodeNasDatastore_Accessible(&new.Status.AtProvider, valMap)
+	DecodeNasDatastore_Capacity(&new.Status.AtProvider, valMap)
 	DecodeNasDatastore_FreeSpace(&new.Status.AtProvider, valMap)
-	DecodeNasDatastore_Url(&new.Status.AtProvider, valMap)
 	DecodeNasDatastore_MaintenanceMode(&new.Status.AtProvider, valMap)
 	DecodeNasDatastore_MultipleHostAccess(&new.Status.AtProvider, valMap)
+	DecodeNasDatastore_ProtocolEndpoint(&new.Status.AtProvider, valMap)
 	DecodeNasDatastore_UncommittedSpace(&new.Status.AtProvider, valMap)
+	DecodeNasDatastore_Url(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
@@ -86,22 +86,27 @@ func DecodeNasDatastore_CustomAttributes(p *NasDatastoreParameters, vals map[str
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNasDatastore_SecurityType(p *NasDatastoreParameters, vals map[string]cty.Value) {
-	p.SecurityType = ctwhy.ValueAsString(vals["security_type"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeNasDatastore_Tags(p *NasDatastoreParameters, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["tags"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.Tags = goVals
+func DecodeNasDatastore_DatastoreClusterId(p *NasDatastoreParameters, vals map[string]cty.Value) {
+	p.DatastoreClusterId = ctwhy.ValueAsString(vals["datastore_cluster_id"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeNasDatastore_Folder(p *NasDatastoreParameters, vals map[string]cty.Value) {
 	p.Folder = ctwhy.ValueAsString(vals["folder"])
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeNasDatastore_HostSystemIds(p *NasDatastoreParameters, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsSet(vals["host_system_ids"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.HostSystemIds = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNasDatastore_Name(p *NasDatastoreParameters, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -119,22 +124,17 @@ func DecodeNasDatastore_RemotePath(p *NasDatastoreParameters, vals map[string]ct
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNasDatastore_DatastoreClusterId(p *NasDatastoreParameters, vals map[string]cty.Value) {
-	p.DatastoreClusterId = ctwhy.ValueAsString(vals["datastore_cluster_id"])
+func DecodeNasDatastore_SecurityType(p *NasDatastoreParameters, vals map[string]cty.Value) {
+	p.SecurityType = ctwhy.ValueAsString(vals["security_type"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
-func DecodeNasDatastore_HostSystemIds(p *NasDatastoreParameters, vals map[string]cty.Value) {
+func DecodeNasDatastore_Tags(p *NasDatastoreParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsSet(vals["host_system_ids"]) {
+	for _, value := range ctwhy.ValueAsSet(vals["tags"]) {
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
-	p.HostSystemIds = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNasDatastore_Name(p *NasDatastoreParameters, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
+	p.Tags = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -143,28 +143,18 @@ func DecodeNasDatastore_Type(p *NasDatastoreParameters, vals map[string]cty.Valu
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNasDatastore_Capacity(p *NasDatastoreObservation, vals map[string]cty.Value) {
-	p.Capacity = ctwhy.ValueAsInt64(vals["capacity"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeNasDatastore_ProtocolEndpoint(p *NasDatastoreObservation, vals map[string]cty.Value) {
-	p.ProtocolEndpoint = ctwhy.ValueAsString(vals["protocol_endpoint"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeNasDatastore_Accessible(p *NasDatastoreObservation, vals map[string]cty.Value) {
 	p.Accessible = ctwhy.ValueAsBool(vals["accessible"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNasDatastore_FreeSpace(p *NasDatastoreObservation, vals map[string]cty.Value) {
-	p.FreeSpace = ctwhy.ValueAsInt64(vals["free_space"])
+func DecodeNasDatastore_Capacity(p *NasDatastoreObservation, vals map[string]cty.Value) {
+	p.Capacity = ctwhy.ValueAsInt64(vals["capacity"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeNasDatastore_Url(p *NasDatastoreObservation, vals map[string]cty.Value) {
-	p.Url = ctwhy.ValueAsString(vals["url"])
+func DecodeNasDatastore_FreeSpace(p *NasDatastoreObservation, vals map[string]cty.Value) {
+	p.FreeSpace = ctwhy.ValueAsInt64(vals["free_space"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -178,6 +168,16 @@ func DecodeNasDatastore_MultipleHostAccess(p *NasDatastoreObservation, vals map[
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeNasDatastore_ProtocolEndpoint(p *NasDatastoreObservation, vals map[string]cty.Value) {
+	p.ProtocolEndpoint = ctwhy.ValueAsString(vals["protocol_endpoint"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeNasDatastore_UncommittedSpace(p *NasDatastoreObservation, vals map[string]cty.Value) {
 	p.UncommittedSpace = ctwhy.ValueAsInt64(vals["uncommitted_space"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeNasDatastore_Url(p *NasDatastoreObservation, vals map[string]cty.Value) {
+	p.Url = ctwhy.ValueAsString(vals["url"])
 }

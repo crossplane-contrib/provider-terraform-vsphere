@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,8 +46,8 @@ type ComputeClusterHostGroupList struct {
 
 // A ComputeClusterHostGroupSpec defines the desired state of a ComputeClusterHostGroup
 type ComputeClusterHostGroupSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  ComputeClusterHostGroupParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       ComputeClusterHostGroupParameters `json:"forProvider"`
 }
 
 // A ComputeClusterHostGroupParameters defines the desired state of a ComputeClusterHostGroup
@@ -59,8 +59,8 @@ type ComputeClusterHostGroupParameters struct {
 
 // A ComputeClusterHostGroupStatus defines the observed state of a ComputeClusterHostGroup
 type ComputeClusterHostGroupStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     ComputeClusterHostGroupObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          ComputeClusterHostGroupObservation `json:"atProvider"`
 }
 
 // A ComputeClusterHostGroupObservation records the observed state of a ComputeClusterHostGroup

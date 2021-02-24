@@ -39,19 +39,24 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeComputeClusterVmHostRule(prev *ComputeClusterVmHostRule, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeComputeClusterVmHostRule_AffinityHostGroupName(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmHostRule_AntiAffinityHostGroupName(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmHostRule_ComputeClusterId(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmHostRule_Enabled(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmHostRule_Mandatory(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmHostRule_Name(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmHostRule_VmGroupName(&new.Spec.ForProvider, valMap)
-	DecodeComputeClusterVmHostRule_AffinityHostGroupName(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeComputeClusterVmHostRule_AffinityHostGroupName(p *ComputeClusterVmHostRuleParameters, vals map[string]cty.Value) {
+	p.AffinityHostGroupName = ctwhy.ValueAsString(vals["affinity_host_group_name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -82,9 +87,4 @@ func DecodeComputeClusterVmHostRule_Name(p *ComputeClusterVmHostRuleParameters, 
 //primitiveTypeDecodeTemplate
 func DecodeComputeClusterVmHostRule_VmGroupName(p *ComputeClusterVmHostRuleParameters, vals map[string]cty.Value) {
 	p.VmGroupName = ctwhy.ValueAsString(vals["vm_group_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeComputeClusterVmHostRule_AffinityHostGroupName(p *ComputeClusterVmHostRuleParameters, vals map[string]cty.Value) {
-	p.AffinityHostGroupName = ctwhy.ValueAsString(vals["affinity_host_group_name"])
 }

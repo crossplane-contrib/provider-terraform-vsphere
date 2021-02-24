@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,33 +46,33 @@ type VappContainerList struct {
 
 // A VappContainerSpec defines the desired state of a VappContainer
 type VappContainerSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  VappContainerParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       VappContainerParameters `json:"forProvider"`
 }
 
 // A VappContainerParameters defines the desired state of a VappContainer
 type VappContainerParameters struct {
-	CustomAttributes     map[string]string `json:"custom_attributes,omitempty"`
-	MemoryLimit          int64             `json:"memory_limit"`
-	MemoryReservation    int64             `json:"memory_reservation"`
-	Name                 string            `json:"name"`
-	Tags                 []string          `json:"tags,omitempty"`
-	ParentResourcePoolId string            `json:"parent_resource_pool_id"`
+	CpuExpandable        bool              `json:"cpu_expandable"`
 	CpuLimit             int64             `json:"cpu_limit"`
 	CpuReservation       int64             `json:"cpu_reservation"`
 	CpuShareLevel        string            `json:"cpu_share_level"`
 	CpuShares            int64             `json:"cpu_shares"`
-	ParentFolderId       string            `json:"parent_folder_id"`
-	CpuExpandable        bool              `json:"cpu_expandable"`
+	CustomAttributes     map[string]string `json:"custom_attributes,omitempty"`
 	MemoryExpandable     bool              `json:"memory_expandable"`
+	MemoryLimit          int64             `json:"memory_limit"`
+	MemoryReservation    int64             `json:"memory_reservation"`
 	MemoryShareLevel     string            `json:"memory_share_level"`
 	MemoryShares         int64             `json:"memory_shares"`
+	Name                 string            `json:"name"`
+	ParentFolderId       string            `json:"parent_folder_id"`
+	ParentResourcePoolId string            `json:"parent_resource_pool_id"`
+	Tags                 []string          `json:"tags,omitempty"`
 }
 
 // A VappContainerStatus defines the observed state of a VappContainer
 type VappContainerStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     VappContainerObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          VappContainerObservation `json:"atProvider"`
 }
 
 // A VappContainerObservation records the observed state of a VappContainer

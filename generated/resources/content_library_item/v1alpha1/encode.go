@@ -37,12 +37,12 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeContentLibraryItem(r ContentLibraryItem) cty.Value {
 	ctyVal := make(map[string]cty.Value)
-	EncodeContentLibraryItem_SourceUuid(r.Spec.ForProvider, ctyVal)
-	EncodeContentLibraryItem_Type(r.Spec.ForProvider, ctyVal)
 	EncodeContentLibraryItem_Description(r.Spec.ForProvider, ctyVal)
 	EncodeContentLibraryItem_FileUrl(r.Spec.ForProvider, ctyVal)
 	EncodeContentLibraryItem_LibraryId(r.Spec.ForProvider, ctyVal)
 	EncodeContentLibraryItem_Name(r.Spec.ForProvider, ctyVal)
+	EncodeContentLibraryItem_SourceUuid(r.Spec.ForProvider, ctyVal)
+	EncodeContentLibraryItem_Type(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -50,14 +50,6 @@ func EncodeContentLibraryItem(r ContentLibraryItem) cty.Value {
 	en := meta.GetExternalName(&r)
 	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
-}
-
-func EncodeContentLibraryItem_SourceUuid(p ContentLibraryItemParameters, vals map[string]cty.Value) {
-	vals["source_uuid"] = cty.StringVal(p.SourceUuid)
-}
-
-func EncodeContentLibraryItem_Type(p ContentLibraryItemParameters, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeContentLibraryItem_Description(p ContentLibraryItemParameters, vals map[string]cty.Value) {
@@ -74,4 +66,12 @@ func EncodeContentLibraryItem_LibraryId(p ContentLibraryItemParameters, vals map
 
 func EncodeContentLibraryItem_Name(p ContentLibraryItemParameters, vals map[string]cty.Value) {
 	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeContentLibraryItem_SourceUuid(p ContentLibraryItemParameters, vals map[string]cty.Value) {
+	vals["source_uuid"] = cty.StringVal(p.SourceUuid)
+}
+
+func EncodeContentLibraryItem_Type(p ContentLibraryItemParameters, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }

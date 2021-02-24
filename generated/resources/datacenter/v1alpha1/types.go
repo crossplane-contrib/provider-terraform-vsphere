@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,22 +46,22 @@ type DatacenterList struct {
 
 // A DatacenterSpec defines the desired state of a Datacenter
 type DatacenterSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DatacenterParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       DatacenterParameters `json:"forProvider"`
 }
 
 // A DatacenterParameters defines the desired state of a Datacenter
 type DatacenterParameters struct {
-	Tags             []string          `json:"tags,omitempty"`
 	CustomAttributes map[string]string `json:"custom_attributes,omitempty"`
 	Folder           string            `json:"folder"`
 	Name             string            `json:"name"`
+	Tags             []string          `json:"tags,omitempty"`
 }
 
 // A DatacenterStatus defines the observed state of a Datacenter
 type DatacenterStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DatacenterObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          DatacenterObservation `json:"atProvider"`
 }
 
 // A DatacenterObservation records the observed state of a Datacenter

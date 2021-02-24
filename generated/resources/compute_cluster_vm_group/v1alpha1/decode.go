@@ -39,15 +39,20 @@ func (e *ctyDecoder) DecodeCty(mr resource.Managed, ctyValue cty.Value, schema *
 func DecodeComputeClusterVmGroup(prev *ComputeClusterVmGroup, ctyValue cty.Value) (resource.Managed, error) {
 	valMap := ctyValue.AsValueMap()
 	new := prev.DeepCopy()
+	DecodeComputeClusterVmGroup_ComputeClusterId(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmGroup_Name(&new.Spec.ForProvider, valMap)
 	DecodeComputeClusterVmGroup_VirtualMachineIds(&new.Spec.ForProvider, valMap)
-	DecodeComputeClusterVmGroup_ComputeClusterId(&new.Spec.ForProvider, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
 		meta.SetExternalName(new, eid)
 	}
 	return new, nil
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeComputeClusterVmGroup_ComputeClusterId(p *ComputeClusterVmGroupParameters, vals map[string]cty.Value) {
+	p.ComputeClusterId = ctwhy.ValueAsString(vals["compute_cluster_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -62,9 +67,4 @@ func DecodeComputeClusterVmGroup_VirtualMachineIds(p *ComputeClusterVmGroupParam
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.VirtualMachineIds = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeComputeClusterVmGroup_ComputeClusterId(p *ComputeClusterVmGroupParameters, vals map[string]cty.Value) {
-	p.ComputeClusterId = ctwhy.ValueAsString(vals["compute_cluster_id"])
 }

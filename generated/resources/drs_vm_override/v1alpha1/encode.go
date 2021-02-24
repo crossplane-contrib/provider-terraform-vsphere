@@ -37,10 +37,10 @@ func (e *ctyEncoder) EncodeCty(mr resource.Managed, schema *providers.Schema) (c
 
 func EncodeDrsVmOverride(r DrsVmOverride) cty.Value {
 	ctyVal := make(map[string]cty.Value)
+	EncodeDrsVmOverride_ComputeClusterId(r.Spec.ForProvider, ctyVal)
 	EncodeDrsVmOverride_DrsAutomationLevel(r.Spec.ForProvider, ctyVal)
 	EncodeDrsVmOverride_DrsEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeDrsVmOverride_VirtualMachineId(r.Spec.ForProvider, ctyVal)
-	EncodeDrsVmOverride_ComputeClusterId(r.Spec.ForProvider, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -48,6 +48,10 @@ func EncodeDrsVmOverride(r DrsVmOverride) cty.Value {
 	en := meta.GetExternalName(&r)
 	ctyVal["id"] = cty.StringVal(en)
 	return cty.ObjectVal(ctyVal)
+}
+
+func EncodeDrsVmOverride_ComputeClusterId(p DrsVmOverrideParameters, vals map[string]cty.Value) {
+	vals["compute_cluster_id"] = cty.StringVal(p.ComputeClusterId)
 }
 
 func EncodeDrsVmOverride_DrsAutomationLevel(p DrsVmOverrideParameters, vals map[string]cty.Value) {
@@ -60,8 +64,4 @@ func EncodeDrsVmOverride_DrsEnabled(p DrsVmOverrideParameters, vals map[string]c
 
 func EncodeDrsVmOverride_VirtualMachineId(p DrsVmOverrideParameters, vals map[string]cty.Value) {
 	vals["virtual_machine_id"] = cty.StringVal(p.VirtualMachineId)
-}
-
-func EncodeDrsVmOverride_ComputeClusterId(p DrsVmOverrideParameters, vals map[string]cty.Value) {
-	vals["compute_cluster_id"] = cty.StringVal(p.ComputeClusterId)
 }

@@ -17,20 +17,20 @@ limitations under the License.
 
 package v1alpha1
 
-import runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
 // GetCondition of this VirtualMachineSnapshot.
-func (mg *VirtualMachineSnapshot) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
+func (mg *VirtualMachineSnapshot) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this VirtualMachineSnapshot.
-func (mg *VirtualMachineSnapshot) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
+func (mg *VirtualMachineSnapshot) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetProviderConfigReference of this VirtualMachineSnapshot.
-func (mg *VirtualMachineSnapshot) GetProviderConfigReference() *runtimev1alpha1.Reference {
+func (mg *VirtualMachineSnapshot) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
@@ -38,27 +38,27 @@ func (mg *VirtualMachineSnapshot) GetProviderConfigReference() *runtimev1alpha1.
 GetProviderReference of this VirtualMachineSnapshot.
 Deprecated: Use GetProviderConfigReference.
 */
-func (mg *VirtualMachineSnapshot) GetProviderReference() *runtimev1alpha1.Reference {
+func (mg *VirtualMachineSnapshot) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
 // GetWriteConnectionSecretToReference of this VirtualMachineSnapshot.
-func (mg *VirtualMachineSnapshot) GetWriteConnectionSecretToReference() *runtimev1alpha1.SecretReference {
+func (mg *VirtualMachineSnapshot) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this VirtualMachineSnapshot.
-func (mg *VirtualMachineSnapshot) SetConditions(c ...runtimev1alpha1.Condition) {
+func (mg *VirtualMachineSnapshot) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this VirtualMachineSnapshot.
-func (mg *VirtualMachineSnapshot) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
+func (mg *VirtualMachineSnapshot) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetProviderConfigReference of this VirtualMachineSnapshot.
-func (mg *VirtualMachineSnapshot) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
+func (mg *VirtualMachineSnapshot) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
@@ -66,11 +66,11 @@ func (mg *VirtualMachineSnapshot) SetProviderConfigReference(r *runtimev1alpha1.
 SetProviderReference of this VirtualMachineSnapshot.
 Deprecated: Use SetProviderConfigReference.
 */
-func (mg *VirtualMachineSnapshot) SetProviderReference(r *runtimev1alpha1.Reference) {
+func (mg *VirtualMachineSnapshot) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
 }
 
 // SetWriteConnectionSecretToReference of this VirtualMachineSnapshot.
-func (mg *VirtualMachineSnapshot) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
+func (mg *VirtualMachineSnapshot) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

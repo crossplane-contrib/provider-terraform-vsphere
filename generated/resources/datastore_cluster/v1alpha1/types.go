@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
 // +kubebuilder:object:root=true
@@ -46,43 +46,43 @@ type DatastoreClusterList struct {
 
 // A DatastoreClusterSpec defines the desired state of a DatastoreCluster
 type DatastoreClusterSpec struct {
-	runtimev1alpha1.ResourceSpec `json:",inline"`
-	ForProvider                  DatastoreClusterParameters `json:"forProvider"`
+	xpv1.ResourceSpec `json:",inline"`
+	ForProvider       DatastoreClusterParameters `json:"forProvider"`
 }
 
 // A DatastoreClusterParameters defines the desired state of a DatastoreCluster
 type DatastoreClusterParameters struct {
-	SdrsDefaultIntraVmAffinity           bool              `json:"sdrs_default_intra_vm_affinity"`
-	SdrsIoLoadImbalanceThreshold         int64             `json:"sdrs_io_load_imbalance_threshold"`
-	Tags                                 []string          `json:"tags,omitempty"`
-	SdrsIoReservablePercentThreshold     int64             `json:"sdrs_io_reservable_percent_threshold"`
-	SdrsIoReservableThresholdMode        string            `json:"sdrs_io_reservable_threshold_mode"`
-	SdrsRuleEnforcementAutomationLevel   string            `json:"sdrs_rule_enforcement_automation_level"`
 	CustomAttributes                     map[string]string `json:"custom_attributes,omitempty"`
 	DatacenterId                         string            `json:"datacenter_id"`
+	Folder                               string            `json:"folder"`
+	Name                                 string            `json:"name"`
+	SdrsAdvancedOptions                  map[string]string `json:"sdrs_advanced_options,omitempty"`
+	SdrsAutomationLevel                  string            `json:"sdrs_automation_level"`
+	SdrsDefaultIntraVmAffinity           bool              `json:"sdrs_default_intra_vm_affinity"`
+	SdrsEnabled                          bool              `json:"sdrs_enabled"`
+	SdrsFreeSpaceThreshold               int64             `json:"sdrs_free_space_threshold"`
+	SdrsFreeSpaceThresholdMode           string            `json:"sdrs_free_space_threshold_mode"`
 	SdrsFreeSpaceUtilizationDifference   int64             `json:"sdrs_free_space_utilization_difference"`
+	SdrsIoBalanceAutomationLevel         string            `json:"sdrs_io_balance_automation_level"`
 	SdrsIoLatencyThreshold               int64             `json:"sdrs_io_latency_threshold"`
+	SdrsIoLoadBalanceEnabled             bool              `json:"sdrs_io_load_balance_enabled"`
+	SdrsIoLoadImbalanceThreshold         int64             `json:"sdrs_io_load_imbalance_threshold"`
+	SdrsIoReservableIopsThreshold        int64             `json:"sdrs_io_reservable_iops_threshold"`
+	SdrsIoReservablePercentThreshold     int64             `json:"sdrs_io_reservable_percent_threshold"`
+	SdrsIoReservableThresholdMode        string            `json:"sdrs_io_reservable_threshold_mode"`
+	SdrsLoadBalanceInterval              int64             `json:"sdrs_load_balance_interval"`
+	SdrsPolicyEnforcementAutomationLevel string            `json:"sdrs_policy_enforcement_automation_level"`
+	SdrsRuleEnforcementAutomationLevel   string            `json:"sdrs_rule_enforcement_automation_level"`
 	SdrsSpaceBalanceAutomationLevel      string            `json:"sdrs_space_balance_automation_level"`
 	SdrsSpaceUtilizationThreshold        int64             `json:"sdrs_space_utilization_threshold"`
 	SdrsVmEvacuationAutomationLevel      string            `json:"sdrs_vm_evacuation_automation_level"`
-	SdrsPolicyEnforcementAutomationLevel string            `json:"sdrs_policy_enforcement_automation_level"`
-	Folder                               string            `json:"folder"`
-	SdrsAutomationLevel                  string            `json:"sdrs_automation_level"`
-	SdrsFreeSpaceThreshold               int64             `json:"sdrs_free_space_threshold"`
-	SdrsIoBalanceAutomationLevel         string            `json:"sdrs_io_balance_automation_level"`
-	SdrsLoadBalanceInterval              int64             `json:"sdrs_load_balance_interval"`
-	SdrsIoReservableIopsThreshold        int64             `json:"sdrs_io_reservable_iops_threshold"`
-	Name                                 string            `json:"name"`
-	SdrsAdvancedOptions                  map[string]string `json:"sdrs_advanced_options,omitempty"`
-	SdrsEnabled                          bool              `json:"sdrs_enabled"`
-	SdrsFreeSpaceThresholdMode           string            `json:"sdrs_free_space_threshold_mode"`
-	SdrsIoLoadBalanceEnabled             bool              `json:"sdrs_io_load_balance_enabled"`
+	Tags                                 []string          `json:"tags,omitempty"`
 }
 
 // A DatastoreClusterStatus defines the observed state of a DatastoreCluster
 type DatastoreClusterStatus struct {
-	runtimev1alpha1.ResourceStatus `json:",inline"`
-	AtProvider                     DatastoreClusterObservation `json:"atProvider"`
+	xpv1.ResourceStatus `json:",inline"`
+	AtProvider          DatastoreClusterObservation `json:"atProvider"`
 }
 
 // A DatastoreClusterObservation records the observed state of a DatastoreCluster
