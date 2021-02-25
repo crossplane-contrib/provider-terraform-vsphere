@@ -46,12 +46,12 @@ func Implementation() *plugin.Implementation {
 	schemeBuilder := &scheme.Builder{GroupVersion: SchemeGroupVersion}
 	schemeBuilder.Register(&License{}, &LicenseList{})
 	return &plugin.Implementation{
-		GVK:                      GroupVersionKind,
-		TerraformResourceName:    TerraformResourceName,
-		SchemeBuilder:            schemeBuilder,
-		ReconcilerConfigurer:     &reconcilerConfigurer{},
-		ResourceMerger:           &resourceMerger{},
-		CtyEncoder:               &ctyEncoder{},
-		CtyDecoder:               &ctyDecoder{},
+		GVK:                   GroupVersionKind,
+		TerraformResourceName: TerraformResourceName,
+		SchemeBuilder:         schemeBuilder,
+		ReconcilerConfigurer:  &reconcilerConfigurer{},
+		ResourceMerger:        &resourceMerger{},
+		CtyEncoder:            &ctyEncoder{},
+		CtyDecoder:            &ctyDecoder{},
 	}
 }

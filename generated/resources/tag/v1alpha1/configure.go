@@ -19,13 +19,13 @@ package v1alpha1
 import (
 	"time"
 
+	"github.com/crossplane-contrib/terraform-runtime/pkg/client"
+	"github.com/crossplane-contrib/terraform-runtime/pkg/controller"
+	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 	"github.com/crossplane/crossplane-runtime/pkg/event"
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
 	"github.com/crossplane/crossplane-runtime/pkg/reconciler/managed"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
-	"github.com/crossplane-contrib/terraform-runtime/pkg/client"
-	"github.com/crossplane-contrib/terraform-runtime/pkg/controller"
-	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 

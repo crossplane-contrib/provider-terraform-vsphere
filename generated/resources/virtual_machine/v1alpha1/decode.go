@@ -19,11 +19,11 @@ package v1alpha1
 import (
 	"fmt"
 
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 	"github.com/zclconf/go-cty/cty"
-	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
@@ -189,8 +189,8 @@ func DecodeVirtualMachine_CustomAttributes(p *VirtualMachineParameters, vals map
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	if vals["custom_attributes"].IsNull() {
 		p.CustomAttributes = nil
-        return
-    }
+		return
+	}
 	vMap := make(map[string]string)
 	v := vals["custom_attributes"].AsValueMap()
 	for key, value := range v {
@@ -239,8 +239,8 @@ func DecodeVirtualMachine_ExtraConfig(p *VirtualMachineParameters, vals map[stri
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	if vals["extra_config"].IsNull() {
 		p.ExtraConfig = nil
-        return
-    }
+		return
+	}
 	vMap := make(map[string]string)
 	v := vals["extra_config"].AsValueMap()
 	for key, value := range v {
@@ -544,8 +544,8 @@ func DecodeVirtualMachine_Clone_OvfNetworkMap(p *Clone, vals map[string]cty.Valu
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	if vals["ovf_network_map"].IsNull() {
 		p.OvfNetworkMap = nil
-        return
-    }
+		return
+	}
 	vMap := make(map[string]string)
 	v := vals["ovf_network_map"].AsValueMap()
 	for key, value := range v {
@@ -559,8 +559,8 @@ func DecodeVirtualMachine_Clone_OvfStorageMap(p *Clone, vals map[string]cty.Valu
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	if vals["ovf_storage_map"].IsNull() {
 		p.OvfStorageMap = nil
-        return
-    }
+		return
+	}
 	vMap := make(map[string]string)
 	v := vals["ovf_storage_map"].AsValueMap()
 	for key, value := range v {
@@ -838,7 +838,7 @@ func DecodeVirtualMachine_Clone_Customize_WindowsOptions_TimeZone(p *WindowsOpti
 
 //containerCollectionTypeDecodeTemplate
 func DecodeVirtualMachine_Disk(pp *[]Disk, vals map[string]cty.Value) {
-    if vals["disk"].IsNull() {
+	if vals["disk"].IsNull() {
 		pp = nil
 		return
 	}
@@ -990,7 +990,7 @@ func DecodeVirtualMachine_Disk_IoLimit(p *Disk, vals map[string]cty.Value) {
 
 //containerCollectionTypeDecodeTemplate
 func DecodeVirtualMachine_NetworkInterface(pp *[]NetworkInterface0, vals map[string]cty.Value) {
-    if vals["network_interface"].IsNull() {
+	if vals["network_interface"].IsNull() {
 		pp = nil
 		return
 	}
@@ -1132,8 +1132,8 @@ func DecodeVirtualMachine_OvfDeploy_OvfNetworkMap(p *OvfDeploy, vals map[string]
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	if vals["ovf_network_map"].IsNull() {
 		p.OvfNetworkMap = nil
-        return
-    }
+		return
+	}
 	vMap := make(map[string]string)
 	v := vals["ovf_network_map"].AsValueMap()
 	for key, value := range v {
@@ -1164,8 +1164,8 @@ func DecodeVirtualMachine_Vapp_Properties(p *Vapp, vals map[string]cty.Value) {
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	if vals["properties"].IsNull() {
 		p.Properties = nil
-        return
-    }
+		return
+	}
 	vMap := make(map[string]string)
 	v := vals["properties"].AsValueMap()
 	for key, value := range v {

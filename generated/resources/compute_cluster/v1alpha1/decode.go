@@ -19,11 +19,11 @@ package v1alpha1
 import (
 	"fmt"
 
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 	"github.com/zclconf/go-cty/cty"
-	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
@@ -107,8 +107,8 @@ func DecodeComputeCluster_CustomAttributes(p *ComputeClusterParameters, vals map
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	if vals["custom_attributes"].IsNull() {
 		p.CustomAttributes = nil
-        return
-    }
+		return
+	}
 	vMap := make(map[string]string)
 	v := vals["custom_attributes"].AsValueMap()
 	for key, value := range v {
@@ -142,8 +142,8 @@ func DecodeComputeCluster_DrsAdvancedOptions(p *ComputeClusterParameters, vals m
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	if vals["drs_advanced_options"].IsNull() {
 		p.DrsAdvancedOptions = nil
-        return
-    }
+		return
+	}
 	vMap := make(map[string]string)
 	v := vals["drs_advanced_options"].AsValueMap()
 	for key, value := range v {
@@ -246,8 +246,8 @@ func DecodeComputeCluster_HaAdvancedOptions(p *ComputeClusterParameters, vals ma
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	if vals["ha_advanced_options"].IsNull() {
 		p.HaAdvancedOptions = nil
-        return
-    }
+		return
+	}
 	vMap := make(map[string]string)
 	v := vals["ha_advanced_options"].AsValueMap()
 	for key, value := range v {

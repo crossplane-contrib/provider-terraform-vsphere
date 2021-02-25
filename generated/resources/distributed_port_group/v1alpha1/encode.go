@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -102,7 +102,7 @@ func EncodeDistributedPortGroup_ActiveUplinks(p DistributedPortGroupParameters, 
 		vals["active_uplinks"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["active_uplinks"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeDistributedPortGroup_AllowForgedTransmits(p DistributedPortGroupParameters, vals map[string]cty.Value) {
@@ -262,7 +262,7 @@ func EncodeDistributedPortGroup_StandbyUplinks(p DistributedPortGroupParameters,
 		vals["standby_uplinks"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["standby_uplinks"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeDistributedPortGroup_Tags(p DistributedPortGroupParameters, vals map[string]cty.Value) {
@@ -274,7 +274,7 @@ func EncodeDistributedPortGroup_Tags(p DistributedPortGroupParameters, vals map[
 		vals["tags"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["tags"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeDistributedPortGroup_TeamingPolicy(p DistributedPortGroupParameters, vals map[string]cty.Value) {
@@ -311,11 +311,11 @@ func EncodeDistributedPortGroup_VlanRange(p VlanRange, vals map[string]cty.Value
 	EncodeDistributedPortGroup_VlanRange_MaxVlan(p, ctyVal)
 	EncodeDistributedPortGroup_VlanRange_MinVlan(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["vlan_range"] = cty.SetValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["vlan_range"] = cty.SetVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeDistributedPortGroup_VlanRange_MaxVlan(p VlanRange, vals map[string]cty.Value) {

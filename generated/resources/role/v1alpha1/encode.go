@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -61,7 +61,7 @@ func EncodeRole_RolePrivileges(p RoleParameters, vals map[string]cty.Value) {
 		vals["role_privileges"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["role_privileges"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeRole_Label(p RoleObservation, vals map[string]cty.Value) {

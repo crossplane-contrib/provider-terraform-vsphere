@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -79,7 +79,7 @@ func EncodeDatacenter_Tags(p DatacenterParameters, vals map[string]cty.Value) {
 		vals["tags"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["tags"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeDatacenter_Moid(p DatacenterObservation, vals map[string]cty.Value) {

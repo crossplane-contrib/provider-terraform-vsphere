@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -74,7 +74,7 @@ func EncodeHostPortGroup_ActiveNics(p HostPortGroupParameters, vals map[string]c
 		vals["active_nics"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["active_nics"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeHostPortGroup_AllowForgedTransmits(p HostPortGroupParameters, vals map[string]cty.Value) {
@@ -134,7 +134,7 @@ func EncodeHostPortGroup_StandbyNics(p HostPortGroupParameters, vals map[string]
 		vals["standby_nics"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["standby_nics"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeHostPortGroup_TeamingPolicy(p HostPortGroupParameters, vals map[string]cty.Value) {
@@ -174,8 +174,8 @@ func EncodeHostPortGroup_Ports(p []Ports, vals map[string]cty.Value) {
 		EncodeHostPortGroup_Ports_Type(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
-    if len(valsForCollection) == 0 {
-		vals["ports"] = cty.ListValEmpty(cty.Object(map[string]cty.Type{"key":cty.String, "mac_addresses":cty.List(cty.String), "type":cty.String}))
+	if len(valsForCollection) == 0 {
+		vals["ports"] = cty.ListValEmpty(cty.Object(map[string]cty.Type{"key": cty.String, "mac_addresses": cty.List(cty.String), "type": cty.String}))
 	} else {
 		vals["ports"] = cty.ListVal(valsForCollection)
 	}
@@ -194,7 +194,7 @@ func EncodeHostPortGroup_Ports_MacAddresses(p Ports, vals map[string]cty.Value) 
 		vals["mac_addresses"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["mac_addresses"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeHostPortGroup_Ports_Type(p Ports, vals map[string]cty.Value) {

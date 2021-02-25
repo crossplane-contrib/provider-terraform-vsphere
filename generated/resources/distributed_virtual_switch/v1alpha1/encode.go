@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -145,7 +145,7 @@ func EncodeDistributedVirtualSwitch_ActiveUplinks(p DistributedVirtualSwitchPara
 		vals["active_uplinks"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["active_uplinks"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeDistributedVirtualSwitch_AllowForgedTransmits(p DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
@@ -417,7 +417,7 @@ func EncodeDistributedVirtualSwitch_StandbyUplinks(p DistributedVirtualSwitchPar
 		vals["standby_uplinks"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["standby_uplinks"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeDistributedVirtualSwitch_Tags(p DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
@@ -429,7 +429,7 @@ func EncodeDistributedVirtualSwitch_Tags(p DistributedVirtualSwitchParameters, v
 		vals["tags"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["tags"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeDistributedVirtualSwitch_TeamingPolicy(p DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
@@ -449,7 +449,7 @@ func EncodeDistributedVirtualSwitch_Uplinks(p DistributedVirtualSwitchParameters
 		vals["uplinks"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["uplinks"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeDistributedVirtualSwitch_VdpMaximumMbit(p DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
@@ -530,11 +530,11 @@ func EncodeDistributedVirtualSwitch_Host(p Host, vals map[string]cty.Value) {
 	EncodeDistributedVirtualSwitch_Host_Devices(p, ctyVal)
 	EncodeDistributedVirtualSwitch_Host_HostSystemId(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["host"] = cty.SetValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["host"] = cty.SetVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeDistributedVirtualSwitch_Host_Devices(p Host, vals map[string]cty.Value) {
@@ -546,7 +546,7 @@ func EncodeDistributedVirtualSwitch_Host_Devices(p Host, vals map[string]cty.Val
 		vals["devices"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["devices"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeDistributedVirtualSwitch_Host_HostSystemId(p Host, vals map[string]cty.Value) {
@@ -560,11 +560,11 @@ func EncodeDistributedVirtualSwitch_PvlanMapping(p PvlanMapping, vals map[string
 	EncodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p, ctyVal)
 	EncodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["pvlan_mapping"] = cty.SetValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["pvlan_mapping"] = cty.SetVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p PvlanMapping, vals map[string]cty.Value) {
@@ -585,11 +585,11 @@ func EncodeDistributedVirtualSwitch_VlanRange(p VlanRange, vals map[string]cty.V
 	EncodeDistributedVirtualSwitch_VlanRange_MaxVlan(p, ctyVal)
 	EncodeDistributedVirtualSwitch_VlanRange_MinVlan(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["vlan_range"] = cty.SetValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["vlan_range"] = cty.SetVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeDistributedVirtualSwitch_VlanRange_MaxVlan(p VlanRange, vals map[string]cty.Value) {

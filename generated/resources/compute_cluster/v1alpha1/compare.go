@@ -17,8 +17,8 @@
 package v1alpha1
 
 import (
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
+	"github.com/crossplane/crossplane-runtime/pkg/resource"
 )
 
 //mergeManagedResourceEntrypointTemplate

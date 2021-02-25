@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -129,5 +129,5 @@ func EncodeResourcePool_Tags(p ResourcePoolParameters, vals map[string]cty.Value
 		vals["tags"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["tags"] = cty.SetVal(colVals)
-    }
+	}
 }

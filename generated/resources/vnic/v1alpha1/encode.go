@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -91,11 +91,11 @@ func EncodeVnic_Ipv4(p Ipv4, vals map[string]cty.Value) {
 	EncodeVnic_Ipv4_Ip(p, ctyVal)
 	EncodeVnic_Ipv4_Netmask(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["ipv4"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["ipv4"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeVnic_Ipv4_Dhcp(p Ipv4, vals map[string]cty.Value) {
@@ -122,11 +122,11 @@ func EncodeVnic_Ipv6(p Ipv6, vals map[string]cty.Value) {
 	EncodeVnic_Ipv6_Gw(p, ctyVal)
 	EncodeVnic_Ipv6_Addresses(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["ipv6"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["ipv6"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeVnic_Ipv6_Autoconfig(p Ipv6, vals map[string]cty.Value) {
@@ -150,5 +150,5 @@ func EncodeVnic_Ipv6_Addresses(p Ipv6, vals map[string]cty.Value) {
 		vals["addresses"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["addresses"] = cty.ListVal(colVals)
-    }
+	}
 }

@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -178,7 +178,7 @@ func EncodeComputeCluster_HaAdmissionControlFailoverHostSystemIds(p ComputeClust
 		vals["ha_admission_control_failover_host_system_ids"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["ha_admission_control_failover_host_system_ids"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeComputeCluster_HaAdmissionControlHostFailureTolerance(p ComputeClusterParameters, vals map[string]cty.Value) {
@@ -258,7 +258,7 @@ func EncodeComputeCluster_HaHeartbeatDatastoreIds(p ComputeClusterParameters, va
 		vals["ha_heartbeat_datastore_ids"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["ha_heartbeat_datastore_ids"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeComputeCluster_HaHeartbeatDatastorePolicy(p ComputeClusterParameters, vals map[string]cty.Value) {
@@ -330,7 +330,7 @@ func EncodeComputeCluster_HostSystemIds(p ComputeClusterParameters, vals map[str
 		vals["host_system_ids"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["host_system_ids"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeComputeCluster_Name(p ComputeClusterParameters, vals map[string]cty.Value) {
@@ -358,7 +358,7 @@ func EncodeComputeCluster_ProactiveHaProviderIds(p ComputeClusterParameters, val
 		vals["proactive_ha_provider_ids"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["proactive_ha_provider_ids"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeComputeCluster_ProactiveHaSevereRemediation(p ComputeClusterParameters, vals map[string]cty.Value) {
@@ -374,7 +374,7 @@ func EncodeComputeCluster_Tags(p ComputeClusterParameters, vals map[string]cty.V
 		vals["tags"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["tags"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeComputeCluster_VsanEnabled(p ComputeClusterParameters, vals map[string]cty.Value) {
@@ -387,11 +387,11 @@ func EncodeComputeCluster_VsanDiskGroup(p VsanDiskGroup, vals map[string]cty.Val
 	EncodeComputeCluster_VsanDiskGroup_Cache(p, ctyVal)
 	EncodeComputeCluster_VsanDiskGroup_Storage(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["vsan_disk_group"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["vsan_disk_group"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeComputeCluster_VsanDiskGroup_Cache(p VsanDiskGroup, vals map[string]cty.Value) {
@@ -407,7 +407,7 @@ func EncodeComputeCluster_VsanDiskGroup_Storage(p VsanDiskGroup, vals map[string
 		vals["storage"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["storage"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeComputeCluster_ResourcePoolId(p ComputeClusterObservation, vals map[string]cty.Value) {

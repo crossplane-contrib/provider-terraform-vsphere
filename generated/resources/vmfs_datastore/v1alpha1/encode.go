@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -84,7 +84,7 @@ func EncodeVmfsDatastore_Disks(p VmfsDatastoreParameters, vals map[string]cty.Va
 		vals["disks"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["disks"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeVmfsDatastore_Folder(p VmfsDatastoreParameters, vals map[string]cty.Value) {
@@ -108,7 +108,7 @@ func EncodeVmfsDatastore_Tags(p VmfsDatastoreParameters, vals map[string]cty.Val
 		vals["tags"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["tags"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeVmfsDatastore_Accessible(p VmfsDatastoreObservation, vals map[string]cty.Value) {

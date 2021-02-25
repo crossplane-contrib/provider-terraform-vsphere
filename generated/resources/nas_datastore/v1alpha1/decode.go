@@ -19,11 +19,11 @@ package v1alpha1
 import (
 	"fmt"
 
+	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
 	"github.com/zclconf/go-cty/cty"
-	ctwhy "github.com/crossplane-contrib/terraform-runtime/pkg/plugin/cty"
 )
 
 type ctyDecoder struct{}
@@ -75,8 +75,8 @@ func DecodeNasDatastore_CustomAttributes(p *NasDatastoreParameters, vals map[str
 	// TODO: generalize generation of the element type, string elements are hard-coded atm
 	if vals["custom_attributes"].IsNull() {
 		p.CustomAttributes = nil
-        return
-    }
+		return
+	}
 	vMap := make(map[string]string)
 	v := vals["custom_attributes"].AsValueMap()
 	for key, value := range v {

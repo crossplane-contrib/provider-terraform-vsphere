@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -97,7 +97,7 @@ func EncodeNasDatastore_HostSystemIds(p NasDatastoreParameters, vals map[string]
 		vals["host_system_ids"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["host_system_ids"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeNasDatastore_Name(p NasDatastoreParameters, vals map[string]cty.Value) {
@@ -113,7 +113,7 @@ func EncodeNasDatastore_RemoteHosts(p NasDatastoreParameters, vals map[string]ct
 		vals["remote_hosts"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["remote_hosts"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeNasDatastore_RemotePath(p NasDatastoreParameters, vals map[string]cty.Value) {
@@ -133,7 +133,7 @@ func EncodeNasDatastore_Tags(p NasDatastoreParameters, vals map[string]cty.Value
 		vals["tags"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["tags"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeNasDatastore_Type(p NasDatastoreParameters, vals map[string]cty.Value) {

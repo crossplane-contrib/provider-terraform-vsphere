@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -76,7 +76,7 @@ func EncodeHostVirtualSwitch_ActiveNics(p HostVirtualSwitchParameters, vals map[
 		vals["active_nics"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["active_nics"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeHostVirtualSwitch_AllowForgedTransmits(p HostVirtualSwitchParameters, vals map[string]cty.Value) {
@@ -132,7 +132,7 @@ func EncodeHostVirtualSwitch_NetworkAdapters(p HostVirtualSwitchParameters, vals
 		vals["network_adapters"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["network_adapters"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeHostVirtualSwitch_NotifySwitches(p HostVirtualSwitchParameters, vals map[string]cty.Value) {
@@ -168,7 +168,7 @@ func EncodeHostVirtualSwitch_StandbyNics(p HostVirtualSwitchParameters, vals map
 		vals["standby_nics"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["standby_nics"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeHostVirtualSwitch_TeamingPolicy(p HostVirtualSwitchParameters, vals map[string]cty.Value) {

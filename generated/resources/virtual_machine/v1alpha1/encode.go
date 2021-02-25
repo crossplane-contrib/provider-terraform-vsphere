@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -264,7 +264,7 @@ func EncodeVirtualMachine_IgnoredGuestIps(p VirtualMachineParameters, vals map[s
 		vals["ignored_guest_ips"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["ignored_guest_ips"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeVirtualMachine_LatencySensitivity(p VirtualMachineParameters, vals map[string]cty.Value) {
@@ -324,7 +324,7 @@ func EncodeVirtualMachine_PciDeviceId(p VirtualMachineParameters, vals map[strin
 		vals["pci_device_id"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["pci_device_id"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeVirtualMachine_PoweronTimeout(p VirtualMachineParameters, vals map[string]cty.Value) {
@@ -396,7 +396,7 @@ func EncodeVirtualMachine_Tags(p VirtualMachineParameters, vals map[string]cty.V
 		vals["tags"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["tags"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeVirtualMachine_WaitForGuestIpTimeout(p VirtualMachineParameters, vals map[string]cty.Value) {
@@ -420,11 +420,11 @@ func EncodeVirtualMachine_Cdrom(p Cdrom, vals map[string]cty.Value) {
 	EncodeVirtualMachine_Cdrom_Key(p, ctyVal)
 	EncodeVirtualMachine_Cdrom_Path(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["cdrom"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["cdrom"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Cdrom_ClientDevice(p Cdrom, vals map[string]cty.Value) {
@@ -457,11 +457,11 @@ func EncodeVirtualMachine_Clone(p Clone, vals map[string]cty.Value) {
 	EncodeVirtualMachine_Clone_Timeout(p, ctyVal)
 	EncodeVirtualMachine_Clone_Customize(p.Customize, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["clone"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["clone"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Clone_LinkedClone(p Clone, vals map[string]cty.Value) {
@@ -513,11 +513,11 @@ func EncodeVirtualMachine_Clone_Customize(p Customize, vals map[string]cty.Value
 	EncodeVirtualMachine_Clone_Customize_NetworkInterface(p.NetworkInterface, ctyVal)
 	EncodeVirtualMachine_Clone_Customize_WindowsOptions(p.WindowsOptions, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["customize"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["customize"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Clone_Customize_DnsServerList(p Customize, vals map[string]cty.Value) {
@@ -529,7 +529,7 @@ func EncodeVirtualMachine_Clone_Customize_DnsServerList(p Customize, vals map[st
 		vals["dns_server_list"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["dns_server_list"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Clone_Customize_DnsSuffixList(p Customize, vals map[string]cty.Value) {
@@ -541,7 +541,7 @@ func EncodeVirtualMachine_Clone_Customize_DnsSuffixList(p Customize, vals map[st
 		vals["dns_suffix_list"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["dns_suffix_list"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Clone_Customize_Ipv4Gateway(p Customize, vals map[string]cty.Value) {
@@ -568,11 +568,11 @@ func EncodeVirtualMachine_Clone_Customize_LinuxOptions(p LinuxOptions, vals map[
 	EncodeVirtualMachine_Clone_Customize_LinuxOptions_HwClockUtc(p, ctyVal)
 	EncodeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["linux_options"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["linux_options"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Clone_Customize_LinuxOptions_Domain(p LinuxOptions, vals map[string]cty.Value) {
@@ -601,11 +601,11 @@ func EncodeVirtualMachine_Clone_Customize_NetworkInterface(p NetworkInterface, v
 	EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv6Address(p, ctyVal)
 	EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv6Netmask(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["network_interface"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["network_interface"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Clone_Customize_NetworkInterface_DnsDomain(p NetworkInterface, vals map[string]cty.Value) {
@@ -621,7 +621,7 @@ func EncodeVirtualMachine_Clone_Customize_NetworkInterface_DnsServerList(p Netwo
 		vals["dns_server_list"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["dns_server_list"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv4Address(p NetworkInterface, vals map[string]cty.Value) {
@@ -657,11 +657,11 @@ func EncodeVirtualMachine_Clone_Customize_WindowsOptions(p WindowsOptions, vals 
 	EncodeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(p, ctyVal)
 	EncodeVirtualMachine_Clone_Customize_WindowsOptions_TimeZone(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["windows_options"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["windows_options"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(p WindowsOptions, vals map[string]cty.Value) {
@@ -705,7 +705,7 @@ func EncodeVirtualMachine_Clone_Customize_WindowsOptions_RunOnceCommandList(p Wi
 		vals["run_once_command_list"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["run_once_command_list"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(p WindowsOptions, vals map[string]cty.Value) {
@@ -752,7 +752,7 @@ func EncodeVirtualMachine_Disk(p []Disk, vals map[string]cty.Value) {
 		EncodeVirtualMachine_Disk_IoLimit(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["disk"] = cty.ListValEmpty(cty.EmptyObject)
 	} else {
 		vals["disk"] = cty.ListVal(valsForCollection)
@@ -864,7 +864,7 @@ func EncodeVirtualMachine_NetworkInterface(p []NetworkInterface0, vals map[strin
 		EncodeVirtualMachine_NetworkInterface_BandwidthShareLevel(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["network_interface"] = cty.ListValEmpty(cty.EmptyObject)
 	} else {
 		vals["network_interface"] = cty.ListVal(valsForCollection)
@@ -926,11 +926,11 @@ func EncodeVirtualMachine_OvfDeploy(p OvfDeploy, vals map[string]cty.Value) {
 	EncodeVirtualMachine_OvfDeploy_LocalOvfPath(p, ctyVal)
 	EncodeVirtualMachine_OvfDeploy_OvfNetworkMap(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["ovf_deploy"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["ovf_deploy"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeVirtualMachine_OvfDeploy_RemoteOvfUrl(p OvfDeploy, vals map[string]cty.Value) {
@@ -974,11 +974,11 @@ func EncodeVirtualMachine_Vapp(p Vapp, vals map[string]cty.Value) {
 	ctyVal := make(map[string]cty.Value)
 	EncodeVirtualMachine_Vapp_Properties(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["vapp"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["vapp"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Vapp_Properties(p Vapp, vals map[string]cty.Value) {
@@ -1010,7 +1010,7 @@ func EncodeVirtualMachine_GuestIpAddresses(p VirtualMachineObservation, vals map
 		vals["guest_ip_addresses"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["guest_ip_addresses"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeVirtualMachine_Imported(p VirtualMachineObservation, vals map[string]cty.Value) {
@@ -1038,7 +1038,7 @@ func EncodeVirtualMachine_VappTransport(p VirtualMachineObservation, vals map[st
 		vals["vapp_transport"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["vapp_transport"] = cty.ListVal(colVals)
-    }
+	}
 }
 
 func EncodeVirtualMachine_VmwareToolsStatus(p VirtualMachineObservation, vals map[string]cty.Value) {

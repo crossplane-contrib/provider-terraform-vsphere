@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -68,7 +68,7 @@ func EncodeContentLibrary_StorageBacking(p ContentLibraryParameters, vals map[st
 		vals["storage_backing"] = cty.SetValEmpty(cty.String)
 	} else {
 		vals["storage_backing"] = cty.SetVal(colVals)
-    }
+	}
 }
 
 func EncodeContentLibrary_Publication(p Publication, vals map[string]cty.Value) {
@@ -80,11 +80,11 @@ func EncodeContentLibrary_Publication(p Publication, vals map[string]cty.Value) 
 	EncodeContentLibrary_Publication_PublishUrl(p, ctyVal)
 	EncodeContentLibrary_Publication_Published(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["publication"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["publication"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeContentLibrary_Publication_Username(p Publication, vals map[string]cty.Value) {
@@ -117,11 +117,11 @@ func EncodeContentLibrary_Subscription(p Subscription, vals map[string]cty.Value
 	EncodeContentLibrary_Subscription_Password(p, ctyVal)
 	EncodeContentLibrary_Subscription_SubscriptionUrl(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["subscription"] = cty.ListValEmpty(cty.EmptyObject)
-    } else {
+	} else {
 		vals["subscription"] = cty.ListVal(valsForCollection)
-    }
+	}
 }
 
 func EncodeContentLibrary_Subscription_Username(p Subscription, vals map[string]cty.Value) {

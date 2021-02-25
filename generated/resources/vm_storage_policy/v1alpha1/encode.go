@@ -19,10 +19,10 @@ package v1alpha1
 import (
 	"fmt"
 
-	"github.com/zclconf/go-cty/cty"
 	"github.com/crossplane/crossplane-runtime/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/hashicorp/terraform/providers"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type ctyEncoder struct{}
@@ -66,7 +66,7 @@ func EncodeVmStoragePolicy_TagRules(p []TagRules, vals map[string]cty.Value) {
 		EncodeVmStoragePolicy_TagRules_Tags(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
-    if len(valsForCollection) == 0 {
+	if len(valsForCollection) == 0 {
 		vals["tag_rules"] = cty.ListValEmpty(cty.EmptyObject)
 	} else {
 		vals["tag_rules"] = cty.ListVal(valsForCollection)
@@ -90,5 +90,5 @@ func EncodeVmStoragePolicy_TagRules_Tags(p TagRules, vals map[string]cty.Value) 
 		vals["tags"] = cty.ListValEmpty(cty.String)
 	} else {
 		vals["tags"] = cty.ListVal(colVals)
-    }
+	}
 }
