@@ -22,28 +22,27 @@ import (
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-
 // TODO: generate this -- currently hardcoded for vsphere, which should move to an overlay until we have generation
 // support for ProviderConfigs
 
 // A ProviderConfigSpec defines the desired state of a ProviderConfig.
 type ProviderConfigSpec struct {
 	xpv1.ProviderConfigSpec `json:",inline"`
-	ApiTimeout int64 `json:"api_timeout"`
-	RestSessionPath string `json:"rest_session_path"`
-	VcenterServer string `json:"vcenter_server"`
-	VimKeepAlive int64 `json:"vim_keep_alive"`
-	AllowUnverifiedSsl bool `json:"allow_unverified_ssl"`
-	ClientDebug bool `json:"client_debug"`
-	ClientDebugPath string `json:"client_debug_path"`
-	ClientDebugPathRun string `json:"client_debug_path_run"`
+	ApiTimeout              int64  `json:"api_timeout"`
+	RestSessionPath         string `json:"rest_session_path"`
+	VcenterServer           string `json:"vcenter_server"`
+	VimKeepAlive            int64  `json:"vim_keep_alive"`
+	AllowUnverifiedSsl      bool   `json:"allow_unverified_ssl"`
+	ClientDebug             bool   `json:"client_debug"`
+	ClientDebugPath         string `json:"client_debug_path"`
+	ClientDebugPathRun      string `json:"client_debug_path_run"`
 	// +kubebuilder:validation:Required
-	Password string `json:"password"`
-	PersistSession bool `json:"persist_session"`
+	Password       string `json:"password"`
+	PersistSession bool   `json:"persist_session"`
 	// +kubebuilder:validation:Required
-	User string `json:"user"`
+	User           string `json:"user"`
 	VimSessionPath string `json:"vim_session_path"`
-	VsphereServer string `json:"vsphere_server"`
+	VsphereServer  string `json:"vsphere_server"`
 }
 
 // A ProviderConfigStatus represents the status of a ProviderConfig.

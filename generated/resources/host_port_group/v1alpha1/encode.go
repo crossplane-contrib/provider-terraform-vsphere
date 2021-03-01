@@ -169,9 +169,9 @@ func EncodeHostPortGroup_Ports(p []Ports, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 0)
 	for _, v := range p {
 		ctyVal := make(map[string]cty.Value)
+		EncodeHostPortGroup_Ports_Type(v, ctyVal)
 		EncodeHostPortGroup_Ports_Key(v, ctyVal)
 		EncodeHostPortGroup_Ports_MacAddresses(v, ctyVal)
-		EncodeHostPortGroup_Ports_Type(v, ctyVal)
 		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
 	}
 	if len(valsForCollection) == 0 {
@@ -179,6 +179,10 @@ func EncodeHostPortGroup_Ports(p []Ports, vals map[string]cty.Value) {
 	} else {
 		vals["ports"] = cty.ListVal(valsForCollection)
 	}
+}
+
+func EncodeHostPortGroup_Ports_Type(p Ports, vals map[string]cty.Value) {
+	vals["type"] = cty.StringVal(p.Type)
 }
 
 func EncodeHostPortGroup_Ports_Key(p Ports, vals map[string]cty.Value) {
@@ -195,8 +199,4 @@ func EncodeHostPortGroup_Ports_MacAddresses(p Ports, vals map[string]cty.Value) 
 	} else {
 		vals["mac_addresses"] = cty.ListVal(colVals)
 	}
-}
-
-func EncodeHostPortGroup_Ports_Type(p Ports, vals map[string]cty.Value) {
-	vals["type"] = cty.StringVal(p.Type)
 }

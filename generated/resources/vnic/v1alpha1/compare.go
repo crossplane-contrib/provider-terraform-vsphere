@@ -160,6 +160,11 @@ func MergeVnic_Portgroup(k *VnicParameters, p *VnicParameters, md *plugin.MergeD
 func MergeVnic_Ipv4(k *Ipv4, p *Ipv4, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
+	updated = MergeVnic_Ipv4_Netmask(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeVnic_Ipv4_Dhcp(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -175,15 +180,20 @@ func MergeVnic_Ipv4(k *Ipv4, p *Ipv4, md *plugin.MergeDescription) bool {
 		anyChildUpdated = true
 	}
 
-	updated = MergeVnic_Ipv4_Netmask(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVnic_Ipv4_Netmask(k *Ipv4, p *Ipv4, md *plugin.MergeDescription) bool {
+	if k.Netmask != p.Netmask {
+		p.Netmask = k.Netmask
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -210,16 +220,6 @@ func MergeVnic_Ipv4_Gw(k *Ipv4, p *Ipv4, md *plugin.MergeDescription) bool {
 func MergeVnic_Ipv4_Ip(k *Ipv4, p *Ipv4, md *plugin.MergeDescription) bool {
 	if k.Ip != p.Ip {
 		p.Ip = k.Ip
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVnic_Ipv4_Netmask(k *Ipv4, p *Ipv4, md *plugin.MergeDescription) bool {
-	if k.Netmask != p.Netmask {
-		p.Netmask = k.Netmask
 		md.NeedsProviderUpdate = true
 		return true
 	}

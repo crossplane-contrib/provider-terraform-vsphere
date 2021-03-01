@@ -86,16 +86,20 @@ func EncodeVnic_Portgroup(p VnicParameters, vals map[string]cty.Value) {
 func EncodeVnic_Ipv4(p Ipv4, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeVnic_Ipv4_Netmask(p, ctyVal)
 	EncodeVnic_Ipv4_Dhcp(p, ctyVal)
 	EncodeVnic_Ipv4_Gw(p, ctyVal)
 	EncodeVnic_Ipv4_Ip(p, ctyVal)
-	EncodeVnic_Ipv4_Netmask(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	if len(valsForCollection) == 0 {
 		vals["ipv4"] = cty.ListValEmpty(cty.EmptyObject)
 	} else {
 		vals["ipv4"] = cty.ListVal(valsForCollection)
 	}
+}
+
+func EncodeVnic_Ipv4_Netmask(p Ipv4, vals map[string]cty.Value) {
+	vals["netmask"] = cty.StringVal(p.Netmask)
 }
 
 func EncodeVnic_Ipv4_Dhcp(p Ipv4, vals map[string]cty.Value) {
@@ -108,10 +112,6 @@ func EncodeVnic_Ipv4_Gw(p Ipv4, vals map[string]cty.Value) {
 
 func EncodeVnic_Ipv4_Ip(p Ipv4, vals map[string]cty.Value) {
 	vals["ip"] = cty.StringVal(p.Ip)
-}
-
-func EncodeVnic_Ipv4_Netmask(p Ipv4, vals map[string]cty.Value) {
-	vals["netmask"] = cty.StringVal(p.Netmask)
 }
 
 func EncodeVnic_Ipv6(p Ipv6, vals map[string]cty.Value) {

@@ -1140,6 +1140,16 @@ func MergeVirtualMachine_Cdrom_Path(k *Cdrom, p *Cdrom, md *plugin.MergeDescript
 func MergeVirtualMachine_Clone(k *Clone, p *Clone, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
+	updated = MergeVirtualMachine_Clone_TemplateUuid(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVirtualMachine_Clone_Timeout(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeVirtualMachine_Clone_LinkedClone(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -1155,16 +1165,6 @@ func MergeVirtualMachine_Clone(k *Clone, p *Clone, md *plugin.MergeDescription) 
 		anyChildUpdated = true
 	}
 
-	updated = MergeVirtualMachine_Clone_TemplateUuid(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVirtualMachine_Clone_Timeout(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVirtualMachine_Clone_Customize(&k.Customize, &p.Customize, md)
 	if updated {
 		anyChildUpdated = true
@@ -1174,6 +1174,26 @@ func MergeVirtualMachine_Clone(k *Clone, p *Clone, md *plugin.MergeDescription) 
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Clone_TemplateUuid(k *Clone, p *Clone, md *plugin.MergeDescription) bool {
+	if k.TemplateUuid != p.TemplateUuid {
+		p.TemplateUuid = k.TemplateUuid
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Clone_Timeout(k *Clone, p *Clone, md *plugin.MergeDescription) bool {
+	if k.Timeout != p.Timeout {
+		p.Timeout = k.Timeout
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -1206,35 +1226,10 @@ func MergeVirtualMachine_Clone_OvfStorageMap(k *Clone, p *Clone, md *plugin.Merg
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Clone_TemplateUuid(k *Clone, p *Clone, md *plugin.MergeDescription) bool {
-	if k.TemplateUuid != p.TemplateUuid {
-		p.TemplateUuid = k.TemplateUuid
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Clone_Timeout(k *Clone, p *Clone, md *plugin.MergeDescription) bool {
-	if k.Timeout != p.Timeout {
-		p.Timeout = k.Timeout
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergeStructTemplateSpec
 func MergeVirtualMachine_Clone_Customize(k *Customize, p *Customize, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeVirtualMachine_Clone_Customize_DnsServerList(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVirtualMachine_Clone_Customize_DnsSuffixList(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -1260,6 +1255,11 @@ func MergeVirtualMachine_Clone_Customize(k *Customize, p *Customize, md *plugin.
 		anyChildUpdated = true
 	}
 
+	updated = MergeVirtualMachine_Clone_Customize_DnsServerList(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeVirtualMachine_Clone_Customize_LinuxOptions(&k.LinuxOptions, &p.LinuxOptions, md)
 	if updated {
 		anyChildUpdated = true
@@ -1279,16 +1279,6 @@ func MergeVirtualMachine_Clone_Customize(k *Customize, p *Customize, md *plugin.
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeVirtualMachine_Clone_Customize_DnsServerList(k *Customize, p *Customize, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.DnsServerList, p.DnsServerList) {
-		p.DnsServerList = k.DnsServerList
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -1341,10 +1331,25 @@ func MergeVirtualMachine_Clone_Customize_WindowsSysprepText(k *Customize, p *Cus
 	return false
 }
 
+//mergePrimitiveContainerTemplateSpec
+func MergeVirtualMachine_Clone_Customize_DnsServerList(k *Customize, p *Customize, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.DnsServerList, p.DnsServerList) {
+		p.DnsServerList = k.DnsServerList
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergeStructTemplateSpec
 func MergeVirtualMachine_Clone_Customize_LinuxOptions(k *LinuxOptions, p *LinuxOptions, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
+	updated = MergeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeVirtualMachine_Clone_Customize_LinuxOptions_Domain(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -1360,15 +1365,20 @@ func MergeVirtualMachine_Clone_Customize_LinuxOptions(k *LinuxOptions, p *LinuxO
 		anyChildUpdated = true
 	}
 
-	updated = MergeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(k *LinuxOptions, p *LinuxOptions, md *plugin.MergeDescription) bool {
+	if k.TimeZone != p.TimeZone {
+		p.TimeZone = k.TimeZone
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -1395,16 +1405,6 @@ func MergeVirtualMachine_Clone_Customize_LinuxOptions_HostName(k *LinuxOptions, 
 func MergeVirtualMachine_Clone_Customize_LinuxOptions_HwClockUtc(k *LinuxOptions, p *LinuxOptions, md *plugin.MergeDescription) bool {
 	if k.HwClockUtc != p.HwClockUtc {
 		p.HwClockUtc = k.HwClockUtc
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(k *LinuxOptions, p *LinuxOptions, md *plugin.MergeDescription) bool {
-	if k.TimeZone != p.TimeZone {
-		p.TimeZone = k.TimeZone
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -1515,7 +1515,12 @@ func MergeVirtualMachine_Clone_Customize_NetworkInterface_Ipv6Netmask(k *Network
 func MergeVirtualMachine_Clone_Customize_WindowsOptions(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(k, p, md)
+	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -1525,12 +1530,22 @@ func MergeVirtualMachine_Clone_Customize_WindowsOptions(k *WindowsOptions, p *Wi
 		anyChildUpdated = true
 	}
 
-	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(k, p, md)
+	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_FullName(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_ProductKey(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -1545,32 +1560,17 @@ func MergeVirtualMachine_Clone_Customize_WindowsOptions(k *WindowsOptions, p *Wi
 		anyChildUpdated = true
 	}
 
-	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(k, p, md)
+	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(k, p, md)
+	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
 	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_RunOnceCommandList(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_FullName(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -1587,9 +1587,19 @@ func MergeVirtualMachine_Clone_Customize_WindowsOptions(k *WindowsOptions, p *Wi
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
-	if k.DomainAdminPassword != p.DomainAdminPassword {
-		p.DomainAdminPassword = k.DomainAdminPassword
+func MergeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
+	if k.AutoLogonCount != p.AutoLogonCount {
+		p.AutoLogonCount = k.AutoLogonCount
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
+	if k.ComputerName != p.ComputerName {
+		p.ComputerName = k.ComputerName
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -1607,9 +1617,19 @@ func MergeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminUser(k *Windo
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
-	if k.JoinDomain != p.JoinDomain {
-		p.JoinDomain = k.JoinDomain
+func MergeVirtualMachine_Clone_Customize_WindowsOptions_FullName(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
+	if k.FullName != p.FullName {
+		p.FullName = k.FullName
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
+	if k.OrganizationName != p.OrganizationName {
+		p.OrganizationName = k.OrganizationName
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -1620,6 +1640,16 @@ func MergeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(k *WindowsOpt
 func MergeVirtualMachine_Clone_Customize_WindowsOptions_ProductKey(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
 	if k.ProductKey != p.ProductKey {
 		p.ProductKey = k.ProductKey
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
+	if k.Workgroup != p.Workgroup {
+		p.Workgroup = k.Workgroup
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -1647,9 +1677,9 @@ func MergeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogon(k *WindowsOpti
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
-	if k.AutoLogonCount != p.AutoLogonCount {
-		p.AutoLogonCount = k.AutoLogonCount
+func MergeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
+	if k.DomainAdminPassword != p.DomainAdminPassword {
+		p.DomainAdminPassword = k.DomainAdminPassword
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -1657,9 +1687,9 @@ func MergeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(k *Window
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
-	if k.ComputerName != p.ComputerName {
-		p.ComputerName = k.ComputerName
+func MergeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
+	if k.JoinDomain != p.JoinDomain {
+		p.JoinDomain = k.JoinDomain
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -1670,36 +1700,6 @@ func MergeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(k *WindowsO
 func MergeVirtualMachine_Clone_Customize_WindowsOptions_RunOnceCommandList(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
 	if !plugin.CompareStringSlices(k.RunOnceCommandList, p.RunOnceCommandList) {
 		p.RunOnceCommandList = k.RunOnceCommandList
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
-	if k.Workgroup != p.Workgroup {
-		p.Workgroup = k.Workgroup
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Clone_Customize_WindowsOptions_FullName(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
-	if k.FullName != p.FullName {
-		p.FullName = k.FullName
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(k *WindowsOptions, p *WindowsOptions, md *plugin.MergeDescription) bool {
-	if k.OrganizationName != p.OrganizationName {
-		p.OrganizationName = k.OrganizationName
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -1730,57 +1730,7 @@ func MergeVirtualMachine_Disk(ksp *[]Disk, psp *[]Disk, md *plugin.MergeDescript
 		updated := false
 		k := &ks[i]
 		p := &ps[i]
-		updated = MergeVirtualMachine_Disk_WriteThrough(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_IoShareLevel(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_Label(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_Path(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_Key(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_Name(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_ThinProvisioned(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_Uuid(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_DatastoreId(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
 		updated = MergeVirtualMachine_Disk_DiskMode(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_EagerlyScrub(k, p, md)
 		if updated {
 			anyChildUpdated = true
 		}
@@ -1790,22 +1740,7 @@ func MergeVirtualMachine_Disk(ksp *[]Disk, psp *[]Disk, md *plugin.MergeDescript
 			anyChildUpdated = true
 		}
 
-		updated = MergeVirtualMachine_Disk_Attach(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_ControllerType(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_IoShareCount(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_Disk_IoReservation(k, p, md)
+		updated = MergeVirtualMachine_Disk_Path(k, p, md)
 		if updated {
 			anyChildUpdated = true
 		}
@@ -1825,7 +1760,72 @@ func MergeVirtualMachine_Disk(ksp *[]Disk, psp *[]Disk, md *plugin.MergeDescript
 			anyChildUpdated = true
 		}
 
+		updated = MergeVirtualMachine_Disk_ControllerType(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
 		updated = MergeVirtualMachine_Disk_DeviceAddress(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_Uuid(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_IoShareCount(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_Name(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_ThinProvisioned(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_Attach(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_IoLimit(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_Key(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_Label(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_WriteThrough(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_DatastoreId(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_EagerlyScrub(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_Disk_IoShareLevel(k, p, md)
 		if updated {
 			anyChildUpdated = true
 		}
@@ -1835,7 +1835,7 @@ func MergeVirtualMachine_Disk(ksp *[]Disk, psp *[]Disk, md *plugin.MergeDescript
 			anyChildUpdated = true
 		}
 
-		updated = MergeVirtualMachine_Disk_IoLimit(k, p, md)
+		updated = MergeVirtualMachine_Disk_IoReservation(k, p, md)
 		if updated {
 			anyChildUpdated = true
 		}
@@ -1848,109 +1848,9 @@ func MergeVirtualMachine_Disk(ksp *[]Disk, psp *[]Disk, md *plugin.MergeDescript
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_WriteThrough(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.WriteThrough != p.WriteThrough {
-		p.WriteThrough = k.WriteThrough
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_IoShareLevel(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.IoShareLevel != p.IoShareLevel {
-		p.IoShareLevel = k.IoShareLevel
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_Label(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.Label != p.Label {
-		p.Label = k.Label
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_Path(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.Path != p.Path {
-		p.Path = k.Path
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_Key(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.Key != p.Key {
-		p.Key = k.Key
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_Name(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.Name != p.Name {
-		p.Name = k.Name
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_ThinProvisioned(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.ThinProvisioned != p.ThinProvisioned {
-		p.ThinProvisioned = k.ThinProvisioned
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_Uuid(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.Uuid != p.Uuid {
-		p.Uuid = k.Uuid
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_DatastoreId(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.DatastoreId != p.DatastoreId {
-		p.DatastoreId = k.DatastoreId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeVirtualMachine_Disk_DiskMode(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
 	if k.DiskMode != p.DiskMode {
 		p.DiskMode = k.DiskMode
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_EagerlyScrub(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.EagerlyScrub != p.EagerlyScrub {
-		p.EagerlyScrub = k.EagerlyScrub
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -1968,39 +1868,9 @@ func MergeVirtualMachine_Disk_KeepOnRemove(k *Disk, p *Disk, md *plugin.MergeDes
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_Attach(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.Attach != p.Attach {
-		p.Attach = k.Attach
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_ControllerType(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.ControllerType != p.ControllerType {
-		p.ControllerType = k.ControllerType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_IoShareCount(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.IoShareCount != p.IoShareCount {
-		p.IoShareCount = k.IoShareCount
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_IoReservation(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.IoReservation != p.IoReservation {
-		p.IoReservation = k.IoReservation
+func MergeVirtualMachine_Disk_Path(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.Path != p.Path {
+		p.Path = k.Path
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -2038,9 +1908,139 @@ func MergeVirtualMachine_Disk_UnitNumber(k *Disk, p *Disk, md *plugin.MergeDescr
 }
 
 //mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_ControllerType(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.ControllerType != p.ControllerType {
+		p.ControllerType = k.ControllerType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
 func MergeVirtualMachine_Disk_DeviceAddress(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
 	if k.DeviceAddress != p.DeviceAddress {
 		p.DeviceAddress = k.DeviceAddress
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_Uuid(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.Uuid != p.Uuid {
+		p.Uuid = k.Uuid
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_IoShareCount(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.IoShareCount != p.IoShareCount {
+		p.IoShareCount = k.IoShareCount
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_Name(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.Name != p.Name {
+		p.Name = k.Name
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_ThinProvisioned(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.ThinProvisioned != p.ThinProvisioned {
+		p.ThinProvisioned = k.ThinProvisioned
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_Attach(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.Attach != p.Attach {
+		p.Attach = k.Attach
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_IoLimit(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.IoLimit != p.IoLimit {
+		p.IoLimit = k.IoLimit
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_Key(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.Key != p.Key {
+		p.Key = k.Key
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_Label(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.Label != p.Label {
+		p.Label = k.Label
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_WriteThrough(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.WriteThrough != p.WriteThrough {
+		p.WriteThrough = k.WriteThrough
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_DatastoreId(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.DatastoreId != p.DatastoreId {
+		p.DatastoreId = k.DatastoreId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_EagerlyScrub(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.EagerlyScrub != p.EagerlyScrub {
+		p.EagerlyScrub = k.EagerlyScrub
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_Disk_IoShareLevel(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.IoShareLevel != p.IoShareLevel {
+		p.IoShareLevel = k.IoShareLevel
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -2058,9 +2058,9 @@ func MergeVirtualMachine_Disk_DiskSharing(k *Disk, p *Disk, md *plugin.MergeDesc
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVirtualMachine_Disk_IoLimit(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
-	if k.IoLimit != p.IoLimit {
-		p.IoLimit = k.IoLimit
+func MergeVirtualMachine_Disk_IoReservation(k *Disk, p *Disk, md *plugin.MergeDescription) bool {
+	if k.IoReservation != p.IoReservation {
+		p.IoReservation = k.IoReservation
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -2081,22 +2081,12 @@ func MergeVirtualMachine_NetworkInterface(ksp *[]NetworkInterface0, psp *[]Netwo
 		updated := false
 		k := &ks[i]
 		p := &ps[i]
-		updated = MergeVirtualMachine_NetworkInterface_Key(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_NetworkInterface_AdapterType(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
-		updated = MergeVirtualMachine_NetworkInterface_BandwidthLimit(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
 		updated = MergeVirtualMachine_NetworkInterface_DeviceAddress(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_NetworkInterface_Key(k, p, md)
 		if updated {
 			anyChildUpdated = true
 		}
@@ -2116,7 +2106,7 @@ func MergeVirtualMachine_NetworkInterface(ksp *[]NetworkInterface0, psp *[]Netwo
 			anyChildUpdated = true
 		}
 
-		updated = MergeVirtualMachine_NetworkInterface_UseStaticMac(k, p, md)
+		updated = MergeVirtualMachine_NetworkInterface_BandwidthLimit(k, p, md)
 		if updated {
 			anyChildUpdated = true
 		}
@@ -2126,12 +2116,22 @@ func MergeVirtualMachine_NetworkInterface(ksp *[]NetworkInterface0, psp *[]Netwo
 			anyChildUpdated = true
 		}
 
-		updated = MergeVirtualMachine_NetworkInterface_BandwidthShareCount(k, p, md)
+		updated = MergeVirtualMachine_NetworkInterface_BandwidthShareLevel(k, p, md)
 		if updated {
 			anyChildUpdated = true
 		}
 
-		updated = MergeVirtualMachine_NetworkInterface_BandwidthShareLevel(k, p, md)
+		updated = MergeVirtualMachine_NetworkInterface_UseStaticMac(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_NetworkInterface_AdapterType(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
+		updated = MergeVirtualMachine_NetworkInterface_BandwidthShareCount(k, p, md)
 		if updated {
 			anyChildUpdated = true
 		}
@@ -2144,39 +2144,19 @@ func MergeVirtualMachine_NetworkInterface(ksp *[]NetworkInterface0, psp *[]Netwo
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVirtualMachine_NetworkInterface_Key(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
-	if k.Key != p.Key {
-		p.Key = k.Key
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_NetworkInterface_AdapterType(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
-	if k.AdapterType != p.AdapterType {
-		p.AdapterType = k.AdapterType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_NetworkInterface_BandwidthLimit(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
-	if k.BandwidthLimit != p.BandwidthLimit {
-		p.BandwidthLimit = k.BandwidthLimit
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
 func MergeVirtualMachine_NetworkInterface_DeviceAddress(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
 	if k.DeviceAddress != p.DeviceAddress {
 		p.DeviceAddress = k.DeviceAddress
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_NetworkInterface_Key(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
+	if k.Key != p.Key {
+		p.Key = k.Key
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -2214,9 +2194,9 @@ func MergeVirtualMachine_NetworkInterface_OvfMapping(k *NetworkInterface0, p *Ne
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVirtualMachine_NetworkInterface_UseStaticMac(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
-	if k.UseStaticMac != p.UseStaticMac {
-		p.UseStaticMac = k.UseStaticMac
+func MergeVirtualMachine_NetworkInterface_BandwidthLimit(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
+	if k.BandwidthLimit != p.BandwidthLimit {
+		p.BandwidthLimit = k.BandwidthLimit
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -2234,9 +2214,9 @@ func MergeVirtualMachine_NetworkInterface_BandwidthReservation(k *NetworkInterfa
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVirtualMachine_NetworkInterface_BandwidthShareCount(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
-	if k.BandwidthShareCount != p.BandwidthShareCount {
-		p.BandwidthShareCount = k.BandwidthShareCount
+func MergeVirtualMachine_NetworkInterface_BandwidthShareLevel(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
+	if k.BandwidthShareLevel != p.BandwidthShareLevel {
+		p.BandwidthShareLevel = k.BandwidthShareLevel
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -2244,9 +2224,29 @@ func MergeVirtualMachine_NetworkInterface_BandwidthShareCount(k *NetworkInterfac
 }
 
 //mergePrimitiveTemplateSpec
-func MergeVirtualMachine_NetworkInterface_BandwidthShareLevel(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
-	if k.BandwidthShareLevel != p.BandwidthShareLevel {
-		p.BandwidthShareLevel = k.BandwidthShareLevel
+func MergeVirtualMachine_NetworkInterface_UseStaticMac(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
+	if k.UseStaticMac != p.UseStaticMac {
+		p.UseStaticMac = k.UseStaticMac
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_NetworkInterface_AdapterType(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
+	if k.AdapterType != p.AdapterType {
+		p.AdapterType = k.AdapterType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_NetworkInterface_BandwidthShareCount(k *NetworkInterface0, p *NetworkInterface0, md *plugin.MergeDescription) bool {
+	if k.BandwidthShareCount != p.BandwidthShareCount {
+		p.BandwidthShareCount = k.BandwidthShareCount
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -2257,6 +2257,21 @@ func MergeVirtualMachine_NetworkInterface_BandwidthShareLevel(k *NetworkInterfac
 func MergeVirtualMachine_OvfDeploy(k *OvfDeploy, p *OvfDeploy, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
+	updated = MergeVirtualMachine_OvfDeploy_IpProtocol(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVirtualMachine_OvfDeploy_LocalOvfPath(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVirtualMachine_OvfDeploy_OvfNetworkMap(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeVirtualMachine_OvfDeploy_RemoteOvfUrl(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -2277,25 +2292,40 @@ func MergeVirtualMachine_OvfDeploy(k *OvfDeploy, p *OvfDeploy, md *plugin.MergeD
 		anyChildUpdated = true
 	}
 
-	updated = MergeVirtualMachine_OvfDeploy_IpProtocol(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVirtualMachine_OvfDeploy_LocalOvfPath(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVirtualMachine_OvfDeploy_OvfNetworkMap(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_OvfDeploy_IpProtocol(k *OvfDeploy, p *OvfDeploy, md *plugin.MergeDescription) bool {
+	if k.IpProtocol != p.IpProtocol {
+		p.IpProtocol = k.IpProtocol
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVirtualMachine_OvfDeploy_LocalOvfPath(k *OvfDeploy, p *OvfDeploy, md *plugin.MergeDescription) bool {
+	if k.LocalOvfPath != p.LocalOvfPath {
+		p.LocalOvfPath = k.LocalOvfPath
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeVirtualMachine_OvfDeploy_OvfNetworkMap(k *OvfDeploy, p *OvfDeploy, md *plugin.MergeDescription) bool {
+	if !plugin.CompareMapString(k.OvfNetworkMap, p.OvfNetworkMap) {
+		p.OvfNetworkMap = k.OvfNetworkMap
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -2332,36 +2362,6 @@ func MergeVirtualMachine_OvfDeploy_DiskProvisioning(k *OvfDeploy, p *OvfDeploy, 
 func MergeVirtualMachine_OvfDeploy_IpAllocationPolicy(k *OvfDeploy, p *OvfDeploy, md *plugin.MergeDescription) bool {
 	if k.IpAllocationPolicy != p.IpAllocationPolicy {
 		p.IpAllocationPolicy = k.IpAllocationPolicy
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_OvfDeploy_IpProtocol(k *OvfDeploy, p *OvfDeploy, md *plugin.MergeDescription) bool {
-	if k.IpProtocol != p.IpProtocol {
-		p.IpProtocol = k.IpProtocol
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVirtualMachine_OvfDeploy_LocalOvfPath(k *OvfDeploy, p *OvfDeploy, md *plugin.MergeDescription) bool {
-	if k.LocalOvfPath != p.LocalOvfPath {
-		p.LocalOvfPath = k.LocalOvfPath
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeVirtualMachine_OvfDeploy_OvfNetworkMap(k *OvfDeploy, p *OvfDeploy, md *plugin.MergeDescription) bool {
-	if !plugin.CompareMapString(k.OvfNetworkMap, p.OvfNetworkMap) {
-		p.OvfNetworkMap = k.OvfNetworkMap
 		md.NeedsProviderUpdate = true
 		return true
 	}

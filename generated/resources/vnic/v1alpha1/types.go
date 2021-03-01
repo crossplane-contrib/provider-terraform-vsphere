@@ -64,10 +64,10 @@ type VnicParameters struct {
 }
 
 type Ipv4 struct {
+	Netmask string `json:"netmask"`
 	Dhcp    bool   `json:"dhcp"`
 	Gw      string `json:"gw"`
 	Ip      string `json:"ip"`
-	Netmask string `json:"netmask"`
 }
 
 type Ipv6 struct {

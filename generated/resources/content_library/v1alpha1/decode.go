@@ -85,16 +85,11 @@ func DecodeContentLibrary_Publication(p *Publication, vals map[string]cty.Value)
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeContentLibrary_Publication_Username(p, valMap)
 	DecodeContentLibrary_Publication_AuthenticationMethod(p, valMap)
 	DecodeContentLibrary_Publication_Password(p, valMap)
 	DecodeContentLibrary_Publication_PublishUrl(p, valMap)
 	DecodeContentLibrary_Publication_Published(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeContentLibrary_Publication_Username(p *Publication, vals map[string]cty.Value) {
-	p.Username = ctwhy.ValueAsString(vals["username"])
+	DecodeContentLibrary_Publication_Username(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
@@ -117,6 +112,11 @@ func DecodeContentLibrary_Publication_Published(p *Publication, vals map[string]
 	p.Published = ctwhy.ValueAsBool(vals["published"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeContentLibrary_Publication_Username(p *Publication, vals map[string]cty.Value) {
+	p.Username = ctwhy.ValueAsString(vals["username"])
+}
+
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeContentLibrary_Subscription(p *Subscription, vals map[string]cty.Value) {
 	if vals["subscription"].IsNull() {
@@ -131,27 +131,12 @@ func DecodeContentLibrary_Subscription(p *Subscription, vals map[string]cty.Valu
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeContentLibrary_Subscription_Username(p, valMap)
-	DecodeContentLibrary_Subscription_AuthenticationMethod(p, valMap)
-	DecodeContentLibrary_Subscription_AutomaticSync(p, valMap)
 	DecodeContentLibrary_Subscription_OnDemand(p, valMap)
 	DecodeContentLibrary_Subscription_Password(p, valMap)
 	DecodeContentLibrary_Subscription_SubscriptionUrl(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeContentLibrary_Subscription_Username(p *Subscription, vals map[string]cty.Value) {
-	p.Username = ctwhy.ValueAsString(vals["username"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeContentLibrary_Subscription_AuthenticationMethod(p *Subscription, vals map[string]cty.Value) {
-	p.AuthenticationMethod = ctwhy.ValueAsString(vals["authentication_method"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeContentLibrary_Subscription_AutomaticSync(p *Subscription, vals map[string]cty.Value) {
-	p.AutomaticSync = ctwhy.ValueAsBool(vals["automatic_sync"])
+	DecodeContentLibrary_Subscription_Username(p, valMap)
+	DecodeContentLibrary_Subscription_AuthenticationMethod(p, valMap)
+	DecodeContentLibrary_Subscription_AutomaticSync(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
@@ -167,4 +152,19 @@ func DecodeContentLibrary_Subscription_Password(p *Subscription, vals map[string
 //primitiveTypeDecodeTemplate
 func DecodeContentLibrary_Subscription_SubscriptionUrl(p *Subscription, vals map[string]cty.Value) {
 	p.SubscriptionUrl = ctwhy.ValueAsString(vals["subscription_url"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeContentLibrary_Subscription_Username(p *Subscription, vals map[string]cty.Value) {
+	p.Username = ctwhy.ValueAsString(vals["username"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeContentLibrary_Subscription_AuthenticationMethod(p *Subscription, vals map[string]cty.Value) {
+	p.AuthenticationMethod = ctwhy.ValueAsString(vals["authentication_method"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeContentLibrary_Subscription_AutomaticSync(p *Subscription, vals map[string]cty.Value) {
+	p.AutomaticSync = ctwhy.ValueAsBool(vals["automatic_sync"])
 }

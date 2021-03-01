@@ -105,10 +105,15 @@ func DecodeVnic_Ipv4(p *Ipv4, vals map[string]cty.Value) {
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
+	DecodeVnic_Ipv4_Netmask(p, valMap)
 	DecodeVnic_Ipv4_Dhcp(p, valMap)
 	DecodeVnic_Ipv4_Gw(p, valMap)
 	DecodeVnic_Ipv4_Ip(p, valMap)
-	DecodeVnic_Ipv4_Netmask(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVnic_Ipv4_Netmask(p *Ipv4, vals map[string]cty.Value) {
+	p.Netmask = ctwhy.ValueAsString(vals["netmask"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -124,11 +129,6 @@ func DecodeVnic_Ipv4_Gw(p *Ipv4, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeVnic_Ipv4_Ip(p *Ipv4, vals map[string]cty.Value) {
 	p.Ip = ctwhy.ValueAsString(vals["ip"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVnic_Ipv4_Netmask(p *Ipv4, vals map[string]cty.Value) {
-	p.Netmask = ctwhy.ValueAsString(vals["netmask"])
 }
 
 //containerCollectionSingletonTypeDecodeTemplate

@@ -644,14 +644,9 @@ func DecodeDistributedVirtualSwitch_PvlanMapping(p *PvlanMapping, vals map[strin
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p, valMap)
 	DecodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p, valMap)
 	DecodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p *PvlanMapping, vals map[string]cty.Value) {
-	p.PrimaryVlanId = ctwhy.ValueAsInt64(vals["primary_vlan_id"])
+	DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
@@ -662,6 +657,11 @@ func DecodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p *PvlanMapping, vals
 //primitiveTypeDecodeTemplate
 func DecodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p *PvlanMapping, vals map[string]cty.Value) {
 	p.SecondaryVlanId = ctwhy.ValueAsInt64(vals["secondary_vlan_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p *PvlanMapping, vals map[string]cty.Value) {
+	p.PrimaryVlanId = ctwhy.ValueAsInt64(vals["primary_vlan_id"])
 }
 
 //containerCollectionSingletonTypeDecodeTemplate
@@ -678,18 +678,18 @@ func DecodeDistributedVirtualSwitch_VlanRange(p *VlanRange, vals map[string]cty.
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeDistributedVirtualSwitch_VlanRange_MaxVlan(p, valMap)
 	DecodeDistributedVirtualSwitch_VlanRange_MinVlan(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_VlanRange_MaxVlan(p *VlanRange, vals map[string]cty.Value) {
-	p.MaxVlan = ctwhy.ValueAsInt64(vals["max_vlan"])
+	DecodeDistributedVirtualSwitch_VlanRange_MaxVlan(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeDistributedVirtualSwitch_VlanRange_MinVlan(p *VlanRange, vals map[string]cty.Value) {
 	p.MinVlan = ctwhy.ValueAsInt64(vals["min_vlan"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_VlanRange_MaxVlan(p *VlanRange, vals map[string]cty.Value) {
+	p.MaxVlan = ctwhy.ValueAsInt64(vals["max_vlan"])
 }
 
 //primitiveTypeDecodeTemplate

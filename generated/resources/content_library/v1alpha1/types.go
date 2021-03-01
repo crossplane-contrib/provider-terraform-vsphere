@@ -60,20 +60,20 @@ type ContentLibraryParameters struct {
 }
 
 type Publication struct {
-	Username             string `json:"username"`
 	AuthenticationMethod string `json:"authentication_method"`
 	Password             string `json:"password"`
 	PublishUrl           string `json:"publish_url"`
 	Published            bool   `json:"published"`
+	Username             string `json:"username"`
 }
 
 type Subscription struct {
-	Username             string `json:"username"`
-	AuthenticationMethod string `json:"authentication_method"`
-	AutomaticSync        bool   `json:"automatic_sync"`
 	OnDemand             bool   `json:"on_demand"`
 	Password             string `json:"password"`
 	SubscriptionUrl      string `json:"subscription_url"`
+	Username             string `json:"username"`
+	AuthenticationMethod string `json:"authentication_method"`
+	AutomaticSync        bool   `json:"automatic_sync"`
 }
 
 // A ContentLibraryStatus defines the observed state of a ContentLibrary

@@ -526,12 +526,22 @@ func DecodeVirtualMachine_Clone(p *Clone, vals map[string]cty.Value) {
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
+	DecodeVirtualMachine_Clone_TemplateUuid(p, valMap)
+	DecodeVirtualMachine_Clone_Timeout(p, valMap)
 	DecodeVirtualMachine_Clone_LinkedClone(p, valMap)
 	DecodeVirtualMachine_Clone_OvfNetworkMap(p, valMap)
 	DecodeVirtualMachine_Clone_OvfStorageMap(p, valMap)
-	DecodeVirtualMachine_Clone_TemplateUuid(p, valMap)
-	DecodeVirtualMachine_Clone_Timeout(p, valMap)
 	DecodeVirtualMachine_Clone_Customize(&p.Customize, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Clone_TemplateUuid(p *Clone, vals map[string]cty.Value) {
+	p.TemplateUuid = ctwhy.ValueAsString(vals["template_uuid"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Clone_Timeout(p *Clone, vals map[string]cty.Value) {
+	p.Timeout = ctwhy.ValueAsInt64(vals["timeout"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -569,16 +579,6 @@ func DecodeVirtualMachine_Clone_OvfStorageMap(p *Clone, vals map[string]cty.Valu
 	p.OvfStorageMap = vMap
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Clone_TemplateUuid(p *Clone, vals map[string]cty.Value) {
-	p.TemplateUuid = ctwhy.ValueAsString(vals["template_uuid"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Clone_Timeout(p *Clone, vals map[string]cty.Value) {
-	p.Timeout = ctwhy.ValueAsInt64(vals["timeout"])
-}
-
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeVirtualMachine_Clone_Customize(p *Customize, vals map[string]cty.Value) {
 	if vals["customize"].IsNull() {
@@ -593,24 +593,15 @@ func DecodeVirtualMachine_Clone_Customize(p *Customize, vals map[string]cty.Valu
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeVirtualMachine_Clone_Customize_DnsServerList(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_DnsSuffixList(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_Ipv4Gateway(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_Ipv6Gateway(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_Timeout(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_WindowsSysprepText(p, valMap)
+	DecodeVirtualMachine_Clone_Customize_DnsServerList(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_LinuxOptions(&p.LinuxOptions, valMap)
 	DecodeVirtualMachine_Clone_Customize_NetworkInterface(&p.NetworkInterface, valMap)
 	DecodeVirtualMachine_Clone_Customize_WindowsOptions(&p.WindowsOptions, valMap)
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeVirtualMachine_Clone_Customize_DnsServerList(p *Customize, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["dns_server_list"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.DnsServerList = goVals
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -642,6 +633,15 @@ func DecodeVirtualMachine_Clone_Customize_WindowsSysprepText(p *Customize, vals 
 	p.WindowsSysprepText = ctwhy.ValueAsString(vals["windows_sysprep_text"])
 }
 
+//primitiveCollectionTypeDecodeTemplate
+func DecodeVirtualMachine_Clone_Customize_DnsServerList(p *Customize, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["dns_server_list"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.DnsServerList = goVals
+}
+
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeVirtualMachine_Clone_Customize_LinuxOptions(p *LinuxOptions, vals map[string]cty.Value) {
 	if vals["linux_options"].IsNull() {
@@ -656,10 +656,15 @@ func DecodeVirtualMachine_Clone_Customize_LinuxOptions(p *LinuxOptions, vals map
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
+	DecodeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_LinuxOptions_Domain(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_LinuxOptions_HostName(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_LinuxOptions_HwClockUtc(p, valMap)
-	DecodeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(p *LinuxOptions, vals map[string]cty.Value) {
+	p.TimeZone = ctwhy.ValueAsString(vals["time_zone"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -675,11 +680,6 @@ func DecodeVirtualMachine_Clone_Customize_LinuxOptions_HostName(p *LinuxOptions,
 //primitiveTypeDecodeTemplate
 func DecodeVirtualMachine_Clone_Customize_LinuxOptions_HwClockUtc(p *LinuxOptions, vals map[string]cty.Value) {
 	p.HwClockUtc = ctwhy.ValueAsBool(vals["hw_clock_utc"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(p *LinuxOptions, vals map[string]cty.Value) {
-	p.TimeZone = ctwhy.ValueAsString(vals["time_zone"])
 }
 
 //containerCollectionSingletonTypeDecodeTemplate
@@ -752,24 +752,29 @@ func DecodeVirtualMachine_Clone_Customize_WindowsOptions(p *WindowsOptions, vals
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(p, valMap)
-	DecodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminUser(p, valMap)
-	DecodeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(p, valMap)
-	DecodeVirtualMachine_Clone_Customize_WindowsOptions_ProductKey(p, valMap)
-	DecodeVirtualMachine_Clone_Customize_WindowsOptions_AdminPassword(p, valMap)
-	DecodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogon(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(p, valMap)
-	DecodeVirtualMachine_Clone_Customize_WindowsOptions_RunOnceCommandList(p, valMap)
-	DecodeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(p, valMap)
+	DecodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminUser(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_WindowsOptions_FullName(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(p, valMap)
+	DecodeVirtualMachine_Clone_Customize_WindowsOptions_ProductKey(p, valMap)
+	DecodeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(p, valMap)
+	DecodeVirtualMachine_Clone_Customize_WindowsOptions_AdminPassword(p, valMap)
+	DecodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogon(p, valMap)
+	DecodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(p, valMap)
+	DecodeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(p, valMap)
+	DecodeVirtualMachine_Clone_Customize_WindowsOptions_RunOnceCommandList(p, valMap)
 	DecodeVirtualMachine_Clone_Customize_WindowsOptions_TimeZone(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(p *WindowsOptions, vals map[string]cty.Value) {
-	p.DomainAdminPassword = ctwhy.ValueAsString(vals["domain_admin_password"])
+func DecodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(p *WindowsOptions, vals map[string]cty.Value) {
+	p.AutoLogonCount = ctwhy.ValueAsInt64(vals["auto_logon_count"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(p *WindowsOptions, vals map[string]cty.Value) {
+	p.ComputerName = ctwhy.ValueAsString(vals["computer_name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -778,13 +783,23 @@ func DecodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminUser(p *Wind
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(p *WindowsOptions, vals map[string]cty.Value) {
-	p.JoinDomain = ctwhy.ValueAsString(vals["join_domain"])
+func DecodeVirtualMachine_Clone_Customize_WindowsOptions_FullName(p *WindowsOptions, vals map[string]cty.Value) {
+	p.FullName = ctwhy.ValueAsString(vals["full_name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(p *WindowsOptions, vals map[string]cty.Value) {
+	p.OrganizationName = ctwhy.ValueAsString(vals["organization_name"])
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeVirtualMachine_Clone_Customize_WindowsOptions_ProductKey(p *WindowsOptions, vals map[string]cty.Value) {
 	p.ProductKey = ctwhy.ValueAsString(vals["product_key"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(p *WindowsOptions, vals map[string]cty.Value) {
+	p.Workgroup = ctwhy.ValueAsString(vals["workgroup"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -798,13 +813,13 @@ func DecodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogon(p *WindowsOpt
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(p *WindowsOptions, vals map[string]cty.Value) {
-	p.AutoLogonCount = ctwhy.ValueAsInt64(vals["auto_logon_count"])
+func DecodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(p *WindowsOptions, vals map[string]cty.Value) {
+	p.DomainAdminPassword = ctwhy.ValueAsString(vals["domain_admin_password"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(p *WindowsOptions, vals map[string]cty.Value) {
-	p.ComputerName = ctwhy.ValueAsString(vals["computer_name"])
+func DecodeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(p *WindowsOptions, vals map[string]cty.Value) {
+	p.JoinDomain = ctwhy.ValueAsString(vals["join_domain"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -814,21 +829,6 @@ func DecodeVirtualMachine_Clone_Customize_WindowsOptions_RunOnceCommandList(p *W
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.RunOnceCommandList = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(p *WindowsOptions, vals map[string]cty.Value) {
-	p.Workgroup = ctwhy.ValueAsString(vals["workgroup"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Clone_Customize_WindowsOptions_FullName(p *WindowsOptions, vals map[string]cty.Value) {
-	p.FullName = ctwhy.ValueAsString(vals["full_name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(p *WindowsOptions, vals map[string]cty.Value) {
-	p.OrganizationName = ctwhy.ValueAsString(vals["organization_name"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -851,76 +851,31 @@ func DecodeVirtualMachine_Disk(pp *[]Disk, vals map[string]cty.Value) {
 	for _, value := range rvals {
 		valMap := value.AsValueMap()
 		vi := &Disk{}
-		DecodeVirtualMachine_Disk_WriteThrough(vi, valMap)
-		DecodeVirtualMachine_Disk_IoShareLevel(vi, valMap)
-		DecodeVirtualMachine_Disk_Label(vi, valMap)
-		DecodeVirtualMachine_Disk_Path(vi, valMap)
-		DecodeVirtualMachine_Disk_Key(vi, valMap)
-		DecodeVirtualMachine_Disk_Name(vi, valMap)
-		DecodeVirtualMachine_Disk_ThinProvisioned(vi, valMap)
-		DecodeVirtualMachine_Disk_Uuid(vi, valMap)
-		DecodeVirtualMachine_Disk_DatastoreId(vi, valMap)
 		DecodeVirtualMachine_Disk_DiskMode(vi, valMap)
-		DecodeVirtualMachine_Disk_EagerlyScrub(vi, valMap)
 		DecodeVirtualMachine_Disk_KeepOnRemove(vi, valMap)
-		DecodeVirtualMachine_Disk_Attach(vi, valMap)
-		DecodeVirtualMachine_Disk_ControllerType(vi, valMap)
-		DecodeVirtualMachine_Disk_IoShareCount(vi, valMap)
-		DecodeVirtualMachine_Disk_IoReservation(vi, valMap)
+		DecodeVirtualMachine_Disk_Path(vi, valMap)
 		DecodeVirtualMachine_Disk_Size(vi, valMap)
 		DecodeVirtualMachine_Disk_StoragePolicyId(vi, valMap)
 		DecodeVirtualMachine_Disk_UnitNumber(vi, valMap)
+		DecodeVirtualMachine_Disk_ControllerType(vi, valMap)
 		DecodeVirtualMachine_Disk_DeviceAddress(vi, valMap)
-		DecodeVirtualMachine_Disk_DiskSharing(vi, valMap)
+		DecodeVirtualMachine_Disk_Uuid(vi, valMap)
+		DecodeVirtualMachine_Disk_IoShareCount(vi, valMap)
+		DecodeVirtualMachine_Disk_Name(vi, valMap)
+		DecodeVirtualMachine_Disk_ThinProvisioned(vi, valMap)
+		DecodeVirtualMachine_Disk_Attach(vi, valMap)
 		DecodeVirtualMachine_Disk_IoLimit(vi, valMap)
+		DecodeVirtualMachine_Disk_Key(vi, valMap)
+		DecodeVirtualMachine_Disk_Label(vi, valMap)
+		DecodeVirtualMachine_Disk_WriteThrough(vi, valMap)
+		DecodeVirtualMachine_Disk_DatastoreId(vi, valMap)
+		DecodeVirtualMachine_Disk_EagerlyScrub(vi, valMap)
+		DecodeVirtualMachine_Disk_IoShareLevel(vi, valMap)
+		DecodeVirtualMachine_Disk_DiskSharing(vi, valMap)
+		DecodeVirtualMachine_Disk_IoReservation(vi, valMap)
 		lval = append(lval, *vi)
 	}
 	pp = &lval
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_WriteThrough(p *Disk, vals map[string]cty.Value) {
-	p.WriteThrough = ctwhy.ValueAsBool(vals["write_through"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_IoShareLevel(p *Disk, vals map[string]cty.Value) {
-	p.IoShareLevel = ctwhy.ValueAsString(vals["io_share_level"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_Label(p *Disk, vals map[string]cty.Value) {
-	p.Label = ctwhy.ValueAsString(vals["label"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_Path(p *Disk, vals map[string]cty.Value) {
-	p.Path = ctwhy.ValueAsString(vals["path"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_Key(p *Disk, vals map[string]cty.Value) {
-	p.Key = ctwhy.ValueAsInt64(vals["key"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_Name(p *Disk, vals map[string]cty.Value) {
-	p.Name = ctwhy.ValueAsString(vals["name"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_ThinProvisioned(p *Disk, vals map[string]cty.Value) {
-	p.ThinProvisioned = ctwhy.ValueAsBool(vals["thin_provisioned"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_Uuid(p *Disk, vals map[string]cty.Value) {
-	p.Uuid = ctwhy.ValueAsString(vals["uuid"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_DatastoreId(p *Disk, vals map[string]cty.Value) {
-	p.DatastoreId = ctwhy.ValueAsString(vals["datastore_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -929,33 +884,13 @@ func DecodeVirtualMachine_Disk_DiskMode(p *Disk, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_EagerlyScrub(p *Disk, vals map[string]cty.Value) {
-	p.EagerlyScrub = ctwhy.ValueAsBool(vals["eagerly_scrub"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeVirtualMachine_Disk_KeepOnRemove(p *Disk, vals map[string]cty.Value) {
 	p.KeepOnRemove = ctwhy.ValueAsBool(vals["keep_on_remove"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_Attach(p *Disk, vals map[string]cty.Value) {
-	p.Attach = ctwhy.ValueAsBool(vals["attach"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_ControllerType(p *Disk, vals map[string]cty.Value) {
-	p.ControllerType = ctwhy.ValueAsString(vals["controller_type"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_IoShareCount(p *Disk, vals map[string]cty.Value) {
-	p.IoShareCount = ctwhy.ValueAsInt64(vals["io_share_count"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_IoReservation(p *Disk, vals map[string]cty.Value) {
-	p.IoReservation = ctwhy.ValueAsInt64(vals["io_reservation"])
+func DecodeVirtualMachine_Disk_Path(p *Disk, vals map[string]cty.Value) {
+	p.Path = ctwhy.ValueAsString(vals["path"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -974,8 +909,73 @@ func DecodeVirtualMachine_Disk_UnitNumber(p *Disk, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_ControllerType(p *Disk, vals map[string]cty.Value) {
+	p.ControllerType = ctwhy.ValueAsString(vals["controller_type"])
+}
+
+//primitiveTypeDecodeTemplate
 func DecodeVirtualMachine_Disk_DeviceAddress(p *Disk, vals map[string]cty.Value) {
 	p.DeviceAddress = ctwhy.ValueAsString(vals["device_address"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_Uuid(p *Disk, vals map[string]cty.Value) {
+	p.Uuid = ctwhy.ValueAsString(vals["uuid"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_IoShareCount(p *Disk, vals map[string]cty.Value) {
+	p.IoShareCount = ctwhy.ValueAsInt64(vals["io_share_count"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_Name(p *Disk, vals map[string]cty.Value) {
+	p.Name = ctwhy.ValueAsString(vals["name"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_ThinProvisioned(p *Disk, vals map[string]cty.Value) {
+	p.ThinProvisioned = ctwhy.ValueAsBool(vals["thin_provisioned"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_Attach(p *Disk, vals map[string]cty.Value) {
+	p.Attach = ctwhy.ValueAsBool(vals["attach"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_IoLimit(p *Disk, vals map[string]cty.Value) {
+	p.IoLimit = ctwhy.ValueAsInt64(vals["io_limit"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_Key(p *Disk, vals map[string]cty.Value) {
+	p.Key = ctwhy.ValueAsInt64(vals["key"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_Label(p *Disk, vals map[string]cty.Value) {
+	p.Label = ctwhy.ValueAsString(vals["label"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_WriteThrough(p *Disk, vals map[string]cty.Value) {
+	p.WriteThrough = ctwhy.ValueAsBool(vals["write_through"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_DatastoreId(p *Disk, vals map[string]cty.Value) {
+	p.DatastoreId = ctwhy.ValueAsString(vals["datastore_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_EagerlyScrub(p *Disk, vals map[string]cty.Value) {
+	p.EagerlyScrub = ctwhy.ValueAsBool(vals["eagerly_scrub"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_Disk_IoShareLevel(p *Disk, vals map[string]cty.Value) {
+	p.IoShareLevel = ctwhy.ValueAsString(vals["io_share_level"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -984,8 +984,8 @@ func DecodeVirtualMachine_Disk_DiskSharing(p *Disk, vals map[string]cty.Value) {
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_Disk_IoLimit(p *Disk, vals map[string]cty.Value) {
-	p.IoLimit = ctwhy.ValueAsInt64(vals["io_limit"])
+func DecodeVirtualMachine_Disk_IoReservation(p *Disk, vals map[string]cty.Value) {
+	p.IoReservation = ctwhy.ValueAsInt64(vals["io_reservation"])
 }
 
 //containerCollectionTypeDecodeTemplate
@@ -1003,40 +1003,30 @@ func DecodeVirtualMachine_NetworkInterface(pp *[]NetworkInterface0, vals map[str
 	for _, value := range rvals {
 		valMap := value.AsValueMap()
 		vi := &NetworkInterface0{}
-		DecodeVirtualMachine_NetworkInterface_Key(vi, valMap)
-		DecodeVirtualMachine_NetworkInterface_AdapterType(vi, valMap)
-		DecodeVirtualMachine_NetworkInterface_BandwidthLimit(vi, valMap)
 		DecodeVirtualMachine_NetworkInterface_DeviceAddress(vi, valMap)
+		DecodeVirtualMachine_NetworkInterface_Key(vi, valMap)
 		DecodeVirtualMachine_NetworkInterface_MacAddress(vi, valMap)
 		DecodeVirtualMachine_NetworkInterface_NetworkId(vi, valMap)
 		DecodeVirtualMachine_NetworkInterface_OvfMapping(vi, valMap)
-		DecodeVirtualMachine_NetworkInterface_UseStaticMac(vi, valMap)
+		DecodeVirtualMachine_NetworkInterface_BandwidthLimit(vi, valMap)
 		DecodeVirtualMachine_NetworkInterface_BandwidthReservation(vi, valMap)
-		DecodeVirtualMachine_NetworkInterface_BandwidthShareCount(vi, valMap)
 		DecodeVirtualMachine_NetworkInterface_BandwidthShareLevel(vi, valMap)
+		DecodeVirtualMachine_NetworkInterface_UseStaticMac(vi, valMap)
+		DecodeVirtualMachine_NetworkInterface_AdapterType(vi, valMap)
+		DecodeVirtualMachine_NetworkInterface_BandwidthShareCount(vi, valMap)
 		lval = append(lval, *vi)
 	}
 	pp = &lval
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_NetworkInterface_Key(p *NetworkInterface0, vals map[string]cty.Value) {
-	p.Key = ctwhy.ValueAsInt64(vals["key"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_NetworkInterface_AdapterType(p *NetworkInterface0, vals map[string]cty.Value) {
-	p.AdapterType = ctwhy.ValueAsString(vals["adapter_type"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_NetworkInterface_BandwidthLimit(p *NetworkInterface0, vals map[string]cty.Value) {
-	p.BandwidthLimit = ctwhy.ValueAsInt64(vals["bandwidth_limit"])
-}
-
-//primitiveTypeDecodeTemplate
 func DecodeVirtualMachine_NetworkInterface_DeviceAddress(p *NetworkInterface0, vals map[string]cty.Value) {
 	p.DeviceAddress = ctwhy.ValueAsString(vals["device_address"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_NetworkInterface_Key(p *NetworkInterface0, vals map[string]cty.Value) {
+	p.Key = ctwhy.ValueAsInt64(vals["key"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -1055,8 +1045,8 @@ func DecodeVirtualMachine_NetworkInterface_OvfMapping(p *NetworkInterface0, vals
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_NetworkInterface_UseStaticMac(p *NetworkInterface0, vals map[string]cty.Value) {
-	p.UseStaticMac = ctwhy.ValueAsBool(vals["use_static_mac"])
+func DecodeVirtualMachine_NetworkInterface_BandwidthLimit(p *NetworkInterface0, vals map[string]cty.Value) {
+	p.BandwidthLimit = ctwhy.ValueAsInt64(vals["bandwidth_limit"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -1065,13 +1055,23 @@ func DecodeVirtualMachine_NetworkInterface_BandwidthReservation(p *NetworkInterf
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_NetworkInterface_BandwidthShareCount(p *NetworkInterface0, vals map[string]cty.Value) {
-	p.BandwidthShareCount = ctwhy.ValueAsInt64(vals["bandwidth_share_count"])
+func DecodeVirtualMachine_NetworkInterface_BandwidthShareLevel(p *NetworkInterface0, vals map[string]cty.Value) {
+	p.BandwidthShareLevel = ctwhy.ValueAsString(vals["bandwidth_share_level"])
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_NetworkInterface_BandwidthShareLevel(p *NetworkInterface0, vals map[string]cty.Value) {
-	p.BandwidthShareLevel = ctwhy.ValueAsString(vals["bandwidth_share_level"])
+func DecodeVirtualMachine_NetworkInterface_UseStaticMac(p *NetworkInterface0, vals map[string]cty.Value) {
+	p.UseStaticMac = ctwhy.ValueAsBool(vals["use_static_mac"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_NetworkInterface_AdapterType(p *NetworkInterface0, vals map[string]cty.Value) {
+	p.AdapterType = ctwhy.ValueAsString(vals["adapter_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_NetworkInterface_BandwidthShareCount(p *NetworkInterface0, vals map[string]cty.Value) {
+	p.BandwidthShareCount = ctwhy.ValueAsInt64(vals["bandwidth_share_count"])
 }
 
 //containerCollectionSingletonTypeDecodeTemplate
@@ -1088,33 +1088,13 @@ func DecodeVirtualMachine_OvfDeploy(p *OvfDeploy, vals map[string]cty.Value) {
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
+	DecodeVirtualMachine_OvfDeploy_IpProtocol(p, valMap)
+	DecodeVirtualMachine_OvfDeploy_LocalOvfPath(p, valMap)
+	DecodeVirtualMachine_OvfDeploy_OvfNetworkMap(p, valMap)
 	DecodeVirtualMachine_OvfDeploy_RemoteOvfUrl(p, valMap)
 	DecodeVirtualMachine_OvfDeploy_AllowUnverifiedSslCert(p, valMap)
 	DecodeVirtualMachine_OvfDeploy_DiskProvisioning(p, valMap)
 	DecodeVirtualMachine_OvfDeploy_IpAllocationPolicy(p, valMap)
-	DecodeVirtualMachine_OvfDeploy_IpProtocol(p, valMap)
-	DecodeVirtualMachine_OvfDeploy_LocalOvfPath(p, valMap)
-	DecodeVirtualMachine_OvfDeploy_OvfNetworkMap(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_OvfDeploy_RemoteOvfUrl(p *OvfDeploy, vals map[string]cty.Value) {
-	p.RemoteOvfUrl = ctwhy.ValueAsString(vals["remote_ovf_url"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_OvfDeploy_AllowUnverifiedSslCert(p *OvfDeploy, vals map[string]cty.Value) {
-	p.AllowUnverifiedSslCert = ctwhy.ValueAsBool(vals["allow_unverified_ssl_cert"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_OvfDeploy_DiskProvisioning(p *OvfDeploy, vals map[string]cty.Value) {
-	p.DiskProvisioning = ctwhy.ValueAsString(vals["disk_provisioning"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVirtualMachine_OvfDeploy_IpAllocationPolicy(p *OvfDeploy, vals map[string]cty.Value) {
-	p.IpAllocationPolicy = ctwhy.ValueAsString(vals["ip_allocation_policy"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -1140,6 +1120,26 @@ func DecodeVirtualMachine_OvfDeploy_OvfNetworkMap(p *OvfDeploy, vals map[string]
 		vMap[key] = ctwhy.ValueAsString(value)
 	}
 	p.OvfNetworkMap = vMap
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_OvfDeploy_RemoteOvfUrl(p *OvfDeploy, vals map[string]cty.Value) {
+	p.RemoteOvfUrl = ctwhy.ValueAsString(vals["remote_ovf_url"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_OvfDeploy_AllowUnverifiedSslCert(p *OvfDeploy, vals map[string]cty.Value) {
+	p.AllowUnverifiedSslCert = ctwhy.ValueAsBool(vals["allow_unverified_ssl_cert"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_OvfDeploy_DiskProvisioning(p *OvfDeploy, vals map[string]cty.Value) {
+	p.DiskProvisioning = ctwhy.ValueAsString(vals["disk_provisioning"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVirtualMachine_OvfDeploy_IpAllocationPolicy(p *OvfDeploy, vals map[string]cty.Value) {
+	p.IpAllocationPolicy = ctwhy.ValueAsString(vals["ip_allocation_policy"])
 }
 
 //containerCollectionSingletonTypeDecodeTemplate

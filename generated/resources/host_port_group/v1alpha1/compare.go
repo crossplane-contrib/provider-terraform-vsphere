@@ -345,6 +345,11 @@ func MergeHostPortGroup_Ports(ksp *[]Ports, psp *[]Ports, md *plugin.MergeDescri
 		updated := false
 		k := &ks[i]
 		p := &ps[i]
+		updated = MergeHostPortGroup_Ports_Type(k, p, md)
+		if updated {
+			anyChildUpdated = true
+		}
+
 		updated = MergeHostPortGroup_Ports_Key(k, p, md)
 		if updated {
 			anyChildUpdated = true
@@ -355,16 +360,21 @@ func MergeHostPortGroup_Ports(ksp *[]Ports, psp *[]Ports, md *plugin.MergeDescri
 			anyChildUpdated = true
 		}
 
-		updated = MergeHostPortGroup_Ports_Type(k, p, md)
-		if updated {
-			anyChildUpdated = true
-		}
-
 	}
 	if anyChildUpdated {
 		md.StatusUpdated = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateStatus
+func MergeHostPortGroup_Ports_Type(k *Ports, p *Ports, md *plugin.MergeDescription) bool {
+	if k.Type != p.Type {
+		k.Type = p.Type
+		md.StatusUpdated = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateStatus
@@ -381,16 +391,6 @@ func MergeHostPortGroup_Ports_Key(k *Ports, p *Ports, md *plugin.MergeDescriptio
 func MergeHostPortGroup_Ports_MacAddresses(k *Ports, p *Ports, md *plugin.MergeDescription) bool {
 	if !plugin.CompareStringSlices(k.MacAddresses, p.MacAddresses) {
 		k.MacAddresses = p.MacAddresses
-		md.StatusUpdated = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateStatus
-func MergeHostPortGroup_Ports_Type(k *Ports, p *Ports, md *plugin.MergeDescription) bool {
-	if k.Type != p.Type {
-		k.Type = p.Type
 		md.StatusUpdated = true
 		return true
 	}

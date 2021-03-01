@@ -194,12 +194,17 @@ func DecodeHostPortGroup_Ports(pp *[]Ports, vals map[string]cty.Value) {
 	for _, value := range rvals {
 		valMap := value.AsValueMap()
 		vi := &Ports{}
+		DecodeHostPortGroup_Ports_Type(vi, valMap)
 		DecodeHostPortGroup_Ports_Key(vi, valMap)
 		DecodeHostPortGroup_Ports_MacAddresses(vi, valMap)
-		DecodeHostPortGroup_Ports_Type(vi, valMap)
 		lval = append(lval, *vi)
 	}
 	pp = &lval
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeHostPortGroup_Ports_Type(p *Ports, vals map[string]cty.Value) {
+	p.Type = ctwhy.ValueAsString(vals["type"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -214,9 +219,4 @@ func DecodeHostPortGroup_Ports_MacAddresses(p *Ports, vals map[string]cty.Value)
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.MacAddresses = goVals
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeHostPortGroup_Ports_Type(p *Ports, vals map[string]cty.Value) {
-	p.Type = ctwhy.ValueAsString(vals["type"])
 }
