@@ -1,4 +1,6 @@
 # Binaries for programs and plugins
+.idea
+.terraform
 *.exe
 *.exe~
 *.dll
@@ -13,3 +15,5 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+provider-terraform-vsphere
