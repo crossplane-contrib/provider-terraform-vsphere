@@ -101,8 +101,8 @@ type DistributedPortGroupParameters struct {
 }
 
 type VlanRange struct {
-	MaxVlan int64 `json:"max_vlan"`
 	MinVlan int64 `json:"min_vlan"`
+	MaxVlan int64 `json:"max_vlan"`
 }
 
 // A DistributedPortGroupStatus defines the observed state of a DistributedPortGroup

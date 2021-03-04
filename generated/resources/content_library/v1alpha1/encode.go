@@ -74,17 +74,25 @@ func EncodeContentLibrary_StorageBacking(p ContentLibraryParameters, vals map[st
 func EncodeContentLibrary_Publication(p Publication, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeContentLibrary_Publication_Published(p, ctyVal)
+	EncodeContentLibrary_Publication_Username(p, ctyVal)
 	EncodeContentLibrary_Publication_AuthenticationMethod(p, ctyVal)
 	EncodeContentLibrary_Publication_Password(p, ctyVal)
 	EncodeContentLibrary_Publication_PublishUrl(p, ctyVal)
-	EncodeContentLibrary_Publication_Published(p, ctyVal)
-	EncodeContentLibrary_Publication_Username(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	if len(valsForCollection) == 0 {
 		vals["publication"] = cty.ListValEmpty(cty.EmptyObject)
 	} else {
 		vals["publication"] = cty.ListVal(valsForCollection)
 	}
+}
+
+func EncodeContentLibrary_Publication_Published(p Publication, vals map[string]cty.Value) {
+	vals["published"] = cty.BoolVal(p.Published)
+}
+
+func EncodeContentLibrary_Publication_Username(p Publication, vals map[string]cty.Value) {
+	vals["username"] = cty.StringVal(p.Username)
 }
 
 func EncodeContentLibrary_Publication_AuthenticationMethod(p Publication, vals map[string]cty.Value) {
@@ -97,14 +105,6 @@ func EncodeContentLibrary_Publication_Password(p Publication, vals map[string]ct
 
 func EncodeContentLibrary_Publication_PublishUrl(p Publication, vals map[string]cty.Value) {
 	vals["publish_url"] = cty.StringVal(p.PublishUrl)
-}
-
-func EncodeContentLibrary_Publication_Published(p Publication, vals map[string]cty.Value) {
-	vals["published"] = cty.BoolVal(p.Published)
-}
-
-func EncodeContentLibrary_Publication_Username(p Publication, vals map[string]cty.Value) {
-	vals["username"] = cty.StringVal(p.Username)
 }
 
 func EncodeContentLibrary_Subscription(p Subscription, vals map[string]cty.Value) {

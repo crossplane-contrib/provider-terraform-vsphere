@@ -182,12 +182,12 @@ func DecodeHostPortGroup_Key(p *HostPortGroupObservation, vals map[string]cty.Va
 //containerCollectionTypeDecodeTemplate
 func DecodeHostPortGroup_Ports(pp *[]Ports, vals map[string]cty.Value) {
 	if vals["ports"].IsNull() {
-		pp = nil
+		*pp = []Ports{}
 		return
 	}
 	rvals := ctwhy.ValueAsList(vals["ports"])
 	if len(rvals) == 0 {
-		pp = nil
+		*pp = []Ports{}
 		return
 	}
 	lval := make([]Ports, 0)
@@ -199,7 +199,7 @@ func DecodeHostPortGroup_Ports(pp *[]Ports, vals map[string]cty.Value) {
 		DecodeHostPortGroup_Ports_MacAddresses(vi, valMap)
 		lval = append(lval, *vi)
 	}
-	pp = &lval
+	*pp = lval
 }
 
 //primitiveTypeDecodeTemplate

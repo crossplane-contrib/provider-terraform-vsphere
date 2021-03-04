@@ -160,11 +160,6 @@ func MergeVnic_Portgroup(k *VnicParameters, p *VnicParameters, md *plugin.MergeD
 func MergeVnic_Ipv4(k *Ipv4, p *Ipv4, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeVnic_Ipv4_Netmask(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeVnic_Ipv4_Dhcp(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -180,20 +175,15 @@ func MergeVnic_Ipv4(k *Ipv4, p *Ipv4, md *plugin.MergeDescription) bool {
 		anyChildUpdated = true
 	}
 
+	updated = MergeVnic_Ipv4_Netmask(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVnic_Ipv4_Netmask(k *Ipv4, p *Ipv4, md *plugin.MergeDescription) bool {
-	if k.Netmask != p.Netmask {
-		p.Netmask = k.Netmask
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -226,10 +216,25 @@ func MergeVnic_Ipv4_Ip(k *Ipv4, p *Ipv4, md *plugin.MergeDescription) bool {
 	return false
 }
 
+//mergePrimitiveTemplateSpec
+func MergeVnic_Ipv4_Netmask(k *Ipv4, p *Ipv4, md *plugin.MergeDescription) bool {
+	if k.Netmask != p.Netmask {
+		p.Netmask = k.Netmask
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergeStructTemplateSpec
 func MergeVnic_Ipv6(k *Ipv6, p *Ipv6, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
+	updated = MergeVnic_Ipv6_Addresses(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeVnic_Ipv6_Autoconfig(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -245,15 +250,20 @@ func MergeVnic_Ipv6(k *Ipv6, p *Ipv6, md *plugin.MergeDescription) bool {
 		anyChildUpdated = true
 	}
 
-	updated = MergeVnic_Ipv6_Addresses(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeVnic_Ipv6_Addresses(k *Ipv6, p *Ipv6, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Addresses, p.Addresses) {
+		p.Addresses = k.Addresses
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -280,16 +290,6 @@ func MergeVnic_Ipv6_Dhcp(k *Ipv6, p *Ipv6, md *plugin.MergeDescription) bool {
 func MergeVnic_Ipv6_Gw(k *Ipv6, p *Ipv6, md *plugin.MergeDescription) bool {
 	if k.Gw != p.Gw {
 		p.Gw = k.Gw
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeVnic_Ipv6_Addresses(k *Ipv6, p *Ipv6, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Addresses, p.Addresses) {
-		p.Addresses = k.Addresses
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -601,19 +601,24 @@ func DecodeDistributedVirtualSwitch_VsanShareLevel(p *DistributedVirtualSwitchPa
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeDistributedVirtualSwitch_Host(p *Host, vals map[string]cty.Value) {
 	if vals["host"].IsNull() {
-		p = nil
+		*p = Host{}
 		return
 	}
 	rvals := ctwhy.ValueAsSet(vals["host"])
 	if len(rvals) == 0 {
-		p = nil
+		*p = Host{}
 		return
 	}
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeDistributedVirtualSwitch_Host_Devices(p, valMap)
 	DecodeDistributedVirtualSwitch_Host_HostSystemId(p, valMap)
+	DecodeDistributedVirtualSwitch_Host_Devices(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_Host_HostSystemId(p *Host, vals map[string]cty.Value) {
+	p.HostSystemId = ctwhy.ValueAsString(vals["host_system_id"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -625,28 +630,28 @@ func DecodeDistributedVirtualSwitch_Host_Devices(p *Host, vals map[string]cty.Va
 	p.Devices = goVals
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_Host_HostSystemId(p *Host, vals map[string]cty.Value) {
-	p.HostSystemId = ctwhy.ValueAsString(vals["host_system_id"])
-}
-
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeDistributedVirtualSwitch_PvlanMapping(p *PvlanMapping, vals map[string]cty.Value) {
 	if vals["pvlan_mapping"].IsNull() {
-		p = nil
+		*p = PvlanMapping{}
 		return
 	}
 	rvals := ctwhy.ValueAsSet(vals["pvlan_mapping"])
 	if len(rvals) == 0 {
-		p = nil
+		*p = PvlanMapping{}
 		return
 	}
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
+	DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p, valMap)
 	DecodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p, valMap)
 	DecodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p, valMap)
-	DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p *PvlanMapping, vals map[string]cty.Value) {
+	p.PrimaryVlanId = ctwhy.ValueAsInt64(vals["primary_vlan_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -659,37 +664,32 @@ func DecodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p *PvlanMapping
 	p.SecondaryVlanId = ctwhy.ValueAsInt64(vals["secondary_vlan_id"])
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p *PvlanMapping, vals map[string]cty.Value) {
-	p.PrimaryVlanId = ctwhy.ValueAsInt64(vals["primary_vlan_id"])
-}
-
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeDistributedVirtualSwitch_VlanRange(p *VlanRange, vals map[string]cty.Value) {
 	if vals["vlan_range"].IsNull() {
-		p = nil
+		*p = VlanRange{}
 		return
 	}
 	rvals := ctwhy.ValueAsSet(vals["vlan_range"])
 	if len(rvals) == 0 {
-		p = nil
+		*p = VlanRange{}
 		return
 	}
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeDistributedVirtualSwitch_VlanRange_MinVlan(p, valMap)
 	DecodeDistributedVirtualSwitch_VlanRange_MaxVlan(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_VlanRange_MinVlan(p *VlanRange, vals map[string]cty.Value) {
-	p.MinVlan = ctwhy.ValueAsInt64(vals["min_vlan"])
+	DecodeDistributedVirtualSwitch_VlanRange_MinVlan(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeDistributedVirtualSwitch_VlanRange_MaxVlan(p *VlanRange, vals map[string]cty.Value) {
 	p.MaxVlan = ctwhy.ValueAsInt64(vals["max_vlan"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_VlanRange_MinVlan(p *VlanRange, vals map[string]cty.Value) {
+	p.MinVlan = ctwhy.ValueAsInt64(vals["min_vlan"])
 }
 
 //primitiveTypeDecodeTemplate

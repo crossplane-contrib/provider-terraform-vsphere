@@ -63,12 +63,12 @@ func DecodeEntityPermissions_EntityType(p *EntityPermissionsParameters, vals map
 //containerCollectionTypeDecodeTemplate
 func DecodeEntityPermissions_Permissions(pp *[]Permissions, vals map[string]cty.Value) {
 	if vals["permissions"].IsNull() {
-		pp = nil
+		*pp = []Permissions{}
 		return
 	}
 	rvals := ctwhy.ValueAsList(vals["permissions"])
 	if len(rvals) == 0 {
-		pp = nil
+		*pp = []Permissions{}
 		return
 	}
 	lval := make([]Permissions, 0)
@@ -81,7 +81,7 @@ func DecodeEntityPermissions_Permissions(pp *[]Permissions, vals map[string]cty.
 		DecodeEntityPermissions_Permissions_UserOrGroup(vi, valMap)
 		lval = append(lval, *vi)
 	}
-	pp = &lval
+	*pp = lval
 }
 
 //primitiveTypeDecodeTemplate

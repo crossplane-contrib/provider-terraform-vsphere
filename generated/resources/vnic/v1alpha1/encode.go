@@ -86,20 +86,16 @@ func EncodeVnic_Portgroup(p VnicParameters, vals map[string]cty.Value) {
 func EncodeVnic_Ipv4(p Ipv4, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeVnic_Ipv4_Netmask(p, ctyVal)
 	EncodeVnic_Ipv4_Dhcp(p, ctyVal)
 	EncodeVnic_Ipv4_Gw(p, ctyVal)
 	EncodeVnic_Ipv4_Ip(p, ctyVal)
+	EncodeVnic_Ipv4_Netmask(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	if len(valsForCollection) == 0 {
 		vals["ipv4"] = cty.ListValEmpty(cty.EmptyObject)
 	} else {
 		vals["ipv4"] = cty.ListVal(valsForCollection)
 	}
-}
-
-func EncodeVnic_Ipv4_Netmask(p Ipv4, vals map[string]cty.Value) {
-	vals["netmask"] = cty.StringVal(p.Netmask)
 }
 
 func EncodeVnic_Ipv4_Dhcp(p Ipv4, vals map[string]cty.Value) {
@@ -114,18 +110,34 @@ func EncodeVnic_Ipv4_Ip(p Ipv4, vals map[string]cty.Value) {
 	vals["ip"] = cty.StringVal(p.Ip)
 }
 
+func EncodeVnic_Ipv4_Netmask(p Ipv4, vals map[string]cty.Value) {
+	vals["netmask"] = cty.StringVal(p.Netmask)
+}
+
 func EncodeVnic_Ipv6(p Ipv6, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeVnic_Ipv6_Addresses(p, ctyVal)
 	EncodeVnic_Ipv6_Autoconfig(p, ctyVal)
 	EncodeVnic_Ipv6_Dhcp(p, ctyVal)
 	EncodeVnic_Ipv6_Gw(p, ctyVal)
-	EncodeVnic_Ipv6_Addresses(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	if len(valsForCollection) == 0 {
 		vals["ipv6"] = cty.ListValEmpty(cty.EmptyObject)
 	} else {
 		vals["ipv6"] = cty.ListVal(valsForCollection)
+	}
+}
+
+func EncodeVnic_Ipv6_Addresses(p Ipv6, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Addresses {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["addresses"] = cty.ListValEmpty(cty.String)
+	} else {
+		vals["addresses"] = cty.ListVal(colVals)
 	}
 }
 
@@ -139,16 +151,4 @@ func EncodeVnic_Ipv6_Dhcp(p Ipv6, vals map[string]cty.Value) {
 
 func EncodeVnic_Ipv6_Gw(p Ipv6, vals map[string]cty.Value) {
 	vals["gw"] = cty.StringVal(p.Gw)
-}
-
-func EncodeVnic_Ipv6_Addresses(p Ipv6, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Addresses {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["addresses"] = cty.ListValEmpty(cty.String)
-	} else {
-		vals["addresses"] = cty.ListVal(colVals)
-	}
 }

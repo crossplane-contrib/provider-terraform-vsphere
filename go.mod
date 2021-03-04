@@ -16,6 +16,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/vmware/govmomi v0.24.0 // indirect
 	github.com/zclconf/go-cty v1.7.0
+	go.pedge.io/lion v0.0.0-20190619200210-304b2f426641 // indirect
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	k8s.io/api v0.18.8
 	k8s.io/apimachinery v0.18.8

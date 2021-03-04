@@ -74,22 +74,32 @@ func DecodeContentLibrary_StorageBacking(p *ContentLibraryParameters, vals map[s
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeContentLibrary_Publication(p *Publication, vals map[string]cty.Value) {
 	if vals["publication"].IsNull() {
-		p = nil
+		*p = Publication{}
 		return
 	}
 	rvals := ctwhy.ValueAsList(vals["publication"])
 	if len(rvals) == 0 {
-		p = nil
+		*p = Publication{}
 		return
 	}
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
+	DecodeContentLibrary_Publication_Published(p, valMap)
+	DecodeContentLibrary_Publication_Username(p, valMap)
 	DecodeContentLibrary_Publication_AuthenticationMethod(p, valMap)
 	DecodeContentLibrary_Publication_Password(p, valMap)
 	DecodeContentLibrary_Publication_PublishUrl(p, valMap)
-	DecodeContentLibrary_Publication_Published(p, valMap)
-	DecodeContentLibrary_Publication_Username(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeContentLibrary_Publication_Published(p *Publication, vals map[string]cty.Value) {
+	p.Published = ctwhy.ValueAsBool(vals["published"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeContentLibrary_Publication_Username(p *Publication, vals map[string]cty.Value) {
+	p.Username = ctwhy.ValueAsString(vals["username"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -107,25 +117,15 @@ func DecodeContentLibrary_Publication_PublishUrl(p *Publication, vals map[string
 	p.PublishUrl = ctwhy.ValueAsString(vals["publish_url"])
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeContentLibrary_Publication_Published(p *Publication, vals map[string]cty.Value) {
-	p.Published = ctwhy.ValueAsBool(vals["published"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeContentLibrary_Publication_Username(p *Publication, vals map[string]cty.Value) {
-	p.Username = ctwhy.ValueAsString(vals["username"])
-}
-
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeContentLibrary_Subscription(p *Subscription, vals map[string]cty.Value) {
 	if vals["subscription"].IsNull() {
-		p = nil
+		*p = Subscription{}
 		return
 	}
 	rvals := ctwhy.ValueAsList(vals["subscription"])
 	if len(rvals) == 0 {
-		p = nil
+		*p = Subscription{}
 		return
 	}
 	// this template should be used when single dictionary/object values are nested in sets/lists

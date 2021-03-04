@@ -63,12 +63,12 @@ func DecodeVmStoragePolicy_Name(p *VmStoragePolicyParameters, vals map[string]ct
 //containerCollectionTypeDecodeTemplate
 func DecodeVmStoragePolicy_TagRules(pp *[]TagRules, vals map[string]cty.Value) {
 	if vals["tag_rules"].IsNull() {
-		pp = nil
+		*pp = []TagRules{}
 		return
 	}
 	rvals := ctwhy.ValueAsList(vals["tag_rules"])
 	if len(rvals) == 0 {
-		pp = nil
+		*pp = []TagRules{}
 		return
 	}
 	lval := make([]TagRules, 0)
@@ -80,7 +80,7 @@ func DecodeVmStoragePolicy_TagRules(pp *[]TagRules, vals map[string]cty.Value) {
 		DecodeVmStoragePolicy_TagRules_Tags(vi, valMap)
 		lval = append(lval, *vi)
 	}
-	pp = &lval
+	*pp = lval
 }
 
 //primitiveTypeDecodeTemplate

@@ -60,11 +60,11 @@ type ContentLibraryParameters struct {
 }
 
 type Publication struct {
+	Published            bool   `json:"published"`
+	Username             string `json:"username"`
 	AuthenticationMethod string `json:"authentication_method"`
 	Password             string `json:"password"`
 	PublishUrl           string `json:"publish_url"`
-	Published            bool   `json:"published"`
-	Username             string `json:"username"`
 }
 
 type Subscription struct {

@@ -100,6 +100,16 @@ func MergeContentLibrary_StorageBacking(k *ContentLibraryParameters, p *ContentL
 func MergeContentLibrary_Publication(k *Publication, p *Publication, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
+	updated = MergeContentLibrary_Publication_Published(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeContentLibrary_Publication_Username(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeContentLibrary_Publication_AuthenticationMethod(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -115,20 +125,30 @@ func MergeContentLibrary_Publication(k *Publication, p *Publication, md *plugin.
 		anyChildUpdated = true
 	}
 
-	updated = MergeContentLibrary_Publication_Published(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeContentLibrary_Publication_Username(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeContentLibrary_Publication_Published(k *Publication, p *Publication, md *plugin.MergeDescription) bool {
+	if k.Published != p.Published {
+		p.Published = k.Published
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeContentLibrary_Publication_Username(k *Publication, p *Publication, md *plugin.MergeDescription) bool {
+	if k.Username != p.Username {
+		p.Username = k.Username
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -155,26 +175,6 @@ func MergeContentLibrary_Publication_Password(k *Publication, p *Publication, md
 func MergeContentLibrary_Publication_PublishUrl(k *Publication, p *Publication, md *plugin.MergeDescription) bool {
 	if k.PublishUrl != p.PublishUrl {
 		p.PublishUrl = k.PublishUrl
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeContentLibrary_Publication_Published(k *Publication, p *Publication, md *plugin.MergeDescription) bool {
-	if k.Published != p.Published {
-		p.Published = k.Published
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeContentLibrary_Publication_Username(k *Publication, p *Publication, md *plugin.MergeDescription) bool {
-	if k.Username != p.Username {
-		p.Username = k.Username
 		md.NeedsProviderUpdate = true
 		return true
 	}

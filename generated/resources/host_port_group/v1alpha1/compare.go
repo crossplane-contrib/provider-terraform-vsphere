@@ -333,15 +333,15 @@ func MergeHostPortGroup_Key(k *HostPortGroupObservation, p *HostPortGroupObserva
 
 //mergeStructSliceTemplateStatus
 func MergeHostPortGroup_Ports(ksp *[]Ports, psp *[]Ports, md *plugin.MergeDescription) bool {
-	ks := *ksp
-	ps := *psp
-	if len(ks) != len(ps) {
-		ks = ps
+	if len(*ksp) != len(*psp) {
+		*ksp = *psp
 		md.NeedsProviderUpdate = true
 		return true
 	}
+	ks := *ksp
+	ps := *psp
 	anyChildUpdated := false
-	for i, _ := range ps {
+	for i := range ps {
 		updated := false
 		k := &ks[i]
 		p := &ps[i]

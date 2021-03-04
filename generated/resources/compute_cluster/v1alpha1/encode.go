@@ -384,18 +384,14 @@ func EncodeComputeCluster_VsanEnabled(p ComputeClusterParameters, vals map[strin
 func EncodeComputeCluster_VsanDiskGroup(p VsanDiskGroup, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeComputeCluster_VsanDiskGroup_Cache(p, ctyVal)
 	EncodeComputeCluster_VsanDiskGroup_Storage(p, ctyVal)
+	EncodeComputeCluster_VsanDiskGroup_Cache(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	if len(valsForCollection) == 0 {
 		vals["vsan_disk_group"] = cty.ListValEmpty(cty.EmptyObject)
 	} else {
 		vals["vsan_disk_group"] = cty.ListVal(valsForCollection)
 	}
-}
-
-func EncodeComputeCluster_VsanDiskGroup_Cache(p VsanDiskGroup, vals map[string]cty.Value) {
-	vals["cache"] = cty.StringVal(p.Cache)
 }
 
 func EncodeComputeCluster_VsanDiskGroup_Storage(p VsanDiskGroup, vals map[string]cty.Value) {
@@ -408,6 +404,10 @@ func EncodeComputeCluster_VsanDiskGroup_Storage(p VsanDiskGroup, vals map[string
 	} else {
 		vals["storage"] = cty.SetVal(colVals)
 	}
+}
+
+func EncodeComputeCluster_VsanDiskGroup_Cache(p VsanDiskGroup, vals map[string]cty.Value) {
+	vals["cache"] = cty.StringVal(p.Cache)
 }
 
 func EncodeComputeCluster_ResourcePoolId(p ComputeClusterObservation, vals map[string]cty.Value) {

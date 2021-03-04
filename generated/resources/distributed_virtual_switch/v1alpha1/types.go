@@ -145,19 +145,19 @@ type DistributedVirtualSwitchParameters struct {
 }
 
 type Host struct {
-	Devices      []string `json:"devices,omitempty"`
 	HostSystemId string   `json:"host_system_id"`
+	Devices      []string `json:"devices,omitempty"`
 }
 
 type PvlanMapping struct {
+	PrimaryVlanId   int64  `json:"primary_vlan_id"`
 	PvlanType       string `json:"pvlan_type"`
 	SecondaryVlanId int64  `json:"secondary_vlan_id"`
-	PrimaryVlanId   int64  `json:"primary_vlan_id"`
 }
 
 type VlanRange struct {
-	MinVlan int64 `json:"min_vlan"`
 	MaxVlan int64 `json:"max_vlan"`
+	MinVlan int64 `json:"min_vlan"`
 }
 
 // A DistributedVirtualSwitchStatus defines the observed state of a DistributedVirtualSwitch

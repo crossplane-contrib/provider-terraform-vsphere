@@ -425,24 +425,19 @@ func DecodeComputeCluster_VsanEnabled(p *ComputeClusterParameters, vals map[stri
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeComputeCluster_VsanDiskGroup(p *VsanDiskGroup, vals map[string]cty.Value) {
 	if vals["vsan_disk_group"].IsNull() {
-		p = nil
+		*p = VsanDiskGroup{}
 		return
 	}
 	rvals := ctwhy.ValueAsList(vals["vsan_disk_group"])
 	if len(rvals) == 0 {
-		p = nil
+		*p = VsanDiskGroup{}
 		return
 	}
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeComputeCluster_VsanDiskGroup_Cache(p, valMap)
 	DecodeComputeCluster_VsanDiskGroup_Storage(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeComputeCluster_VsanDiskGroup_Cache(p *VsanDiskGroup, vals map[string]cty.Value) {
-	p.Cache = ctwhy.ValueAsString(vals["cache"])
+	DecodeComputeCluster_VsanDiskGroup_Cache(p, valMap)
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -452,6 +447,11 @@ func DecodeComputeCluster_VsanDiskGroup_Storage(p *VsanDiskGroup, vals map[strin
 		goVals = append(goVals, ctwhy.ValueAsString(value))
 	}
 	p.Storage = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeComputeCluster_VsanDiskGroup_Cache(p *VsanDiskGroup, vals map[string]cty.Value) {
+	p.Cache = ctwhy.ValueAsString(vals["cache"])
 }
 
 //primitiveTypeDecodeTemplate

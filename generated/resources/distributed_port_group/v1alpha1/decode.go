@@ -344,29 +344,29 @@ func DecodeDistributedPortGroup_VlanOverrideAllowed(p *DistributedPortGroupParam
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeDistributedPortGroup_VlanRange(p *VlanRange, vals map[string]cty.Value) {
 	if vals["vlan_range"].IsNull() {
-		p = nil
+		*p = VlanRange{}
 		return
 	}
 	rvals := ctwhy.ValueAsSet(vals["vlan_range"])
 	if len(rvals) == 0 {
-		p = nil
+		*p = VlanRange{}
 		return
 	}
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeDistributedPortGroup_VlanRange_MaxVlan(p, valMap)
 	DecodeDistributedPortGroup_VlanRange_MinVlan(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDistributedPortGroup_VlanRange_MaxVlan(p *VlanRange, vals map[string]cty.Value) {
-	p.MaxVlan = ctwhy.ValueAsInt64(vals["max_vlan"])
+	DecodeDistributedPortGroup_VlanRange_MaxVlan(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeDistributedPortGroup_VlanRange_MinVlan(p *VlanRange, vals map[string]cty.Value) {
 	p.MinVlan = ctwhy.ValueAsInt64(vals["min_vlan"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedPortGroup_VlanRange_MaxVlan(p *VlanRange, vals map[string]cty.Value) {
+	p.MaxVlan = ctwhy.ValueAsInt64(vals["max_vlan"])
 }
 
 //primitiveTypeDecodeTemplate

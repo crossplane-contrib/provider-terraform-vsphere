@@ -94,26 +94,21 @@ func DecodeVnic_Portgroup(p *VnicParameters, vals map[string]cty.Value) {
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeVnic_Ipv4(p *Ipv4, vals map[string]cty.Value) {
 	if vals["ipv4"].IsNull() {
-		p = nil
+		*p = Ipv4{}
 		return
 	}
 	rvals := ctwhy.ValueAsList(vals["ipv4"])
 	if len(rvals) == 0 {
-		p = nil
+		*p = Ipv4{}
 		return
 	}
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeVnic_Ipv4_Netmask(p, valMap)
 	DecodeVnic_Ipv4_Dhcp(p, valMap)
 	DecodeVnic_Ipv4_Gw(p, valMap)
 	DecodeVnic_Ipv4_Ip(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVnic_Ipv4_Netmask(p *Ipv4, vals map[string]cty.Value) {
-	p.Netmask = ctwhy.ValueAsString(vals["netmask"])
+	DecodeVnic_Ipv4_Netmask(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
@@ -131,24 +126,38 @@ func DecodeVnic_Ipv4_Ip(p *Ipv4, vals map[string]cty.Value) {
 	p.Ip = ctwhy.ValueAsString(vals["ip"])
 }
 
+//primitiveTypeDecodeTemplate
+func DecodeVnic_Ipv4_Netmask(p *Ipv4, vals map[string]cty.Value) {
+	p.Netmask = ctwhy.ValueAsString(vals["netmask"])
+}
+
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeVnic_Ipv6(p *Ipv6, vals map[string]cty.Value) {
 	if vals["ipv6"].IsNull() {
-		p = nil
+		*p = Ipv6{}
 		return
 	}
 	rvals := ctwhy.ValueAsList(vals["ipv6"])
 	if len(rvals) == 0 {
-		p = nil
+		*p = Ipv6{}
 		return
 	}
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
+	DecodeVnic_Ipv6_Addresses(p, valMap)
 	DecodeVnic_Ipv6_Autoconfig(p, valMap)
 	DecodeVnic_Ipv6_Dhcp(p, valMap)
 	DecodeVnic_Ipv6_Gw(p, valMap)
-	DecodeVnic_Ipv6_Addresses(p, valMap)
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeVnic_Ipv6_Addresses(p *Ipv6, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["addresses"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Addresses = goVals
 }
 
 //primitiveTypeDecodeTemplate
@@ -164,13 +173,4 @@ func DecodeVnic_Ipv6_Dhcp(p *Ipv6, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeVnic_Ipv6_Gw(p *Ipv6, vals map[string]cty.Value) {
 	p.Gw = ctwhy.ValueAsString(vals["gw"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeVnic_Ipv6_Addresses(p *Ipv6, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["addresses"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.Addresses = goVals
 }

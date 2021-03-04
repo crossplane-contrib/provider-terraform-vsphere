@@ -78,15 +78,15 @@ func MergeEntityPermissions_EntityType(k *EntityPermissionsParameters, p *Entity
 
 //mergeStructSliceTemplateSpec
 func MergeEntityPermissions_Permissions(ksp *[]Permissions, psp *[]Permissions, md *plugin.MergeDescription) bool {
-	ks := *ksp
-	ps := *psp
-	if len(ks) != len(ps) {
-		ps = ks
+	if len(*ksp) != len(*psp) {
+		*psp = *ksp
 		md.NeedsProviderUpdate = true
 		return true
 	}
+	ks := *ksp
+	ps := *psp
 	anyChildUpdated := false
-	for i, _ := range ps {
+	for i := range ps {
 		updated := false
 		k := &ks[i]
 		p := &ps[i]

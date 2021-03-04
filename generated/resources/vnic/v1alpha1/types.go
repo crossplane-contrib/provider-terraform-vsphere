@@ -64,17 +64,17 @@ type VnicParameters struct {
 }
 
 type Ipv4 struct {
-	Netmask string `json:"netmask"`
 	Dhcp    bool   `json:"dhcp"`
 	Gw      string `json:"gw"`
 	Ip      string `json:"ip"`
+	Netmask string `json:"netmask"`
 }
 
 type Ipv6 struct {
+	Addresses  []string `json:"addresses,omitempty"`
 	Autoconfig bool     `json:"autoconfig"`
 	Dhcp       bool     `json:"dhcp"`
 	Gw         string   `json:"gw"`
-	Addresses  []string `json:"addresses,omitempty"`
 }
 
 // A VnicStatus defines the observed state of a Vnic
