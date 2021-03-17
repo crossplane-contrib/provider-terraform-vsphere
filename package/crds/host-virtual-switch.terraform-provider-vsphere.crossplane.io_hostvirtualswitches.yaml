@@ -1,0 +1,174 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.0
+  creationTimestamp: null
+  name: hostvirtualswitches.host-virtual-switch.terraform-provider-vsphere.crossplane.io
+spec:
+  group: host-virtual-switch.terraform-provider-vsphere.crossplane.io
+  names:
+    kind: HostVirtualSwitch
+    listKind: HostVirtualSwitchList
+    plural: hostvirtualswitches
+    singular: hostvirtualswitch
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: HostVirtualSwitch is a managed resource representing a resource mirrored in the cloud
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: A HostVirtualSwitchSpec defines the desired state of a HostVirtualSwitch
+            properties:
+              deletionPolicy:
+                description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                description: A HostVirtualSwitchParameters defines the desired state of a HostVirtualSwitch
+                properties:
+                  active_nics:
+                    items:
+                      type: string
+                    type: array
+                  allow_forged_transmits:
+                    type: boolean
+                  allow_mac_changes:
+                    type: boolean
+                  allow_promiscuous:
+                    type: boolean
+                  beacon_interval:
+                    format: int64
+                    type: integer
+                  check_beacon:
+                    type: boolean
+                  failback:
+                    type: boolean
+                  host_system_id:
+                    type: string
+                  link_discovery_operation:
+                    type: string
+                  link_discovery_protocol:
+                    type: string
+                  mtu:
+                    format: int64
+                    type: integer
+                  name:
+                    type: string
+                  network_adapters:
+                    items:
+                      type: string
+                    type: array
+                  notify_switches:
+                    type: boolean
+                  number_of_ports:
+                    format: int64
+                    type: integer
+                  shaping_average_bandwidth:
+                    format: int64
+                    type: integer
+                  shaping_burst_size:
+                    format: int64
+                    type: integer
+                  shaping_enabled:
+                    type: boolean
+                  shaping_peak_bandwidth:
+                    format: int64
+                    type: integer
+                  standby_nics:
+                    items:
+                      type: string
+                    type: array
+                  teaming_policy:
+                    type: string
+                type: object
+              providerConfigRef:
+                description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            type: object
+          status:
+            description: A HostVirtualSwitchStatus defines the observed state of a HostVirtualSwitch
+            properties:
+              atProvider:
+                description: A HostVirtualSwitchObservation records the observed state of a HostVirtualSwitch
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True, False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
