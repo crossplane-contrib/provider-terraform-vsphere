@@ -1,0 +1,377 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.0
+  creationTimestamp: null
+  name: distributedvirtualswitches.distributed-virtual-switch.terraform-provider-vsphere.crossplane.io
+spec:
+  group: distributed-virtual-switch.terraform-provider-vsphere.crossplane.io
+  names:
+    kind: DistributedVirtualSwitch
+    listKind: DistributedVirtualSwitchList
+    plural: distributedvirtualswitches
+    singular: distributedvirtualswitch
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: DistributedVirtualSwitch is a managed resource representing a resource mirrored in the cloud
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: A DistributedVirtualSwitchSpec defines the desired state of a DistributedVirtualSwitch
+            properties:
+              deletionPolicy:
+                description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                description: A DistributedVirtualSwitchParameters defines the desired state of a DistributedVirtualSwitch
+                properties:
+                  active_uplinks:
+                    items:
+                      type: string
+                    type: array
+                  allow_forged_transmits:
+                    type: boolean
+                  allow_mac_changes:
+                    type: boolean
+                  allow_promiscuous:
+                    type: boolean
+                  block_all_ports:
+                    type: boolean
+                  check_beacon:
+                    type: boolean
+                  contact_detail:
+                    type: string
+                  contact_name:
+                    type: string
+                  custom_attributes:
+                    additionalProperties:
+                      type: string
+                    type: object
+                  datacenter_id:
+                    type: string
+                  description:
+                    type: string
+                  directpath_gen2_allowed:
+                    type: boolean
+                  egress_shaping_average_bandwidth:
+                    format: int64
+                    type: integer
+                  egress_shaping_burst_size:
+                    format: int64
+                    type: integer
+                  egress_shaping_enabled:
+                    type: boolean
+                  egress_shaping_peak_bandwidth:
+                    format: int64
+                    type: integer
+                  failback:
+                    type: boolean
+                  faulttolerance_maximum_mbit:
+                    format: int64
+                    type: integer
+                  faulttolerance_reservation_mbit:
+                    format: int64
+                    type: integer
+                  faulttolerance_share_count:
+                    format: int64
+                    type: integer
+                  faulttolerance_share_level:
+                    type: string
+                  folder:
+                    type: string
+                  hbr_maximum_mbit:
+                    format: int64
+                    type: integer
+                  hbr_reservation_mbit:
+                    format: int64
+                    type: integer
+                  hbr_share_count:
+                    format: int64
+                    type: integer
+                  hbr_share_level:
+                    type: string
+                  host:
+                    properties:
+                      devices:
+                        items:
+                          type: string
+                        type: array
+                      host_system_id:
+                        type: string
+                    type: object
+                  ignore_other_pvlan_mappings:
+                    type: boolean
+                  ingress_shaping_average_bandwidth:
+                    format: int64
+                    type: integer
+                  ingress_shaping_burst_size:
+                    format: int64
+                    type: integer
+                  ingress_shaping_enabled:
+                    type: boolean
+                  ingress_shaping_peak_bandwidth:
+                    format: int64
+                    type: integer
+                  ipv4_address:
+                    type: string
+                  iscsi_maximum_mbit:
+                    format: int64
+                    type: integer
+                  iscsi_reservation_mbit:
+                    format: int64
+                    type: integer
+                  iscsi_share_count:
+                    format: int64
+                    type: integer
+                  iscsi_share_level:
+                    type: string
+                  lacp_api_version:
+                    type: string
+                  lacp_enabled:
+                    type: boolean
+                  lacp_mode:
+                    type: string
+                  link_discovery_operation:
+                    type: string
+                  link_discovery_protocol:
+                    type: string
+                  management_maximum_mbit:
+                    format: int64
+                    type: integer
+                  management_reservation_mbit:
+                    format: int64
+                    type: integer
+                  management_share_count:
+                    format: int64
+                    type: integer
+                  management_share_level:
+                    type: string
+                  max_mtu:
+                    format: int64
+                    type: integer
+                  multicast_filtering_mode:
+                    type: string
+                  name:
+                    type: string
+                  netflow_active_flow_timeout:
+                    format: int64
+                    type: integer
+                  netflow_collector_ip_address:
+                    type: string
+                  netflow_collector_port:
+                    format: int64
+                    type: integer
+                  netflow_enabled:
+                    type: boolean
+                  netflow_idle_flow_timeout:
+                    format: int64
+                    type: integer
+                  netflow_internal_flows_only:
+                    type: boolean
+                  netflow_observation_domain_id:
+                    format: int64
+                    type: integer
+                  netflow_sampling_rate:
+                    format: int64
+                    type: integer
+                  network_resource_control_enabled:
+                    type: boolean
+                  network_resource_control_version:
+                    type: string
+                  nfs_maximum_mbit:
+                    format: int64
+                    type: integer
+                  nfs_reservation_mbit:
+                    format: int64
+                    type: integer
+                  nfs_share_count:
+                    format: int64
+                    type: integer
+                  nfs_share_level:
+                    type: string
+                  notify_switches:
+                    type: boolean
+                  port_private_secondary_vlan_id:
+                    format: int64
+                    type: integer
+                  pvlan_mapping:
+                    properties:
+                      primary_vlan_id:
+                        format: int64
+                        type: integer
+                      pvlan_type:
+                        type: string
+                      secondary_vlan_id:
+                        format: int64
+                        type: integer
+                    type: object
+                  standby_uplinks:
+                    items:
+                      type: string
+                    type: array
+                  tags:
+                    items:
+                      type: string
+                    type: array
+                  teaming_policy:
+                    type: string
+                  tx_uplink:
+                    type: boolean
+                  uplinks:
+                    items:
+                      type: string
+                    type: array
+                  vdp_maximum_mbit:
+                    format: int64
+                    type: integer
+                  vdp_reservation_mbit:
+                    format: int64
+                    type: integer
+                  vdp_share_count:
+                    format: int64
+                    type: integer
+                  vdp_share_level:
+                    type: string
+                  version:
+                    type: string
+                  virtualmachine_maximum_mbit:
+                    format: int64
+                    type: integer
+                  virtualmachine_reservation_mbit:
+                    format: int64
+                    type: integer
+                  virtualmachine_share_count:
+                    format: int64
+                    type: integer
+                  virtualmachine_share_level:
+                    type: string
+                  vlan_id:
+                    format: int64
+                    type: integer
+                  vlan_range:
+                    properties:
+                      max_vlan:
+                        format: int64
+                        type: integer
+                      min_vlan:
+                        format: int64
+                        type: integer
+                    type: object
+                  vmotion_maximum_mbit:
+                    format: int64
+                    type: integer
+                  vmotion_reservation_mbit:
+                    format: int64
+                    type: integer
+                  vmotion_share_count:
+                    format: int64
+                    type: integer
+                  vmotion_share_level:
+                    type: string
+                  vsan_maximum_mbit:
+                    format: int64
+                    type: integer
+                  vsan_reservation_mbit:
+                    format: int64
+                    type: integer
+                  vsan_share_count:
+                    format: int64
+                    type: integer
+                  vsan_share_level:
+                    type: string
+                type: object
+              providerConfigRef:
+                description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            type: object
+          status:
+            description: A DistributedVirtualSwitchStatus defines the observed state of a DistributedVirtualSwitch
+            properties:
+              atProvider:
+                description: A DistributedVirtualSwitchObservation records the observed state of a DistributedVirtualSwitch
+                properties:
+                  config_version:
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True, False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
