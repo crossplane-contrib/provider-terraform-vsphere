@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+go install github.com/vmware/govmomi/govc
+
 ./kind-docker-init.sh
 
 docker build . -t=localhost:5000/vcsim:v0.1.0
