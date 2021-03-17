@@ -1,0 +1,10 @@
+apiVersion: folder.terraform-provider-vsphere.crossplane.io/v1alpha1
+kind: Folder
+metadata:
+  name: root
+spec:
+  forProvider:
+    path: root-dc
+    type: datacenter
+  providerConfigRef:
+    name: vsphere-provider

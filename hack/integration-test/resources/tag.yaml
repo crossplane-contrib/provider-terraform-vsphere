@@ -1,0 +1,11 @@
+apiVersion: tag.terraform-provider-vsphere.crossplane.io/v1alpha1
+kind: Tag
+metadata:
+  name: a-tag
+spec:
+  forProvider:
+    name: a-tag
+    category_id: "set-a"
+    description: "i am but a simple tag"
+  providerConfigRef:
+    name: vsphere-provider

@@ -1,0 +1,13 @@
+apiVersion: tag-category.terraform-provider-vsphere.crossplane.io/v1alpha1
+kind: TagCategory
+metadata:
+  name: set-a
+spec:
+  forProvider:
+    name: set-a
+    description: "the first set"
+    cardinality: "SINGLE"
+    associable_types:
+    - "All"
+  providerConfigRef:
+    name: vsphere-provider

@@ -1,0 +1,12 @@
+apiVersion: datacenter.terraform-provider-vsphere.crossplane.io/v1alpha1
+kind: Datacenter
+metadata:
+  name: dczero
+spec:
+  forProvider:
+    name: dczero
+    folder: /root-dc/
+    tags:
+    - "a-tag"
+  providerConfigRef:
+    name: vsphere-provider

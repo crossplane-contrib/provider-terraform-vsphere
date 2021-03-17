@@ -1,0 +1,15 @@
+apiVersion: vsphere.terraform-plugin.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: vsphere-provider
+spec:
+  user: user
+  password: pass
+  allow_unverified_ssl: true
+  vsphere_server: "127.0.0.1:30443"
+  credentials:
+    source: Secret
+    secretRef:
+      name: vsphere-pass
+      namespace: default
+      key: password
