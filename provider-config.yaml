@@ -1,0 +1,8 @@
+name: vsphere
+base-crd-version: v1alpha1
+root-package: github.com/crossplane-contrib/provider-terraform-vsphere
+package-path: github.com/crossplane-contrib/provider-terraform-vsphere/generated/resources
+base-path: /Users/kasey/src/crossplane-contrib/provider-terraform-vsphere/
+provider-config-version: v1alpha1
+api-group: vsphere.terraform-plugin.crossplane.io
+provider-version: 1.24.3
