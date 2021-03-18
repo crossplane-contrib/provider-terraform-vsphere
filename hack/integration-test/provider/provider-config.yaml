@@ -6,7 +6,7 @@ spec:
   user: user
   password: pass
   allow_unverified_ssl: true
-  vsphere_server: "127.0.0.1:30443"
+  vsphere_server: "vcsim-service.default.cluster.local:30443"
   credentials:
     source: Secret
     secretRef:
