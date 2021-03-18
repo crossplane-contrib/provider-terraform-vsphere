@@ -1,5 +1,6 @@
 #!/bin/sh
 set -o errexit
+set -e
 
 # create registry container unless it already exists
 reg_name='kind-registry'
@@ -11,6 +12,30 @@ if [ "${running}" != 'true' ]; then
     registry:2
 fi
 
+# projectdir="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
+
+# get the build environment variables from the special build.vars target in the main makefile
+eval $(make --no-print-directory build.vars)
+
+# ------------------------------
+
+HOSTARCH="${HOSTARCH:-amd64}"
+BUILD_IMAGE="${BUILD_REGISTRY}/${PROJECT_NAME}-${HOSTARCH}"
+CONTROLLER_IMAGE="${BUILD_REGISTRY}/${PROJECT_NAME}-controller-${HOSTARCH}"
+
+version_tag="$(cat ./_output/version)"
+# tag as latest version to load into kind cluster
+PACKAGE_CONTROLLER_IMAGE="${DOCKER_REGISTRY}/${PROJECT_NAME}-controller:${version_tag}"
+K8S_CLUSTER="${K8S_CLUSTER:-${BUILD_REGISTRY}-inttests}"
+
+CROSSPLANE_NAMESPACE="crossplane-system"
+PACKAGE_NAME="provider-terraform-vsphere"
+
+CACHE_PATH="./.work/inttest-package-cache"
+mkdir -p "${CACHE_PATH}"
+echo "created cache dir at ${CACHE_PATH}"
+docker save "${BUILD_IMAGE}" -o "${CACHE_PATH}/${PACKAGE_NAME}.xpkg" && chmod 644 "${CACHE_PATH}/${PACKAGE_NAME}.xpkg"
+
 # create a cluster with the local registry enabled in containerd
 cat <<EOF | kind create cluster --name=vcsim --config=-
 kind: Cluster
@@ -21,6 +46,9 @@ nodes:
   - containerPort: 30443
     hostPort: 30443
     protocol: TCP
+  extraMounts:
+  - hostPath: "${CACHE_PATH}/"
+    containerPath: /cache
 containerdConfigPatches:
 - |-
   [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:${reg_port}"]
@@ -44,3 +72,7 @@ data:
     host: "localhost:${reg_port}"
     help: "https://kind.sigs.k8s.io/docs/user/local-registry/"
 EOF
+
+# tag controller image and load it into kind cluster
+docker tag "${CONTROLLER_IMAGE}" "${PACKAGE_CONTROLLER_IMAGE}"
+"${KIND}" load docker-image "${PACKAGE_CONTROLLER_IMAGE}" --name=vcsim
