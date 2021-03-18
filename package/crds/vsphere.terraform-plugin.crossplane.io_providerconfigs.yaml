@@ -101,20 +101,9 @@ spec:
               vsphere_server:
                 type: string
             required:
-            - allow_unverified_ssl
-            - api_timeout
-            - client_debug
-            - client_debug_path
-            - client_debug_path_run
             - credentials
             - password
-            - persist_session
-            - rest_session_path
             - user
-            - vcenter_server
-            - vim_keep_alive
-            - vim_session_path
-            - vsphere_server
             type: object
           status:
             description: A ProviderConfigStatus represents the status of a ProviderConfig.
