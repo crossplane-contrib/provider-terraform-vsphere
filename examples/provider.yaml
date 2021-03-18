@@ -1,0 +1,9 @@
+apiVersion: pkg.crossplane.io/v1beta1
+kind: Provider
+metadata:
+  name: provider-terraform-vsphere
+spec:
+  package: provider-terraform-vsphere
+  packagePullPolicy: Never
+  controllerConfigRef:
+    name: debug-config
