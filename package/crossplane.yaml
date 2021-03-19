@@ -7,6 +7,29 @@ metadata:
     maintainer: Crossplane Maintainers <info@crossplane.io>
     source: github.com/crossplane-contrib/provider-terrafrom-vsphere
     license: Apache-2.0
+    descriptionShort: |
+      The vSphere Crossplane provider enables infrastructure management for vSphere
+      products using https://github.com/hashicorp/terraform-provider-vsphere as an api client.
+    description: |
+      The vSphere Crossplane provider enables infrastructure management for vSphere
+      using the terraform-provider-vsphere executable as an api client. The executable
+      is bundled into the docker container installed by this package, alongside the
+      crossplane provider controller binary. The source for the Terraform provider
+      executable can be found at https://github.com/hashicorp/terraform-provider-vsphere
+    readme: |
+      `provider-terraform-vsphere` is the Crossplane infrastructure provider for the vSphere
+      [vCenter Server](https://www.vmware.com/products/vcenter-server.html) and
+      [ESXi](https://www.vmware.com/products/esxi-and-esx.html) APIs.
+      Available resources and their fields can be found in the [CRD
+      Docs](https://doc.crds.dev/github.com/crossplane-contrib/provider-terraform-vsphere).
+      Documentation for the original Terraform resources that were used to generate these CRDs,
+      and descriptions for the attributes which compose them, can be found in the documentation for the
+      [Terraform vSphere provider](https://registry.terraform.io/providers/hashicorp/vsphere/latest/docs).
+      Source code for the Terraform provider can be found at https://github.com/hashicorp/terraform-provider-vsphere
+      If you encounter an issue please reach out on
+      [slack.crossplane.io](https://slack.crossplane.io) and create an issue in
+      the [crossplane-contrib/provider-terraform-vsphere](https://github.com/crossplane-contrib/provider-terraform-vsphere)
+      repo.
 spec:
   controller:
     image: crossplane/provider-terraform-vsphere-controller:VERSION
