@@ -299,14 +299,14 @@ jobs:
       
       - name: Publish Artifacts to S3 and Docker Hub
         run: make -j2 publish BRANCH_NAME=${GITHUB_REF##*/}
-        if: env.AWS_USR != '' && env.DOCKER_USR != ''
+        if: env.DOCKER_USR != ''
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_USR }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_PSW }}
           GIT_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Promote Artifacts in S3 and Docker Hub
-        if: github.ref == 'refs/heads/master' && env.AWS_USR != '' && env.DOCKER_USR != ''
+        if: github.ref == 'refs/heads/master' && env.DOCKER_USR != ''
         run: make -j2 promote
         env:
           BRANCH_NAME: master
