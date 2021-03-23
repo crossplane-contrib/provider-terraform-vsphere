@@ -44,7 +44,7 @@ import (
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
-var ResourceImplementations = []*plugin.Implementation{
+var generatedImplementations = []*plugin.Implementation{
 	content_library.Implementation(),
 	compute_cluster_vm_group.Implementation(),
 	entity_permissions.Implementation(),
@@ -84,4 +84,15 @@ var ResourceImplementations = []*plugin.Implementation{
 	drs_vm_override.Implementation(),
 	host.Implementation(),
 	role.Implementation(),
+}
+
+// this is deferred until init time to simplify the codegen workflow.
+// index.go can be a simple templated, satisfying the needs of main.go so that
+// the provider can be compiled (albeit in a non-functional state) enabling angryjet
+// and controller-gen to run against the generated types.go before the a subsequent pass
+// of terraform-provider-gen adds the compare/encode/decode methods.
+func init() {
+	for _, impl := range generatedImplementations {
+		resourceImplementations = append(resourceImplementations, impl)
+	}
 }
