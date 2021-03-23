@@ -28,7 +28,7 @@ NPROCS ?= 1
 # to half the number of CPU cores.
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
-GO_STATIC_PACKAGES = $(GO_PROJECT)
+GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider
 GO_SUBDIRS += generated
 GO111MODULE = on
 -include build/makelib/golang.mk
