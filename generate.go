@@ -19,14 +19,26 @@ limitations under the License.
 // NOTE: See the below link for details on what is happening here.
 // https://github.com/golang/go/wiki/Modules#how-can-i-track-tool-dependencies-for-a-module
 
+//go:generate go run github.com/crossplane-contrib/terraform-provider-dl --config=terraform-provider-gen.yaml --output=tf-plugin
+
 // Remove existing CRDs
-//go:generate rm -rf ../package/crds
+//go:generate rm -rf package/crds
+
+// Generate provider CRD types
+//go:generate go run github.com/crossplane-contrib/terraform-provider-gen generate bootstrap --cfg-path=terraform-provider-gen.yaml  --plugin-path=tf-plugin
+
+// Generate resource types
+//go:generate go run github.com/crossplane-contrib/terraform-provider-gen generate types --cfg-path=terraform-provider-gen.yaml --plugin-path=tf-plugin --output-dir=generated/resources
 
 // Generate deepcopy methodsets and CRD manifests
-//go:generate go run -tags generate sigs.k8s.io/controller-tools/cmd/controller-gen object:headerFile=../hack/boilerplate.go.txt paths=./... crd:trivialVersions=true output:artifacts:config=../package/crds
+//go:generate go run -tags generate sigs.k8s.io/controller-tools/cmd/controller-gen object:headerFile=hack/boilerplate.go.txt paths=./... crd:trivialVersions=true output:artifacts:config=package/crds
 
 // Generate crossplane-runtime methodsets (resource.Claim, etc)
-//go:generate go run -tags generate github.com/crossplane/crossplane-tools/cmd/angryjet generate-methodsets --header-file=../hack/boilerplate.go.txt ./...
+//go:generate go run -tags generate github.com/crossplane/crossplane-tools/cmd/angryjet generate-methodsets --header-file=hack/boilerplate.go.txt ./...
+
+// Generate the terraform resource runtime methods
+//go:generate go run github.com/crossplane-contrib/terraform-provider-gen generate runtime --cfg-path=terraform-provider-gen.yaml --plugin-path=tf-plugin --output-dir=generated/resources
+
 
 package generated
 

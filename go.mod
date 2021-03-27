@@ -13,6 +13,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/zclconf/go-cty v1.7.0
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
+	gopkg.in/vmihailenco/msgpack.v2 v2.9.1 // indirect
 	honnef.co/go/tools v0.0.1-2020.1.5 // indirect
 	k8s.io/api v0.18.8
 	k8s.io/apimachinery v0.18.8
@@ -26,3 +27,7 @@ replace (
 	k8s.io/apimachinery => k8s.io/apimachinery v0.18.6
 	k8s.io/client-go => k8s.io/client-go v0.18.6
 )
+
+replace github.com/crossplane-contrib/terraform-provider-gen => /Users/kasey/src/crossplane-contrib/terraform-provider-gen
+
+replace github.com/crossplane-contrib/terraform-provider-dl => /Users/kasey/src/crossplane-contrib/terraform-provider-dl
