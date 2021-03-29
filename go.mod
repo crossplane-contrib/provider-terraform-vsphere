@@ -13,7 +13,6 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/zclconf/go-cty v1.7.0
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
-	gopkg.in/vmihailenco/msgpack.v2 v2.9.1 // indirect
 	honnef.co/go/tools v0.0.1-2020.1.5 // indirect
 	k8s.io/api v0.18.8
 	k8s.io/apimachinery v0.18.8
