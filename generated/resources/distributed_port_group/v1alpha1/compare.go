@@ -735,12 +735,12 @@ func MergeDistributedPortGroup_VlanOverrideAllowed(k *DistributedPortGroupParame
 func MergeDistributedPortGroup_VlanRange(k *VlanRange, p *VlanRange, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeDistributedPortGroup_VlanRange_MinVlan(k, p, md)
+	updated = MergeDistributedPortGroup_VlanRange_MaxVlan(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeDistributedPortGroup_VlanRange_MaxVlan(k, p, md)
+	updated = MergeDistributedPortGroup_VlanRange_MinVlan(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -752,9 +752,9 @@ func MergeDistributedPortGroup_VlanRange(k *VlanRange, p *VlanRange, md *plugin.
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDistributedPortGroup_VlanRange_MinVlan(k *VlanRange, p *VlanRange, md *plugin.MergeDescription) bool {
-	if k.MinVlan != p.MinVlan {
-		p.MinVlan = k.MinVlan
+func MergeDistributedPortGroup_VlanRange_MaxVlan(k *VlanRange, p *VlanRange, md *plugin.MergeDescription) bool {
+	if k.MaxVlan != p.MaxVlan {
+		p.MaxVlan = k.MaxVlan
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -762,9 +762,9 @@ func MergeDistributedPortGroup_VlanRange_MinVlan(k *VlanRange, p *VlanRange, md 
 }
 
 //mergePrimitiveTemplateSpec
-func MergeDistributedPortGroup_VlanRange_MaxVlan(k *VlanRange, p *VlanRange, md *plugin.MergeDescription) bool {
-	if k.MaxVlan != p.MaxVlan {
-		p.MaxVlan = k.MaxVlan
+func MergeDistributedPortGroup_VlanRange_MinVlan(k *VlanRange, p *VlanRange, md *plugin.MergeDescription) bool {
+	if k.MinVlan != p.MinVlan {
+		p.MinVlan = k.MinVlan
 		md.NeedsProviderUpdate = true
 		return true
 	}

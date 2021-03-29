@@ -355,18 +355,18 @@ func DecodeDistributedPortGroup_VlanRange(p *VlanRange, vals map[string]cty.Valu
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeDistributedPortGroup_VlanRange_MinVlan(p, valMap)
 	DecodeDistributedPortGroup_VlanRange_MaxVlan(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDistributedPortGroup_VlanRange_MinVlan(p *VlanRange, vals map[string]cty.Value) {
-	p.MinVlan = ctwhy.ValueAsInt64(vals["min_vlan"])
+	DecodeDistributedPortGroup_VlanRange_MinVlan(p, valMap)
 }
 
 //primitiveTypeDecodeTemplate
 func DecodeDistributedPortGroup_VlanRange_MaxVlan(p *VlanRange, vals map[string]cty.Value) {
 	p.MaxVlan = ctwhy.ValueAsInt64(vals["max_vlan"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedPortGroup_VlanRange_MinVlan(p *VlanRange, vals map[string]cty.Value) {
+	p.MinVlan = ctwhy.ValueAsInt64(vals["min_vlan"])
 }
 
 //primitiveTypeDecodeTemplate

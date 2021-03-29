@@ -39,6 +39,8 @@ limitations under the License.
 // Generate the terraform resource runtime methods
 //go:generate go run github.com/crossplane-contrib/terraform-provider-gen generate runtime --cfg-path=terraform-provider-gen.yaml --plugin-path=tf-plugin --output-dir=generated/resources
 
+// Run go fmt on everything since our templates create poorly formatted go
+//go:generate go fmt ./...
 
 package generated
 

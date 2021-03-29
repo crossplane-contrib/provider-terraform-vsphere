@@ -41,12 +41,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeContentLibrary_StorageBacking(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeContentLibrary_Publication(&k.Spec.ForProvider.Publication, &p.Spec.ForProvider.Publication, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeContentLibrary_Publication(&k.Spec.ForProvider.Publication, &p.Spec.ForProvider.Publication, md)
+	updated = MergeContentLibrary_StorageBacking(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -86,30 +86,10 @@ func MergeContentLibrary_Name(k *ContentLibraryParameters, p *ContentLibraryPara
 	return false
 }
 
-//mergePrimitiveContainerTemplateSpec
-func MergeContentLibrary_StorageBacking(k *ContentLibraryParameters, p *ContentLibraryParameters, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.StorageBacking, p.StorageBacking) {
-		p.StorageBacking = k.StorageBacking
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergeStructTemplateSpec
 func MergeContentLibrary_Publication(k *Publication, p *Publication, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeContentLibrary_Publication_Published(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeContentLibrary_Publication_Username(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	updated = MergeContentLibrary_Publication_AuthenticationMethod(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -125,30 +105,20 @@ func MergeContentLibrary_Publication(k *Publication, p *Publication, md *plugin.
 		anyChildUpdated = true
 	}
 
+	updated = MergeContentLibrary_Publication_Published(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeContentLibrary_Publication_Username(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
-}
-
-//mergePrimitiveTemplateSpec
-func MergeContentLibrary_Publication_Published(k *Publication, p *Publication, md *plugin.MergeDescription) bool {
-	if k.Published != p.Published {
-		p.Published = k.Published
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeContentLibrary_Publication_Username(k *Publication, p *Publication, md *plugin.MergeDescription) bool {
-	if k.Username != p.Username {
-		p.Username = k.Username
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -181,10 +151,50 @@ func MergeContentLibrary_Publication_PublishUrl(k *Publication, p *Publication, 
 	return false
 }
 
+//mergePrimitiveTemplateSpec
+func MergeContentLibrary_Publication_Published(k *Publication, p *Publication, md *plugin.MergeDescription) bool {
+	if k.Published != p.Published {
+		p.Published = k.Published
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeContentLibrary_Publication_Username(k *Publication, p *Publication, md *plugin.MergeDescription) bool {
+	if k.Username != p.Username {
+		p.Username = k.Username
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeContentLibrary_StorageBacking(k *ContentLibraryParameters, p *ContentLibraryParameters, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.StorageBacking, p.StorageBacking) {
+		p.StorageBacking = k.StorageBacking
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergeStructTemplateSpec
 func MergeContentLibrary_Subscription(k *Subscription, p *Subscription, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
+	updated = MergeContentLibrary_Subscription_AuthenticationMethod(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeContentLibrary_Subscription_AutomaticSync(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeContentLibrary_Subscription_OnDemand(k, p, md)
 	if updated {
 		anyChildUpdated = true
@@ -205,20 +215,30 @@ func MergeContentLibrary_Subscription(k *Subscription, p *Subscription, md *plug
 		anyChildUpdated = true
 	}
 
-	updated = MergeContentLibrary_Subscription_AuthenticationMethod(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeContentLibrary_Subscription_AutomaticSync(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
 	if anyChildUpdated {
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeContentLibrary_Subscription_AuthenticationMethod(k *Subscription, p *Subscription, md *plugin.MergeDescription) bool {
+	if k.AuthenticationMethod != p.AuthenticationMethod {
+		p.AuthenticationMethod = k.AuthenticationMethod
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeContentLibrary_Subscription_AutomaticSync(k *Subscription, p *Subscription, md *plugin.MergeDescription) bool {
+	if k.AutomaticSync != p.AutomaticSync {
+		p.AutomaticSync = k.AutomaticSync
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveTemplateSpec
@@ -255,26 +275,6 @@ func MergeContentLibrary_Subscription_SubscriptionUrl(k *Subscription, p *Subscr
 func MergeContentLibrary_Subscription_Username(k *Subscription, p *Subscription, md *plugin.MergeDescription) bool {
 	if k.Username != p.Username {
 		p.Username = k.Username
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeContentLibrary_Subscription_AuthenticationMethod(k *Subscription, p *Subscription, md *plugin.MergeDescription) bool {
-	if k.AuthenticationMethod != p.AuthenticationMethod {
-		p.AuthenticationMethod = k.AuthenticationMethod
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeContentLibrary_Subscription_AutomaticSync(k *Subscription, p *Subscription, md *plugin.MergeDescription) bool {
-	if k.AutomaticSync != p.AutomaticSync {
-		p.AutomaticSync = k.AutomaticSync
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -110,8 +110,8 @@ type ComputeClusterParameters struct {
 }
 
 type VsanDiskGroup struct {
-	Storage []string `json:"storage,omitempty"`
 	Cache   string   `json:"cache"`
+	Storage []string `json:"storage,omitempty"`
 }
 
 // A ComputeClusterStatus defines the observed state of a ComputeCluster

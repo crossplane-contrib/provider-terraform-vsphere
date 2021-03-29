@@ -65,6 +65,7 @@ func DecodeDistributedVirtualSwitch(prev *DistributedVirtualSwitch, ctyValue cty
 	DecodeDistributedVirtualSwitch_HbrReservationMbit(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_HbrShareCount(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_HbrShareLevel(&new.Spec.ForProvider, valMap)
+	DecodeDistributedVirtualSwitch_Host(&new.Spec.ForProvider.Host, valMap)
 	DecodeDistributedVirtualSwitch_IgnoreOtherPvlanMappings(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_IngressShapingAverageBandwidth(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_IngressShapingBurstSize(&new.Spec.ForProvider, valMap)
@@ -103,6 +104,7 @@ func DecodeDistributedVirtualSwitch(prev *DistributedVirtualSwitch, ctyValue cty
 	DecodeDistributedVirtualSwitch_NfsShareLevel(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_NotifySwitches(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_PortPrivateSecondaryVlanId(&new.Spec.ForProvider, valMap)
+	DecodeDistributedVirtualSwitch_PvlanMapping(&new.Spec.ForProvider.PvlanMapping, valMap)
 	DecodeDistributedVirtualSwitch_StandbyUplinks(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_Tags(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_TeamingPolicy(&new.Spec.ForProvider, valMap)
@@ -118,6 +120,7 @@ func DecodeDistributedVirtualSwitch(prev *DistributedVirtualSwitch, ctyValue cty
 	DecodeDistributedVirtualSwitch_VirtualmachineShareCount(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_VirtualmachineShareLevel(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_VlanId(&new.Spec.ForProvider, valMap)
+	DecodeDistributedVirtualSwitch_VlanRange(&new.Spec.ForProvider.VlanRange, valMap)
 	DecodeDistributedVirtualSwitch_VmotionMaximumMbit(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_VmotionReservationMbit(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_VmotionShareCount(&new.Spec.ForProvider, valMap)
@@ -126,9 +129,6 @@ func DecodeDistributedVirtualSwitch(prev *DistributedVirtualSwitch, ctyValue cty
 	DecodeDistributedVirtualSwitch_VsanReservationMbit(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_VsanShareCount(&new.Spec.ForProvider, valMap)
 	DecodeDistributedVirtualSwitch_VsanShareLevel(&new.Spec.ForProvider, valMap)
-	DecodeDistributedVirtualSwitch_Host(&new.Spec.ForProvider.Host, valMap)
-	DecodeDistributedVirtualSwitch_PvlanMapping(&new.Spec.ForProvider.PvlanMapping, valMap)
-	DecodeDistributedVirtualSwitch_VlanRange(&new.Spec.ForProvider.VlanRange, valMap)
 	DecodeDistributedVirtualSwitch_ConfigVersion(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -279,6 +279,38 @@ func DecodeDistributedVirtualSwitch_HbrShareCount(p *DistributedVirtualSwitchPar
 //primitiveTypeDecodeTemplate
 func DecodeDistributedVirtualSwitch_HbrShareLevel(p *DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
 	p.HbrShareLevel = ctwhy.ValueAsString(vals["hbr_share_level"])
+}
+
+//containerCollectionSingletonTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_Host(p *Host, vals map[string]cty.Value) {
+	if vals["host"].IsNull() {
+		*p = Host{}
+		return
+	}
+	rvals := ctwhy.ValueAsSet(vals["host"])
+	if len(rvals) == 0 {
+		*p = Host{}
+		return
+	}
+	// this template should be used when single dictionary/object values are nested in sets/lists
+	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
+	valMap := rvals[0].AsValueMap()
+	DecodeDistributedVirtualSwitch_Host_Devices(p, valMap)
+	DecodeDistributedVirtualSwitch_Host_HostSystemId(p, valMap)
+}
+
+//primitiveCollectionTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_Host_Devices(p *Host, vals map[string]cty.Value) {
+	goVals := make([]string, 0)
+	for _, value := range ctwhy.ValueAsList(vals["devices"]) {
+		goVals = append(goVals, ctwhy.ValueAsString(value))
+	}
+	p.Devices = goVals
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_Host_HostSystemId(p *Host, vals map[string]cty.Value) {
+	p.HostSystemId = ctwhy.ValueAsString(vals["host_system_id"])
 }
 
 //primitiveTypeDecodeTemplate
@@ -471,6 +503,40 @@ func DecodeDistributedVirtualSwitch_PortPrivateSecondaryVlanId(p *DistributedVir
 	p.PortPrivateSecondaryVlanId = ctwhy.ValueAsInt64(vals["port_private_secondary_vlan_id"])
 }
 
+//containerCollectionSingletonTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_PvlanMapping(p *PvlanMapping, vals map[string]cty.Value) {
+	if vals["pvlan_mapping"].IsNull() {
+		*p = PvlanMapping{}
+		return
+	}
+	rvals := ctwhy.ValueAsSet(vals["pvlan_mapping"])
+	if len(rvals) == 0 {
+		*p = PvlanMapping{}
+		return
+	}
+	// this template should be used when single dictionary/object values are nested in sets/lists
+	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
+	valMap := rvals[0].AsValueMap()
+	DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p, valMap)
+	DecodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p, valMap)
+	DecodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p *PvlanMapping, vals map[string]cty.Value) {
+	p.PrimaryVlanId = ctwhy.ValueAsInt64(vals["primary_vlan_id"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p *PvlanMapping, vals map[string]cty.Value) {
+	p.PvlanType = ctwhy.ValueAsString(vals["pvlan_type"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p *PvlanMapping, vals map[string]cty.Value) {
+	p.SecondaryVlanId = ctwhy.ValueAsInt64(vals["secondary_vlan_id"])
+}
+
 //primitiveCollectionTypeDecodeTemplate
 func DecodeDistributedVirtualSwitch_StandbyUplinks(p *DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
 	goVals := make([]string, 0)
@@ -558,6 +624,34 @@ func DecodeDistributedVirtualSwitch_VlanId(p *DistributedVirtualSwitchParameters
 	p.VlanId = ctwhy.ValueAsInt64(vals["vlan_id"])
 }
 
+//containerCollectionSingletonTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_VlanRange(p *VlanRange, vals map[string]cty.Value) {
+	if vals["vlan_range"].IsNull() {
+		*p = VlanRange{}
+		return
+	}
+	rvals := ctwhy.ValueAsSet(vals["vlan_range"])
+	if len(rvals) == 0 {
+		*p = VlanRange{}
+		return
+	}
+	// this template should be used when single dictionary/object values are nested in sets/lists
+	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
+	valMap := rvals[0].AsValueMap()
+	DecodeDistributedVirtualSwitch_VlanRange_MaxVlan(p, valMap)
+	DecodeDistributedVirtualSwitch_VlanRange_MinVlan(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_VlanRange_MaxVlan(p *VlanRange, vals map[string]cty.Value) {
+	p.MaxVlan = ctwhy.ValueAsInt64(vals["max_vlan"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeDistributedVirtualSwitch_VlanRange_MinVlan(p *VlanRange, vals map[string]cty.Value) {
+	p.MinVlan = ctwhy.ValueAsInt64(vals["min_vlan"])
+}
+
 //primitiveTypeDecodeTemplate
 func DecodeDistributedVirtualSwitch_VmotionMaximumMbit(p *DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
 	p.VmotionMaximumMbit = ctwhy.ValueAsInt64(vals["vmotion_maximum_mbit"])
@@ -596,100 +690,6 @@ func DecodeDistributedVirtualSwitch_VsanShareCount(p *DistributedVirtualSwitchPa
 //primitiveTypeDecodeTemplate
 func DecodeDistributedVirtualSwitch_VsanShareLevel(p *DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
 	p.VsanShareLevel = ctwhy.ValueAsString(vals["vsan_share_level"])
-}
-
-//containerCollectionSingletonTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_Host(p *Host, vals map[string]cty.Value) {
-	if vals["host"].IsNull() {
-		*p = Host{}
-		return
-	}
-	rvals := ctwhy.ValueAsSet(vals["host"])
-	if len(rvals) == 0 {
-		*p = Host{}
-		return
-	}
-	// this template should be used when single dictionary/object values are nested in sets/lists
-	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
-	valMap := rvals[0].AsValueMap()
-	DecodeDistributedVirtualSwitch_Host_HostSystemId(p, valMap)
-	DecodeDistributedVirtualSwitch_Host_Devices(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_Host_HostSystemId(p *Host, vals map[string]cty.Value) {
-	p.HostSystemId = ctwhy.ValueAsString(vals["host_system_id"])
-}
-
-//primitiveCollectionTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_Host_Devices(p *Host, vals map[string]cty.Value) {
-	goVals := make([]string, 0)
-	for _, value := range ctwhy.ValueAsList(vals["devices"]) {
-		goVals = append(goVals, ctwhy.ValueAsString(value))
-	}
-	p.Devices = goVals
-}
-
-//containerCollectionSingletonTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_PvlanMapping(p *PvlanMapping, vals map[string]cty.Value) {
-	if vals["pvlan_mapping"].IsNull() {
-		*p = PvlanMapping{}
-		return
-	}
-	rvals := ctwhy.ValueAsSet(vals["pvlan_mapping"])
-	if len(rvals) == 0 {
-		*p = PvlanMapping{}
-		return
-	}
-	// this template should be used when single dictionary/object values are nested in sets/lists
-	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
-	valMap := rvals[0].AsValueMap()
-	DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p, valMap)
-	DecodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p, valMap)
-	DecodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p *PvlanMapping, vals map[string]cty.Value) {
-	p.PrimaryVlanId = ctwhy.ValueAsInt64(vals["primary_vlan_id"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p *PvlanMapping, vals map[string]cty.Value) {
-	p.PvlanType = ctwhy.ValueAsString(vals["pvlan_type"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p *PvlanMapping, vals map[string]cty.Value) {
-	p.SecondaryVlanId = ctwhy.ValueAsInt64(vals["secondary_vlan_id"])
-}
-
-//containerCollectionSingletonTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_VlanRange(p *VlanRange, vals map[string]cty.Value) {
-	if vals["vlan_range"].IsNull() {
-		*p = VlanRange{}
-		return
-	}
-	rvals := ctwhy.ValueAsSet(vals["vlan_range"])
-	if len(rvals) == 0 {
-		*p = VlanRange{}
-		return
-	}
-	// this template should be used when single dictionary/object values are nested in sets/lists
-	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
-	valMap := rvals[0].AsValueMap()
-	DecodeDistributedVirtualSwitch_VlanRange_MaxVlan(p, valMap)
-	DecodeDistributedVirtualSwitch_VlanRange_MinVlan(p, valMap)
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_VlanRange_MaxVlan(p *VlanRange, vals map[string]cty.Value) {
-	p.MaxVlan = ctwhy.ValueAsInt64(vals["max_vlan"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeDistributedVirtualSwitch_VlanRange_MinVlan(p *VlanRange, vals map[string]cty.Value) {
-	p.MinVlan = ctwhy.ValueAsInt64(vals["min_vlan"])
 }
 
 //primitiveTypeDecodeTemplate
