@@ -27,7 +27,3 @@ replace (
 	k8s.io/apimachinery => k8s.io/apimachinery v0.18.6
 	k8s.io/client-go => k8s.io/client-go v0.18.6
 )
-
-replace github.com/crossplane-contrib/terraform-provider-gen => /Users/kasey/src/crossplane-contrib/terraform-provider-gen
-
-replace github.com/crossplane-contrib/terraform-provider-dl => /Users/kasey/src/crossplane-contrib/terraform-provider-dl
