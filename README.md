@@ -32,7 +32,13 @@ pointed at the plugin binary built from https://github.com/hashicorp/terraform-p
 
 The same provider binary used to build the provider must also be present at runtime. Point the runtime at the
 full path to the plugin on the local filesystem using the `--pluginPath=` cli flag. When using an official image
-the appropriate plugin binary will be bundled. For local development, the corresponding 
+the appropriate plugin binary will be bundled. For local development, the binary required by `terraform-provider-gen.yaml`
+can be downloaded using the command:
+`go run github.com/crossplane-contrib/terraform-provider-dl --config=terraform-provider-gen.yaml --output=$DIRECTORY`
+
+Where `$DIRECTORY` is the directory you would like to use for the `--pluginPath` argument. Please use an empty directory
+because the plugin expects the directory to only contain the terraform  plugin.
+
 
 ## Demo
 
