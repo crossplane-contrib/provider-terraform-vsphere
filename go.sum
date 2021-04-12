@@ -199,6 +199,8 @@ github.com/crossplane-contrib/terraform-provider-dl v0.0.0-20210326151831-95dc73
 github.com/crossplane-contrib/terraform-provider-dl v0.0.0-20210326151831-95dc732e4246/go.mod h1:0XvW7SiWLmuGdnn05ixT+TktPal85wSxlBYOEcIukOE=
 github.com/crossplane-contrib/terraform-provider-gen v0.0.0-20210317192616-e9255f2c6e7d h1:0t2ZIlkkIl1/U1gUjHSsm9vBRFjFreK4KcrxkJZIfFU=
 github.com/crossplane-contrib/terraform-provider-gen v0.0.0-20210317192616-e9255f2c6e7d/go.mod h1:olaUtK73hUy40tRMW8FLiJHSl1lBov+aBRVGDZIp8VU=
+github.com/crossplane-contrib/terraform-provider-gen v0.0.0-20210412223606-81a63c2f0a87 h1:IjE1aQyvUOdjbS5eub8sjo93eAC+Swe7OJSdAsiqRZM=
+github.com/crossplane-contrib/terraform-provider-gen v0.0.0-20210412223606-81a63c2f0a87/go.mod h1:Ij2jJ7aB3xOG/c4TRtMNmYjtEKjw7oy8L7eTpQKIfDU=
 github.com/crossplane-contrib/terraform-runtime v0.0.0-20210317191104-9eb36dba841c h1:xMk8yIu/h7YWV/LQhYBnLEA7/U761W6dT25lXJV7mGo=
 github.com/crossplane-contrib/terraform-runtime v0.0.0-20210317191104-9eb36dba841c/go.mod h1:1rNqIYM8dM+GUjPmTrKq0wBese3Kx7nm/MfTY++PJkE=
 github.com/crossplane/crossplane v1.0.0 h1:+aJ2aj34Qa/9MwB06Jz0ti0Cnb5qT9e3dhi+nVjiT3w=

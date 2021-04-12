@@ -5,6 +5,7 @@ go 1.14
 require (
 	cloud.google.com/go/pubsub v1.3.1 // indirect
 	github.com/crossplane-contrib/terraform-provider-dl v0.0.0-20210326151831-95dc732e4246 // indirect
+	github.com/crossplane-contrib/terraform-provider-gen v0.0.0-20210412223606-81a63c2f0a87 // indirect
 	github.com/crossplane-contrib/terraform-runtime v0.0.0-20210317191104-9eb36dba841c
 	github.com/crossplane/crossplane-runtime v0.12.0
 	github.com/crossplane/crossplane-tools v0.0.0-20210320162312-1baca298c527
