@@ -92,8 +92,8 @@ func DecodeComputeCluster(prev *ComputeCluster, ctyValue cty.Value) (resource.Ma
 	DecodeComputeCluster_ProactiveHaProviderIds(&new.Spec.ForProvider, valMap)
 	DecodeComputeCluster_ProactiveHaSevereRemediation(&new.Spec.ForProvider, valMap)
 	DecodeComputeCluster_Tags(&new.Spec.ForProvider, valMap)
-	DecodeComputeCluster_VsanEnabled(&new.Spec.ForProvider, valMap)
 	DecodeComputeCluster_VsanDiskGroup(&new.Spec.ForProvider.VsanDiskGroup, valMap)
+	DecodeComputeCluster_VsanEnabled(&new.Spec.ForProvider, valMap)
 	DecodeComputeCluster_ResourcePoolId(&new.Status.AtProvider, valMap)
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -417,11 +417,6 @@ func DecodeComputeCluster_Tags(p *ComputeClusterParameters, vals map[string]cty.
 	p.Tags = goVals
 }
 
-//primitiveTypeDecodeTemplate
-func DecodeComputeCluster_VsanEnabled(p *ComputeClusterParameters, vals map[string]cty.Value) {
-	p.VsanEnabled = ctwhy.ValueAsBool(vals["vsan_enabled"])
-}
-
 //containerCollectionSingletonTypeDecodeTemplate
 func DecodeComputeCluster_VsanDiskGroup(p *VsanDiskGroup, vals map[string]cty.Value) {
 	if vals["vsan_disk_group"].IsNull() {
@@ -436,8 +431,13 @@ func DecodeComputeCluster_VsanDiskGroup(p *VsanDiskGroup, vals map[string]cty.Va
 	// this template should be used when single dictionary/object values are nested in sets/lists
 	// if rvals turns out to be a list with > 1 elements, something has broken with that heuristic
 	valMap := rvals[0].AsValueMap()
-	DecodeComputeCluster_VsanDiskGroup_Storage(p, valMap)
 	DecodeComputeCluster_VsanDiskGroup_Cache(p, valMap)
+	DecodeComputeCluster_VsanDiskGroup_Storage(p, valMap)
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeComputeCluster_VsanDiskGroup_Cache(p *VsanDiskGroup, vals map[string]cty.Value) {
+	p.Cache = ctwhy.ValueAsString(vals["cache"])
 }
 
 //primitiveCollectionTypeDecodeTemplate
@@ -450,8 +450,8 @@ func DecodeComputeCluster_VsanDiskGroup_Storage(p *VsanDiskGroup, vals map[strin
 }
 
 //primitiveTypeDecodeTemplate
-func DecodeComputeCluster_VsanDiskGroup_Cache(p *VsanDiskGroup, vals map[string]cty.Value) {
-	p.Cache = ctwhy.ValueAsString(vals["cache"])
+func DecodeComputeCluster_VsanEnabled(p *ComputeClusterParameters, vals map[string]cty.Value) {
+	p.VsanEnabled = ctwhy.ValueAsBool(vals["vsan_enabled"])
 }
 
 //primitiveTypeDecodeTemplate

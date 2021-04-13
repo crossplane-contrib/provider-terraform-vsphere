@@ -161,6 +161,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDistributedVirtualSwitch_Host(&k.Spec.ForProvider.Host, &p.Spec.ForProvider.Host, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDistributedVirtualSwitch_IgnoreOtherPvlanMappings(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -351,6 +356,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDistributedVirtualSwitch_PvlanMapping(&k.Spec.ForProvider.PvlanMapping, &p.Spec.ForProvider.PvlanMapping, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDistributedVirtualSwitch_StandbyUplinks(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -426,6 +436,11 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeDistributedVirtualSwitch_VlanRange(&k.Spec.ForProvider.VlanRange, &p.Spec.ForProvider.VlanRange, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeDistributedVirtualSwitch_VmotionMaximumMbit(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -462,21 +477,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeDistributedVirtualSwitch_VsanShareLevel(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDistributedVirtualSwitch_Host(&k.Spec.ForProvider.Host, &p.Spec.ForProvider.Host, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDistributedVirtualSwitch_PvlanMapping(&k.Spec.ForProvider.PvlanMapping, &p.Spec.ForProvider.PvlanMapping, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDistributedVirtualSwitch_VlanRange(&k.Spec.ForProvider.VlanRange, &p.Spec.ForProvider.VlanRange, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -750,6 +750,46 @@ func MergeDistributedVirtualSwitch_HbrShareCount(k *DistributedVirtualSwitchPara
 func MergeDistributedVirtualSwitch_HbrShareLevel(k *DistributedVirtualSwitchParameters, p *DistributedVirtualSwitchParameters, md *plugin.MergeDescription) bool {
 	if k.HbrShareLevel != p.HbrShareLevel {
 		p.HbrShareLevel = k.HbrShareLevel
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergeStructTemplateSpec
+func MergeDistributedVirtualSwitch_Host(k *Host, p *Host, md *plugin.MergeDescription) bool {
+	updated := false
+	anyChildUpdated := false
+	updated = MergeDistributedVirtualSwitch_Host_Devices(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDistributedVirtualSwitch_Host_HostSystemId(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	if anyChildUpdated {
+		md.NeedsProviderUpdate = true
+	}
+	return anyChildUpdated
+}
+
+//mergePrimitiveContainerTemplateSpec
+func MergeDistributedVirtualSwitch_Host_Devices(k *Host, p *Host, md *plugin.MergeDescription) bool {
+	if !plugin.CompareStringSlices(k.Devices, p.Devices) {
+		p.Devices = k.Devices
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDistributedVirtualSwitch_Host_HostSystemId(k *Host, p *Host, md *plugin.MergeDescription) bool {
+	if k.HostSystemId != p.HostSystemId {
+		p.HostSystemId = k.HostSystemId
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -1136,6 +1176,61 @@ func MergeDistributedVirtualSwitch_PortPrivateSecondaryVlanId(k *DistributedVirt
 	return false
 }
 
+//mergeStructTemplateSpec
+func MergeDistributedVirtualSwitch_PvlanMapping(k *PvlanMapping, p *PvlanMapping, md *plugin.MergeDescription) bool {
+	updated := false
+	anyChildUpdated := false
+	updated = MergeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDistributedVirtualSwitch_PvlanMapping_PvlanType(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	if anyChildUpdated {
+		md.NeedsProviderUpdate = true
+	}
+	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(k *PvlanMapping, p *PvlanMapping, md *plugin.MergeDescription) bool {
+	if k.PrimaryVlanId != p.PrimaryVlanId {
+		p.PrimaryVlanId = k.PrimaryVlanId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDistributedVirtualSwitch_PvlanMapping_PvlanType(k *PvlanMapping, p *PvlanMapping, md *plugin.MergeDescription) bool {
+	if k.PvlanType != p.PvlanType {
+		p.PvlanType = k.PvlanType
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(k *PvlanMapping, p *PvlanMapping, md *plugin.MergeDescription) bool {
+	if k.SecondaryVlanId != p.SecondaryVlanId {
+		p.SecondaryVlanId = k.SecondaryVlanId
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveContainerTemplateSpec
 func MergeDistributedVirtualSwitch_StandbyUplinks(k *DistributedVirtualSwitchParameters, p *DistributedVirtualSwitchParameters, md *plugin.MergeDescription) bool {
 	if !plugin.CompareStringSlices(k.StandbyUplinks, p.StandbyUplinks) {
@@ -1286,6 +1381,46 @@ func MergeDistributedVirtualSwitch_VlanId(k *DistributedVirtualSwitchParameters,
 	return false
 }
 
+//mergeStructTemplateSpec
+func MergeDistributedVirtualSwitch_VlanRange(k *VlanRange, p *VlanRange, md *plugin.MergeDescription) bool {
+	updated := false
+	anyChildUpdated := false
+	updated = MergeDistributedVirtualSwitch_VlanRange_MaxVlan(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeDistributedVirtualSwitch_VlanRange_MinVlan(k, p, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	if anyChildUpdated {
+		md.NeedsProviderUpdate = true
+	}
+	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDistributedVirtualSwitch_VlanRange_MaxVlan(k *VlanRange, p *VlanRange, md *plugin.MergeDescription) bool {
+	if k.MaxVlan != p.MaxVlan {
+		p.MaxVlan = k.MaxVlan
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeDistributedVirtualSwitch_VlanRange_MinVlan(k *VlanRange, p *VlanRange, md *plugin.MergeDescription) bool {
+	if k.MinVlan != p.MinVlan {
+		p.MinVlan = k.MinVlan
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
 //mergePrimitiveTemplateSpec
 func MergeDistributedVirtualSwitch_VmotionMaximumMbit(k *DistributedVirtualSwitchParameters, p *DistributedVirtualSwitchParameters, md *plugin.MergeDescription) bool {
 	if k.VmotionMaximumMbit != p.VmotionMaximumMbit {
@@ -1360,141 +1495,6 @@ func MergeDistributedVirtualSwitch_VsanShareCount(k *DistributedVirtualSwitchPar
 func MergeDistributedVirtualSwitch_VsanShareLevel(k *DistributedVirtualSwitchParameters, p *DistributedVirtualSwitchParameters, md *plugin.MergeDescription) bool {
 	if k.VsanShareLevel != p.VsanShareLevel {
 		p.VsanShareLevel = k.VsanShareLevel
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergeStructTemplateSpec
-func MergeDistributedVirtualSwitch_Host(k *Host, p *Host, md *plugin.MergeDescription) bool {
-	updated := false
-	anyChildUpdated := false
-	updated = MergeDistributedVirtualSwitch_Host_HostSystemId(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDistributedVirtualSwitch_Host_Devices(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	if anyChildUpdated {
-		md.NeedsProviderUpdate = true
-	}
-	return anyChildUpdated
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDistributedVirtualSwitch_Host_HostSystemId(k *Host, p *Host, md *plugin.MergeDescription) bool {
-	if k.HostSystemId != p.HostSystemId {
-		p.HostSystemId = k.HostSystemId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveContainerTemplateSpec
-func MergeDistributedVirtualSwitch_Host_Devices(k *Host, p *Host, md *plugin.MergeDescription) bool {
-	if !plugin.CompareStringSlices(k.Devices, p.Devices) {
-		p.Devices = k.Devices
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergeStructTemplateSpec
-func MergeDistributedVirtualSwitch_PvlanMapping(k *PvlanMapping, p *PvlanMapping, md *plugin.MergeDescription) bool {
-	updated := false
-	anyChildUpdated := false
-	updated = MergeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDistributedVirtualSwitch_PvlanMapping_PvlanType(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	if anyChildUpdated {
-		md.NeedsProviderUpdate = true
-	}
-	return anyChildUpdated
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(k *PvlanMapping, p *PvlanMapping, md *plugin.MergeDescription) bool {
-	if k.PrimaryVlanId != p.PrimaryVlanId {
-		p.PrimaryVlanId = k.PrimaryVlanId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDistributedVirtualSwitch_PvlanMapping_PvlanType(k *PvlanMapping, p *PvlanMapping, md *plugin.MergeDescription) bool {
-	if k.PvlanType != p.PvlanType {
-		p.PvlanType = k.PvlanType
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(k *PvlanMapping, p *PvlanMapping, md *plugin.MergeDescription) bool {
-	if k.SecondaryVlanId != p.SecondaryVlanId {
-		p.SecondaryVlanId = k.SecondaryVlanId
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergeStructTemplateSpec
-func MergeDistributedVirtualSwitch_VlanRange(k *VlanRange, p *VlanRange, md *plugin.MergeDescription) bool {
-	updated := false
-	anyChildUpdated := false
-	updated = MergeDistributedVirtualSwitch_VlanRange_MaxVlan(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeDistributedVirtualSwitch_VlanRange_MinVlan(k, p, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	if anyChildUpdated {
-		md.NeedsProviderUpdate = true
-	}
-	return anyChildUpdated
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDistributedVirtualSwitch_VlanRange_MaxVlan(k *VlanRange, p *VlanRange, md *plugin.MergeDescription) bool {
-	if k.MaxVlan != p.MaxVlan {
-		p.MaxVlan = k.MaxVlan
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeDistributedVirtualSwitch_VlanRange_MinVlan(k *VlanRange, p *VlanRange, md *plugin.MergeDescription) bool {
-	if k.MinVlan != p.MinVlan {
-		p.MinVlan = k.MinVlan
 		md.NeedsProviderUpdate = true
 		return true
 	}

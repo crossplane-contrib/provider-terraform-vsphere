@@ -85,7 +85,7 @@ type HostPortGroupObservation struct {
 }
 
 type Ports struct {
-	Type         string   `json:"type"`
 	Key          string   `json:"key"`
 	MacAddresses []string `json:"mac_addresses,omitempty"`
+	Type         string   `json:"type"`
 }

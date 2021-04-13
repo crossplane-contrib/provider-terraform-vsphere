@@ -46,6 +46,16 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
+	updated = MergeVnic_Ipv4(&k.Spec.ForProvider.Ipv4, &p.Spec.ForProvider.Ipv4, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
+	updated = MergeVnic_Ipv6(&k.Spec.ForProvider.Ipv6, &p.Spec.ForProvider.Ipv6, md)
+	if updated {
+		anyChildUpdated = true
+	}
+
 	updated = MergeVnic_Mac(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
@@ -62,16 +72,6 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 	}
 
 	updated = MergeVnic_Portgroup(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVnic_Ipv4(&k.Spec.ForProvider.Ipv4, &p.Spec.ForProvider.Ipv4, md)
-	if updated {
-		anyChildUpdated = true
-	}
-
-	updated = MergeVnic_Ipv6(&k.Spec.ForProvider.Ipv6, &p.Spec.ForProvider.Ipv6, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -110,46 +110,6 @@ func MergeVnic_DistributedSwitchPort(k *VnicParameters, p *VnicParameters, md *p
 func MergeVnic_Host(k *VnicParameters, p *VnicParameters, md *plugin.MergeDescription) bool {
 	if k.Host != p.Host {
 		p.Host = k.Host
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVnic_Mac(k *VnicParameters, p *VnicParameters, md *plugin.MergeDescription) bool {
-	if k.Mac != p.Mac {
-		p.Mac = k.Mac
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVnic_Mtu(k *VnicParameters, p *VnicParameters, md *plugin.MergeDescription) bool {
-	if k.Mtu != p.Mtu {
-		p.Mtu = k.Mtu
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVnic_Netstack(k *VnicParameters, p *VnicParameters, md *plugin.MergeDescription) bool {
-	if k.Netstack != p.Netstack {
-		p.Netstack = k.Netstack
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
-//mergePrimitiveTemplateSpec
-func MergeVnic_Portgroup(k *VnicParameters, p *VnicParameters, md *plugin.MergeDescription) bool {
-	if k.Portgroup != p.Portgroup {
-		p.Portgroup = k.Portgroup
 		md.NeedsProviderUpdate = true
 		return true
 	}
@@ -290,6 +250,46 @@ func MergeVnic_Ipv6_Dhcp(k *Ipv6, p *Ipv6, md *plugin.MergeDescription) bool {
 func MergeVnic_Ipv6_Gw(k *Ipv6, p *Ipv6, md *plugin.MergeDescription) bool {
 	if k.Gw != p.Gw {
 		p.Gw = k.Gw
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVnic_Mac(k *VnicParameters, p *VnicParameters, md *plugin.MergeDescription) bool {
+	if k.Mac != p.Mac {
+		p.Mac = k.Mac
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVnic_Mtu(k *VnicParameters, p *VnicParameters, md *plugin.MergeDescription) bool {
+	if k.Mtu != p.Mtu {
+		p.Mtu = k.Mtu
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVnic_Netstack(k *VnicParameters, p *VnicParameters, md *plugin.MergeDescription) bool {
+	if k.Netstack != p.Netstack {
+		p.Netstack = k.Netstack
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
+}
+
+//mergePrimitiveTemplateSpec
+func MergeVnic_Portgroup(k *VnicParameters, p *VnicParameters, md *plugin.MergeDescription) bool {
+	if k.Portgroup != p.Portgroup {
+		p.Portgroup = k.Portgroup
 		md.NeedsProviderUpdate = true
 		return true
 	}

@@ -296,12 +296,12 @@ func (r *resourceMerger) MergeResources(kube resource.Managed, prov resource.Man
 		anyChildUpdated = true
 	}
 
-	updated = MergeComputeCluster_VsanEnabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
+	updated = MergeComputeCluster_VsanDiskGroup(&k.Spec.ForProvider.VsanDiskGroup, &p.Spec.ForProvider.VsanDiskGroup, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeComputeCluster_VsanDiskGroup(&k.Spec.ForProvider.VsanDiskGroup, &p.Spec.ForProvider.VsanDiskGroup, md)
+	updated = MergeComputeCluster_VsanEnabled(&k.Spec.ForProvider, &p.Spec.ForProvider, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -851,26 +851,16 @@ func MergeComputeCluster_Tags(k *ComputeClusterParameters, p *ComputeClusterPara
 	return false
 }
 
-//mergePrimitiveTemplateSpec
-func MergeComputeCluster_VsanEnabled(k *ComputeClusterParameters, p *ComputeClusterParameters, md *plugin.MergeDescription) bool {
-	if k.VsanEnabled != p.VsanEnabled {
-		p.VsanEnabled = k.VsanEnabled
-		md.NeedsProviderUpdate = true
-		return true
-	}
-	return false
-}
-
 //mergeStructTemplateSpec
 func MergeComputeCluster_VsanDiskGroup(k *VsanDiskGroup, p *VsanDiskGroup, md *plugin.MergeDescription) bool {
 	updated := false
 	anyChildUpdated := false
-	updated = MergeComputeCluster_VsanDiskGroup_Storage(k, p, md)
+	updated = MergeComputeCluster_VsanDiskGroup_Cache(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
 
-	updated = MergeComputeCluster_VsanDiskGroup_Cache(k, p, md)
+	updated = MergeComputeCluster_VsanDiskGroup_Storage(k, p, md)
 	if updated {
 		anyChildUpdated = true
 	}
@@ -879,6 +869,16 @@ func MergeComputeCluster_VsanDiskGroup(k *VsanDiskGroup, p *VsanDiskGroup, md *p
 		md.NeedsProviderUpdate = true
 	}
 	return anyChildUpdated
+}
+
+//mergePrimitiveTemplateSpec
+func MergeComputeCluster_VsanDiskGroup_Cache(k *VsanDiskGroup, p *VsanDiskGroup, md *plugin.MergeDescription) bool {
+	if k.Cache != p.Cache {
+		p.Cache = k.Cache
+		md.NeedsProviderUpdate = true
+		return true
+	}
+	return false
 }
 
 //mergePrimitiveContainerTemplateSpec
@@ -892,9 +892,9 @@ func MergeComputeCluster_VsanDiskGroup_Storage(k *VsanDiskGroup, p *VsanDiskGrou
 }
 
 //mergePrimitiveTemplateSpec
-func MergeComputeCluster_VsanDiskGroup_Cache(k *VsanDiskGroup, p *VsanDiskGroup, md *plugin.MergeDescription) bool {
-	if k.Cache != p.Cache {
-		p.Cache = k.Cache
+func MergeComputeCluster_VsanEnabled(k *ComputeClusterParameters, p *ComputeClusterParameters, md *plugin.MergeDescription) bool {
+	if k.VsanEnabled != p.VsanEnabled {
+		p.VsanEnabled = k.VsanEnabled
 		md.NeedsProviderUpdate = true
 		return true
 	}

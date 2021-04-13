@@ -40,12 +40,12 @@ func EncodeVnic(r Vnic) cty.Value {
 	EncodeVnic_DistributedPortGroup(r.Spec.ForProvider, ctyVal)
 	EncodeVnic_DistributedSwitchPort(r.Spec.ForProvider, ctyVal)
 	EncodeVnic_Host(r.Spec.ForProvider, ctyVal)
+	EncodeVnic_Ipv4(r.Spec.ForProvider.Ipv4, ctyVal)
+	EncodeVnic_Ipv6(r.Spec.ForProvider.Ipv6, ctyVal)
 	EncodeVnic_Mac(r.Spec.ForProvider, ctyVal)
 	EncodeVnic_Mtu(r.Spec.ForProvider, ctyVal)
 	EncodeVnic_Netstack(r.Spec.ForProvider, ctyVal)
 	EncodeVnic_Portgroup(r.Spec.ForProvider, ctyVal)
-	EncodeVnic_Ipv4(r.Spec.ForProvider.Ipv4, ctyVal)
-	EncodeVnic_Ipv6(r.Spec.ForProvider.Ipv6, ctyVal)
 
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -65,22 +65,6 @@ func EncodeVnic_DistributedSwitchPort(p VnicParameters, vals map[string]cty.Valu
 
 func EncodeVnic_Host(p VnicParameters, vals map[string]cty.Value) {
 	vals["host"] = cty.StringVal(p.Host)
-}
-
-func EncodeVnic_Mac(p VnicParameters, vals map[string]cty.Value) {
-	vals["mac"] = cty.StringVal(p.Mac)
-}
-
-func EncodeVnic_Mtu(p VnicParameters, vals map[string]cty.Value) {
-	vals["mtu"] = cty.NumberIntVal(p.Mtu)
-}
-
-func EncodeVnic_Netstack(p VnicParameters, vals map[string]cty.Value) {
-	vals["netstack"] = cty.StringVal(p.Netstack)
-}
-
-func EncodeVnic_Portgroup(p VnicParameters, vals map[string]cty.Value) {
-	vals["portgroup"] = cty.StringVal(p.Portgroup)
 }
 
 func EncodeVnic_Ipv4(p Ipv4, vals map[string]cty.Value) {
@@ -151,4 +135,20 @@ func EncodeVnic_Ipv6_Dhcp(p Ipv6, vals map[string]cty.Value) {
 
 func EncodeVnic_Ipv6_Gw(p Ipv6, vals map[string]cty.Value) {
 	vals["gw"] = cty.StringVal(p.Gw)
+}
+
+func EncodeVnic_Mac(p VnicParameters, vals map[string]cty.Value) {
+	vals["mac"] = cty.StringVal(p.Mac)
+}
+
+func EncodeVnic_Mtu(p VnicParameters, vals map[string]cty.Value) {
+	vals["mtu"] = cty.NumberIntVal(p.Mtu)
+}
+
+func EncodeVnic_Netstack(p VnicParameters, vals map[string]cty.Value) {
+	vals["netstack"] = cty.StringVal(p.Netstack)
+}
+
+func EncodeVnic_Portgroup(p VnicParameters, vals map[string]cty.Value) {
+	vals["portgroup"] = cty.StringVal(p.Portgroup)
 }

@@ -44,44 +44,55 @@ import (
 	"github.com/crossplane-contrib/terraform-runtime/pkg/plugin"
 )
 
-var ResourceImplementations = []*plugin.Implementation{
-	content_library.Implementation(),
-	compute_cluster_vm_group.Implementation(),
-	entity_permissions.Implementation(),
-	host_virtual_switch.Implementation(),
-	storage_drs_vm_override.Implementation(),
-	datastore_cluster.Implementation(),
-	compute_cluster_vm_host_rule.Implementation(),
-	nas_datastore.Implementation(),
-	host_port_group.Implementation(),
-	datacenter.Implementation(),
+var generatedImplementations = []*plugin.Implementation{
 	compute_cluster.Implementation(),
-	vnic.Implementation(),
-	vmfs_datastore.Implementation(),
-	file.Implementation(),
-	tag.Implementation(),
-	vm_storage_policy.Implementation(),
-	datastore_cluster_vm_anti_affinity_rule.Implementation(),
-	dpm_host_override.Implementation(),
-	folder.Implementation(),
-	tag_category.Implementation(),
-	distributed_virtual_switch.Implementation(),
-	vapp_container.Implementation(),
-	virtual_machine_snapshot.Implementation(),
-	license.Implementation(),
-	resource_pool.Implementation(),
-	custom_attribute.Implementation(),
-	content_library_item.Implementation(),
-	compute_cluster_vm_anti_affinity_rule.Implementation(),
-	distributed_port_group.Implementation(),
-	ha_vm_override.Implementation(),
-	compute_cluster_vm_dependency_rule.Implementation(),
-	compute_cluster_vm_affinity_rule.Implementation(),
-	vapp_entity.Implementation(),
 	compute_cluster_host_group.Implementation(),
-	virtual_machine.Implementation(),
-	virtual_disk.Implementation(),
+	compute_cluster_vm_affinity_rule.Implementation(),
+	compute_cluster_vm_anti_affinity_rule.Implementation(),
+	compute_cluster_vm_dependency_rule.Implementation(),
+	compute_cluster_vm_group.Implementation(),
+	compute_cluster_vm_host_rule.Implementation(),
+	content_library.Implementation(),
+	content_library_item.Implementation(),
+	custom_attribute.Implementation(),
+	datacenter.Implementation(),
+	datastore_cluster.Implementation(),
+	datastore_cluster_vm_anti_affinity_rule.Implementation(),
+	distributed_port_group.Implementation(),
+	distributed_virtual_switch.Implementation(),
+	dpm_host_override.Implementation(),
 	drs_vm_override.Implementation(),
+	entity_permissions.Implementation(),
+	file.Implementation(),
+	folder.Implementation(),
+	ha_vm_override.Implementation(),
 	host.Implementation(),
+	host_port_group.Implementation(),
+	host_virtual_switch.Implementation(),
+	license.Implementation(),
+	nas_datastore.Implementation(),
+	resource_pool.Implementation(),
 	role.Implementation(),
+	storage_drs_vm_override.Implementation(),
+	tag.Implementation(),
+	tag_category.Implementation(),
+	vapp_container.Implementation(),
+	vapp_entity.Implementation(),
+	virtual_disk.Implementation(),
+	virtual_machine.Implementation(),
+	virtual_machine_snapshot.Implementation(),
+	vm_storage_policy.Implementation(),
+	vmfs_datastore.Implementation(),
+	vnic.Implementation(),
+}
+
+// this is deferred until init time to simplify the codegen workflow.
+// index.go can be a simple templated, satisfying the needs of main.go so that
+// the provider can be compiled (albeit in a non-functional state) enabling angryjet
+// and controller-gen to run against the generated types.go before the a subsequent pass
+// of terraform-provider-gen adds the compare/encode/decode methods.
+func init() {
+	for _, impl := range generatedImplementations {
+		resourceImplementations = append(resourceImplementations, impl)
+	}
 }

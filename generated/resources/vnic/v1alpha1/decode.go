@@ -42,12 +42,12 @@ func DecodeVnic(prev *Vnic, ctyValue cty.Value) (resource.Managed, error) {
 	DecodeVnic_DistributedPortGroup(&new.Spec.ForProvider, valMap)
 	DecodeVnic_DistributedSwitchPort(&new.Spec.ForProvider, valMap)
 	DecodeVnic_Host(&new.Spec.ForProvider, valMap)
+	DecodeVnic_Ipv4(&new.Spec.ForProvider.Ipv4, valMap)
+	DecodeVnic_Ipv6(&new.Spec.ForProvider.Ipv6, valMap)
 	DecodeVnic_Mac(&new.Spec.ForProvider, valMap)
 	DecodeVnic_Mtu(&new.Spec.ForProvider, valMap)
 	DecodeVnic_Netstack(&new.Spec.ForProvider, valMap)
 	DecodeVnic_Portgroup(&new.Spec.ForProvider, valMap)
-	DecodeVnic_Ipv4(&new.Spec.ForProvider.Ipv4, valMap)
-	DecodeVnic_Ipv6(&new.Spec.ForProvider.Ipv6, valMap)
 
 	eid := valMap["id"].AsString()
 	if len(eid) > 0 {
@@ -69,26 +69,6 @@ func DecodeVnic_DistributedSwitchPort(p *VnicParameters, vals map[string]cty.Val
 //primitiveTypeDecodeTemplate
 func DecodeVnic_Host(p *VnicParameters, vals map[string]cty.Value) {
 	p.Host = ctwhy.ValueAsString(vals["host"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVnic_Mac(p *VnicParameters, vals map[string]cty.Value) {
-	p.Mac = ctwhy.ValueAsString(vals["mac"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVnic_Mtu(p *VnicParameters, vals map[string]cty.Value) {
-	p.Mtu = ctwhy.ValueAsInt64(vals["mtu"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVnic_Netstack(p *VnicParameters, vals map[string]cty.Value) {
-	p.Netstack = ctwhy.ValueAsString(vals["netstack"])
-}
-
-//primitiveTypeDecodeTemplate
-func DecodeVnic_Portgroup(p *VnicParameters, vals map[string]cty.Value) {
-	p.Portgroup = ctwhy.ValueAsString(vals["portgroup"])
 }
 
 //containerCollectionSingletonTypeDecodeTemplate
@@ -173,4 +153,24 @@ func DecodeVnic_Ipv6_Dhcp(p *Ipv6, vals map[string]cty.Value) {
 //primitiveTypeDecodeTemplate
 func DecodeVnic_Ipv6_Gw(p *Ipv6, vals map[string]cty.Value) {
 	p.Gw = ctwhy.ValueAsString(vals["gw"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVnic_Mac(p *VnicParameters, vals map[string]cty.Value) {
+	p.Mac = ctwhy.ValueAsString(vals["mac"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVnic_Mtu(p *VnicParameters, vals map[string]cty.Value) {
+	p.Mtu = ctwhy.ValueAsInt64(vals["mtu"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVnic_Netstack(p *VnicParameters, vals map[string]cty.Value) {
+	p.Netstack = ctwhy.ValueAsString(vals["netstack"])
+}
+
+//primitiveTypeDecodeTemplate
+func DecodeVnic_Portgroup(p *VnicParameters, vals map[string]cty.Value) {
+	p.Portgroup = ctwhy.ValueAsString(vals["portgroup"])
 }
