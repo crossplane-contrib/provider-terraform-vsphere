@@ -102,8 +102,6 @@ github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412/go.mod h1:WPjqKcmVOxf0
 github.com/agnivade/levenshtein v1.0.1/go.mod h1:CURSv5d9Uaml+FovSIICkLbAUZ9S4RqaHDIsdSBg7lM=
 github.com/alecthomas/kong v0.2.11 h1:RKeJXXWfg9N47RYfMm0+igkxBCTF4bzbneAxaqid0c4=
 github.com/alecthomas/kong v0.2.11/go.mod h1:kQOmtJgV+Lb4aj+I2LEn40cbtawdWJ9Y8QLq+lElKxE=
-github.com/alecthomas/kong v0.2.15 h1:HP3K1XuFn0wGSWFGVW67V+65tXw/Ht8FDYiLNAuX2Ug=
-github.com/alecthomas/kong v0.2.15/go.mod h1:kQOmtJgV+Lb4aj+I2LEn40cbtawdWJ9Y8QLq+lElKxE=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 h1:JYp7IbQjafoB+tBA3gMyHYHrpOtNuDiK/uB5uXxq5wM=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
@@ -195,12 +193,6 @@ github.com/cpuguy83/go-md2man/v2 v2.0.0/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsr
 github.com/creack/pty v1.1.7/go.mod h1:lj5s0c3V2DBrqTV7llrYr5NG6My20zk30Fl46Y7DoTY=
 github.com/creack/pty v1.1.9 h1:uDmaGzcdjhF4i/plgjmEsriH11Y0o7RKapEf/LDaM3w=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
-github.com/crossplane-contrib/terraform-provider-dl v0.0.0-20210326151831-95dc732e4246 h1:pghcj1jp0p4mSFjPQQtFBtN4H5YpouS+k3eh5eOp3Gc=
-github.com/crossplane-contrib/terraform-provider-dl v0.0.0-20210326151831-95dc732e4246/go.mod h1:0XvW7SiWLmuGdnn05ixT+TktPal85wSxlBYOEcIukOE=
-github.com/crossplane-contrib/terraform-provider-gen v0.0.0-20210317192616-e9255f2c6e7d h1:0t2ZIlkkIl1/U1gUjHSsm9vBRFjFreK4KcrxkJZIfFU=
-github.com/crossplane-contrib/terraform-provider-gen v0.0.0-20210317192616-e9255f2c6e7d/go.mod h1:olaUtK73hUy40tRMW8FLiJHSl1lBov+aBRVGDZIp8VU=
-github.com/crossplane-contrib/terraform-provider-gen v0.0.0-20210412223606-81a63c2f0a87 h1:IjE1aQyvUOdjbS5eub8sjo93eAC+Swe7OJSdAsiqRZM=
-github.com/crossplane-contrib/terraform-provider-gen v0.0.0-20210412223606-81a63c2f0a87/go.mod h1:Ij2jJ7aB3xOG/c4TRtMNmYjtEKjw7oy8L7eTpQKIfDU=
 github.com/crossplane-contrib/terraform-runtime v0.0.0-20210317191104-9eb36dba841c h1:xMk8yIu/h7YWV/LQhYBnLEA7/U761W6dT25lXJV7mGo=
 github.com/crossplane-contrib/terraform-runtime v0.0.0-20210317191104-9eb36dba841c/go.mod h1:1rNqIYM8dM+GUjPmTrKq0wBese3Kx7nm/MfTY++PJkE=
 github.com/crossplane/crossplane v1.0.0 h1:+aJ2aj34Qa/9MwB06Jz0ti0Cnb5qT9e3dhi+nVjiT3w=
@@ -491,8 +483,6 @@ github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb/go.mod h1:+NfK9FKe
 github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d h1:kJCB4vdITiW1eC1vq2e6IsrXKrZit1bv/TDYFGMp4BQ=
 github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d/go.mod h1:+NfK9FKeTrX5uv1uIXGdwYDTeHna2qgaIlx54MXqjAM=
 github.com/hpcloud/tail v1.0.0/go.mod h1:ab1qPbhIpdTxEkNHXyeSf5vhxWSCs/tWer42PpOxQnU=
-github.com/iancoleman/strcase v0.1.2 h1:gnomlvw9tnV3ITTAxzKSgTF+8kFWcU/f+TgttpXGz1U=
-github.com/iancoleman/strcase v0.1.2/go.mod h1:SK73tn/9oHe+/Y0h39VT4UCxmurVJkR5NA7kMEAOgSE=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/imdario/mergo v0.3.5/go.mod h1:2EnlNZ0deacrJVfApfmtdGgDfMuh/nq6Ok1EcJh5FfA=
 github.com/imdario/mergo v0.3.9 h1:UauaLniWCFHWd+Jp9oCEkTBj8VO/9DKg3PV3VCNMDIg=
