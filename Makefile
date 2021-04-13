@@ -29,7 +29,7 @@ NPROCS ?= 1
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
 GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider
-GO_SUBDIRS += generated
+GO_SUBDIRS += generated .
 GO111MODULE = on
 -include build/makelib/golang.mk
 
@@ -73,7 +73,7 @@ crds.clean:
 	@find $(CRD_DIR) -name "*.yaml.sed" -delete || $(FAIL)
 	@$(OK) cleaned generated CRDs
 
-generate: crds.clean
+generate: go.generate crds.clean
 
 # Ensure a PR is ready for review.
 reviewable: generate lint
