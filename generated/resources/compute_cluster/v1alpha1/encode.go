@@ -90,8 +90,8 @@ func EncodeComputeCluster(r ComputeCluster) cty.Value {
 	EncodeComputeCluster_ProactiveHaProviderIds(r.Spec.ForProvider, ctyVal)
 	EncodeComputeCluster_ProactiveHaSevereRemediation(r.Spec.ForProvider, ctyVal)
 	EncodeComputeCluster_Tags(r.Spec.ForProvider, ctyVal)
-	EncodeComputeCluster_VsanEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeComputeCluster_VsanDiskGroup(r.Spec.ForProvider.VsanDiskGroup, ctyVal)
+	EncodeComputeCluster_VsanEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeComputeCluster_ResourcePoolId(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -377,21 +377,21 @@ func EncodeComputeCluster_Tags(p ComputeClusterParameters, vals map[string]cty.V
 	}
 }
 
-func EncodeComputeCluster_VsanEnabled(p ComputeClusterParameters, vals map[string]cty.Value) {
-	vals["vsan_enabled"] = cty.BoolVal(p.VsanEnabled)
-}
-
 func EncodeComputeCluster_VsanDiskGroup(p VsanDiskGroup, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeComputeCluster_VsanDiskGroup_Storage(p, ctyVal)
 	EncodeComputeCluster_VsanDiskGroup_Cache(p, ctyVal)
+	EncodeComputeCluster_VsanDiskGroup_Storage(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	if len(valsForCollection) == 0 {
 		vals["vsan_disk_group"] = cty.ListValEmpty(cty.EmptyObject)
 	} else {
 		vals["vsan_disk_group"] = cty.ListVal(valsForCollection)
 	}
+}
+
+func EncodeComputeCluster_VsanDiskGroup_Cache(p VsanDiskGroup, vals map[string]cty.Value) {
+	vals["cache"] = cty.StringVal(p.Cache)
 }
 
 func EncodeComputeCluster_VsanDiskGroup_Storage(p VsanDiskGroup, vals map[string]cty.Value) {
@@ -406,8 +406,8 @@ func EncodeComputeCluster_VsanDiskGroup_Storage(p VsanDiskGroup, vals map[string
 	}
 }
 
-func EncodeComputeCluster_VsanDiskGroup_Cache(p VsanDiskGroup, vals map[string]cty.Value) {
-	vals["cache"] = cty.StringVal(p.Cache)
+func EncodeComputeCluster_VsanEnabled(p ComputeClusterParameters, vals map[string]cty.Value) {
+	vals["vsan_enabled"] = cty.BoolVal(p.VsanEnabled)
 }
 
 func EncodeComputeCluster_ResourcePoolId(p ComputeClusterObservation, vals map[string]cty.Value) {

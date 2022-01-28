@@ -39,8 +39,8 @@ func EncodeContentLibrary(r ContentLibrary) cty.Value {
 	ctyVal := make(map[string]cty.Value)
 	EncodeContentLibrary_Description(r.Spec.ForProvider, ctyVal)
 	EncodeContentLibrary_Name(r.Spec.ForProvider, ctyVal)
-	EncodeContentLibrary_StorageBacking(r.Spec.ForProvider, ctyVal)
 	EncodeContentLibrary_Publication(r.Spec.ForProvider.Publication, ctyVal)
+	EncodeContentLibrary_StorageBacking(r.Spec.ForProvider, ctyVal)
 	EncodeContentLibrary_Subscription(r.Spec.ForProvider.Subscription, ctyVal)
 
 	// always set id = external-name if it exists
@@ -59,40 +59,20 @@ func EncodeContentLibrary_Name(p ContentLibraryParameters, vals map[string]cty.V
 	vals["name"] = cty.StringVal(p.Name)
 }
 
-func EncodeContentLibrary_StorageBacking(p ContentLibraryParameters, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.StorageBacking {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["storage_backing"] = cty.SetValEmpty(cty.String)
-	} else {
-		vals["storage_backing"] = cty.SetVal(colVals)
-	}
-}
-
 func EncodeContentLibrary_Publication(p Publication, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeContentLibrary_Publication_Published(p, ctyVal)
-	EncodeContentLibrary_Publication_Username(p, ctyVal)
 	EncodeContentLibrary_Publication_AuthenticationMethod(p, ctyVal)
 	EncodeContentLibrary_Publication_Password(p, ctyVal)
 	EncodeContentLibrary_Publication_PublishUrl(p, ctyVal)
+	EncodeContentLibrary_Publication_Published(p, ctyVal)
+	EncodeContentLibrary_Publication_Username(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	if len(valsForCollection) == 0 {
 		vals["publication"] = cty.ListValEmpty(cty.EmptyObject)
 	} else {
 		vals["publication"] = cty.ListVal(valsForCollection)
 	}
-}
-
-func EncodeContentLibrary_Publication_Published(p Publication, vals map[string]cty.Value) {
-	vals["published"] = cty.BoolVal(p.Published)
-}
-
-func EncodeContentLibrary_Publication_Username(p Publication, vals map[string]cty.Value) {
-	vals["username"] = cty.StringVal(p.Username)
 }
 
 func EncodeContentLibrary_Publication_AuthenticationMethod(p Publication, vals map[string]cty.Value) {
@@ -107,21 +87,49 @@ func EncodeContentLibrary_Publication_PublishUrl(p Publication, vals map[string]
 	vals["publish_url"] = cty.StringVal(p.PublishUrl)
 }
 
+func EncodeContentLibrary_Publication_Published(p Publication, vals map[string]cty.Value) {
+	vals["published"] = cty.BoolVal(p.Published)
+}
+
+func EncodeContentLibrary_Publication_Username(p Publication, vals map[string]cty.Value) {
+	vals["username"] = cty.StringVal(p.Username)
+}
+
+func EncodeContentLibrary_StorageBacking(p ContentLibraryParameters, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.StorageBacking {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["storage_backing"] = cty.SetValEmpty(cty.String)
+	} else {
+		vals["storage_backing"] = cty.SetVal(colVals)
+	}
+}
+
 func EncodeContentLibrary_Subscription(p Subscription, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
+	EncodeContentLibrary_Subscription_AuthenticationMethod(p, ctyVal)
+	EncodeContentLibrary_Subscription_AutomaticSync(p, ctyVal)
 	EncodeContentLibrary_Subscription_OnDemand(p, ctyVal)
 	EncodeContentLibrary_Subscription_Password(p, ctyVal)
 	EncodeContentLibrary_Subscription_SubscriptionUrl(p, ctyVal)
 	EncodeContentLibrary_Subscription_Username(p, ctyVal)
-	EncodeContentLibrary_Subscription_AuthenticationMethod(p, ctyVal)
-	EncodeContentLibrary_Subscription_AutomaticSync(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	if len(valsForCollection) == 0 {
 		vals["subscription"] = cty.ListValEmpty(cty.EmptyObject)
 	} else {
 		vals["subscription"] = cty.ListVal(valsForCollection)
 	}
+}
+
+func EncodeContentLibrary_Subscription_AuthenticationMethod(p Subscription, vals map[string]cty.Value) {
+	vals["authentication_method"] = cty.StringVal(p.AuthenticationMethod)
+}
+
+func EncodeContentLibrary_Subscription_AutomaticSync(p Subscription, vals map[string]cty.Value) {
+	vals["automatic_sync"] = cty.BoolVal(p.AutomaticSync)
 }
 
 func EncodeContentLibrary_Subscription_OnDemand(p Subscription, vals map[string]cty.Value) {
@@ -138,12 +146,4 @@ func EncodeContentLibrary_Subscription_SubscriptionUrl(p Subscription, vals map[
 
 func EncodeContentLibrary_Subscription_Username(p Subscription, vals map[string]cty.Value) {
 	vals["username"] = cty.StringVal(p.Username)
-}
-
-func EncodeContentLibrary_Subscription_AuthenticationMethod(p Subscription, vals map[string]cty.Value) {
-	vals["authentication_method"] = cty.StringVal(p.AuthenticationMethod)
-}
-
-func EncodeContentLibrary_Subscription_AutomaticSync(p Subscription, vals map[string]cty.Value) {
-	vals["automatic_sync"] = cty.BoolVal(p.AutomaticSync)
 }

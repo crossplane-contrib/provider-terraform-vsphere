@@ -145,8 +145,8 @@ type DistributedVirtualSwitchParameters struct {
 }
 
 type Host struct {
-	HostSystemId string   `json:"host_system_id"`
 	Devices      []string `json:"devices,omitempty"`
+	HostSystemId string   `json:"host_system_id"`
 }
 
 type PvlanMapping struct {

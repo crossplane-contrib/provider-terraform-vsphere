@@ -63,6 +63,7 @@ func EncodeDistributedVirtualSwitch(r DistributedVirtualSwitch) cty.Value {
 	EncodeDistributedVirtualSwitch_HbrReservationMbit(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_HbrShareCount(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_HbrShareLevel(r.Spec.ForProvider, ctyVal)
+	EncodeDistributedVirtualSwitch_Host(r.Spec.ForProvider.Host, ctyVal)
 	EncodeDistributedVirtualSwitch_IgnoreOtherPvlanMappings(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_IngressShapingAverageBandwidth(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_IngressShapingBurstSize(r.Spec.ForProvider, ctyVal)
@@ -101,6 +102,7 @@ func EncodeDistributedVirtualSwitch(r DistributedVirtualSwitch) cty.Value {
 	EncodeDistributedVirtualSwitch_NfsShareLevel(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_NotifySwitches(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_PortPrivateSecondaryVlanId(r.Spec.ForProvider, ctyVal)
+	EncodeDistributedVirtualSwitch_PvlanMapping(r.Spec.ForProvider.PvlanMapping, ctyVal)
 	EncodeDistributedVirtualSwitch_StandbyUplinks(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_Tags(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_TeamingPolicy(r.Spec.ForProvider, ctyVal)
@@ -116,6 +118,7 @@ func EncodeDistributedVirtualSwitch(r DistributedVirtualSwitch) cty.Value {
 	EncodeDistributedVirtualSwitch_VirtualmachineShareCount(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_VirtualmachineShareLevel(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_VlanId(r.Spec.ForProvider, ctyVal)
+	EncodeDistributedVirtualSwitch_VlanRange(r.Spec.ForProvider.VlanRange, ctyVal)
 	EncodeDistributedVirtualSwitch_VmotionMaximumMbit(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_VmotionReservationMbit(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_VmotionShareCount(r.Spec.ForProvider, ctyVal)
@@ -124,9 +127,6 @@ func EncodeDistributedVirtualSwitch(r DistributedVirtualSwitch) cty.Value {
 	EncodeDistributedVirtualSwitch_VsanReservationMbit(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_VsanShareCount(r.Spec.ForProvider, ctyVal)
 	EncodeDistributedVirtualSwitch_VsanShareLevel(r.Spec.ForProvider, ctyVal)
-	EncodeDistributedVirtualSwitch_Host(r.Spec.ForProvider.Host, ctyVal)
-	EncodeDistributedVirtualSwitch_PvlanMapping(r.Spec.ForProvider.PvlanMapping, ctyVal)
-	EncodeDistributedVirtualSwitch_VlanRange(r.Spec.ForProvider.VlanRange, ctyVal)
 	EncodeDistributedVirtualSwitch_ConfigVersion(r.Status.AtProvider, ctyVal)
 	// always set id = external-name if it exists
 	// TODO: we should trim Id off schemas in an "optimize" pass
@@ -254,6 +254,35 @@ func EncodeDistributedVirtualSwitch_HbrShareCount(p DistributedVirtualSwitchPara
 
 func EncodeDistributedVirtualSwitch_HbrShareLevel(p DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
 	vals["hbr_share_level"] = cty.StringVal(p.HbrShareLevel)
+}
+
+func EncodeDistributedVirtualSwitch_Host(p Host, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeDistributedVirtualSwitch_Host_Devices(p, ctyVal)
+	EncodeDistributedVirtualSwitch_Host_HostSystemId(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	if len(valsForCollection) == 0 {
+		vals["host"] = cty.SetValEmpty(cty.EmptyObject)
+	} else {
+		vals["host"] = cty.SetVal(valsForCollection)
+	}
+}
+
+func EncodeDistributedVirtualSwitch_Host_Devices(p Host, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.Devices {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["devices"] = cty.ListValEmpty(cty.String)
+	} else {
+		vals["devices"] = cty.ListVal(colVals)
+	}
+}
+
+func EncodeDistributedVirtualSwitch_Host_HostSystemId(p Host, vals map[string]cty.Value) {
+	vals["host_system_id"] = cty.StringVal(p.HostSystemId)
 }
 
 func EncodeDistributedVirtualSwitch_IgnoreOtherPvlanMappings(p DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
@@ -408,6 +437,32 @@ func EncodeDistributedVirtualSwitch_PortPrivateSecondaryVlanId(p DistributedVirt
 	vals["port_private_secondary_vlan_id"] = cty.NumberIntVal(p.PortPrivateSecondaryVlanId)
 }
 
+func EncodeDistributedVirtualSwitch_PvlanMapping(p PvlanMapping, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p, ctyVal)
+	EncodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p, ctyVal)
+	EncodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	if len(valsForCollection) == 0 {
+		vals["pvlan_mapping"] = cty.SetValEmpty(cty.EmptyObject)
+	} else {
+		vals["pvlan_mapping"] = cty.SetVal(valsForCollection)
+	}
+}
+
+func EncodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p PvlanMapping, vals map[string]cty.Value) {
+	vals["primary_vlan_id"] = cty.NumberIntVal(p.PrimaryVlanId)
+}
+
+func EncodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p PvlanMapping, vals map[string]cty.Value) {
+	vals["pvlan_type"] = cty.StringVal(p.PvlanType)
+}
+
+func EncodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p PvlanMapping, vals map[string]cty.Value) {
+	vals["secondary_vlan_id"] = cty.NumberIntVal(p.SecondaryVlanId)
+}
+
 func EncodeDistributedVirtualSwitch_StandbyUplinks(p DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
 	colVals := make([]cty.Value, 0)
 	for _, value := range p.StandbyUplinks {
@@ -492,6 +547,27 @@ func EncodeDistributedVirtualSwitch_VlanId(p DistributedVirtualSwitchParameters,
 	vals["vlan_id"] = cty.NumberIntVal(p.VlanId)
 }
 
+func EncodeDistributedVirtualSwitch_VlanRange(p VlanRange, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeDistributedVirtualSwitch_VlanRange_MaxVlan(p, ctyVal)
+	EncodeDistributedVirtualSwitch_VlanRange_MinVlan(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	if len(valsForCollection) == 0 {
+		vals["vlan_range"] = cty.SetValEmpty(cty.EmptyObject)
+	} else {
+		vals["vlan_range"] = cty.SetVal(valsForCollection)
+	}
+}
+
+func EncodeDistributedVirtualSwitch_VlanRange_MaxVlan(p VlanRange, vals map[string]cty.Value) {
+	vals["max_vlan"] = cty.NumberIntVal(p.MaxVlan)
+}
+
+func EncodeDistributedVirtualSwitch_VlanRange_MinVlan(p VlanRange, vals map[string]cty.Value) {
+	vals["min_vlan"] = cty.NumberIntVal(p.MinVlan)
+}
+
 func EncodeDistributedVirtualSwitch_VmotionMaximumMbit(p DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
 	vals["vmotion_maximum_mbit"] = cty.NumberIntVal(p.VmotionMaximumMbit)
 }
@@ -522,82 +598,6 @@ func EncodeDistributedVirtualSwitch_VsanShareCount(p DistributedVirtualSwitchPar
 
 func EncodeDistributedVirtualSwitch_VsanShareLevel(p DistributedVirtualSwitchParameters, vals map[string]cty.Value) {
 	vals["vsan_share_level"] = cty.StringVal(p.VsanShareLevel)
-}
-
-func EncodeDistributedVirtualSwitch_Host(p Host, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeDistributedVirtualSwitch_Host_HostSystemId(p, ctyVal)
-	EncodeDistributedVirtualSwitch_Host_Devices(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	if len(valsForCollection) == 0 {
-		vals["host"] = cty.SetValEmpty(cty.EmptyObject)
-	} else {
-		vals["host"] = cty.SetVal(valsForCollection)
-	}
-}
-
-func EncodeDistributedVirtualSwitch_Host_HostSystemId(p Host, vals map[string]cty.Value) {
-	vals["host_system_id"] = cty.StringVal(p.HostSystemId)
-}
-
-func EncodeDistributedVirtualSwitch_Host_Devices(p Host, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.Devices {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["devices"] = cty.ListValEmpty(cty.String)
-	} else {
-		vals["devices"] = cty.ListVal(colVals)
-	}
-}
-
-func EncodeDistributedVirtualSwitch_PvlanMapping(p PvlanMapping, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p, ctyVal)
-	EncodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p, ctyVal)
-	EncodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	if len(valsForCollection) == 0 {
-		vals["pvlan_mapping"] = cty.SetValEmpty(cty.EmptyObject)
-	} else {
-		vals["pvlan_mapping"] = cty.SetVal(valsForCollection)
-	}
-}
-
-func EncodeDistributedVirtualSwitch_PvlanMapping_PrimaryVlanId(p PvlanMapping, vals map[string]cty.Value) {
-	vals["primary_vlan_id"] = cty.NumberIntVal(p.PrimaryVlanId)
-}
-
-func EncodeDistributedVirtualSwitch_PvlanMapping_PvlanType(p PvlanMapping, vals map[string]cty.Value) {
-	vals["pvlan_type"] = cty.StringVal(p.PvlanType)
-}
-
-func EncodeDistributedVirtualSwitch_PvlanMapping_SecondaryVlanId(p PvlanMapping, vals map[string]cty.Value) {
-	vals["secondary_vlan_id"] = cty.NumberIntVal(p.SecondaryVlanId)
-}
-
-func EncodeDistributedVirtualSwitch_VlanRange(p VlanRange, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeDistributedVirtualSwitch_VlanRange_MaxVlan(p, ctyVal)
-	EncodeDistributedVirtualSwitch_VlanRange_MinVlan(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	if len(valsForCollection) == 0 {
-		vals["vlan_range"] = cty.SetValEmpty(cty.EmptyObject)
-	} else {
-		vals["vlan_range"] = cty.SetVal(valsForCollection)
-	}
-}
-
-func EncodeDistributedVirtualSwitch_VlanRange_MaxVlan(p VlanRange, vals map[string]cty.Value) {
-	vals["max_vlan"] = cty.NumberIntVal(p.MaxVlan)
-}
-
-func EncodeDistributedVirtualSwitch_VlanRange_MinVlan(p VlanRange, vals map[string]cty.Value) {
-	vals["min_vlan"] = cty.NumberIntVal(p.MinVlan)
 }
 
 func EncodeDistributedVirtualSwitch_ConfigVersion(p DistributedVirtualSwitchObservation, vals map[string]cty.Value) {

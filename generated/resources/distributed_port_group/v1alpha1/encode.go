@@ -308,8 +308,8 @@ func EncodeDistributedPortGroup_VlanOverrideAllowed(p DistributedPortGroupParame
 func EncodeDistributedPortGroup_VlanRange(p VlanRange, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
-	EncodeDistributedPortGroup_VlanRange_MinVlan(p, ctyVal)
 	EncodeDistributedPortGroup_VlanRange_MaxVlan(p, ctyVal)
+	EncodeDistributedPortGroup_VlanRange_MinVlan(p, ctyVal)
 	valsForCollection[0] = cty.ObjectVal(ctyVal)
 	if len(valsForCollection) == 0 {
 		vals["vlan_range"] = cty.SetValEmpty(cty.EmptyObject)
@@ -318,12 +318,12 @@ func EncodeDistributedPortGroup_VlanRange(p VlanRange, vals map[string]cty.Value
 	}
 }
 
-func EncodeDistributedPortGroup_VlanRange_MinVlan(p VlanRange, vals map[string]cty.Value) {
-	vals["min_vlan"] = cty.NumberIntVal(p.MinVlan)
-}
-
 func EncodeDistributedPortGroup_VlanRange_MaxVlan(p VlanRange, vals map[string]cty.Value) {
 	vals["max_vlan"] = cty.NumberIntVal(p.MaxVlan)
+}
+
+func EncodeDistributedPortGroup_VlanRange_MinVlan(p VlanRange, vals map[string]cty.Value) {
+	vals["min_vlan"] = cty.NumberIntVal(p.MinVlan)
 }
 
 func EncodeDistributedPortGroup_ConfigVersion(p DistributedPortGroupObservation, vals map[string]cty.Value) {

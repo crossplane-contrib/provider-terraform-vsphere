@@ -42,6 +42,8 @@ func EncodeVirtualMachine(r VirtualMachine) cty.Value {
 	EncodeVirtualMachine_BootDelay(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_BootRetryDelay(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_BootRetryEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeVirtualMachine_Cdrom(r.Spec.ForProvider.Cdrom, ctyVal)
+	EncodeVirtualMachine_Clone(r.Spec.ForProvider.Clone, ctyVal)
 	EncodeVirtualMachine_CpuHotAddEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_CpuHotRemoveEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_CpuLimit(r.Spec.ForProvider, ctyVal)
@@ -53,6 +55,7 @@ func EncodeVirtualMachine(r VirtualMachine) cty.Value {
 	EncodeVirtualMachine_DatacenterId(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_DatastoreClusterId(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_DatastoreId(r.Spec.ForProvider, ctyVal)
+	EncodeVirtualMachine_Disk(r.Spec.ForProvider.Disk, ctyVal)
 	EncodeVirtualMachine_EfiSecureBootEnabled(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_EnableDiskUuid(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_EnableLogging(r.Spec.ForProvider, ctyVal)
@@ -77,8 +80,10 @@ func EncodeVirtualMachine(r VirtualMachine) cty.Value {
 	EncodeVirtualMachine_MigrateWaitTimeout(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_Name(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_NestedHvEnabled(r.Spec.ForProvider, ctyVal)
+	EncodeVirtualMachine_NetworkInterface(r.Spec.ForProvider.NetworkInterface, ctyVal)
 	EncodeVirtualMachine_NumCoresPerSocket(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_NumCpus(r.Spec.ForProvider, ctyVal)
+	EncodeVirtualMachine_OvfDeploy(r.Spec.ForProvider.OvfDeploy, ctyVal)
 	EncodeVirtualMachine_PciDeviceId(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_PoweronTimeout(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_ResourcePoolId(r.Spec.ForProvider, ctyVal)
@@ -96,15 +101,10 @@ func EncodeVirtualMachine(r VirtualMachine) cty.Value {
 	EncodeVirtualMachine_SwapPlacementPolicy(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_SyncTimeWithHost(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_Tags(r.Spec.ForProvider, ctyVal)
+	EncodeVirtualMachine_Vapp(r.Spec.ForProvider.Vapp, ctyVal)
 	EncodeVirtualMachine_WaitForGuestIpTimeout(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_WaitForGuestNetRoutable(r.Spec.ForProvider, ctyVal)
 	EncodeVirtualMachine_WaitForGuestNetTimeout(r.Spec.ForProvider, ctyVal)
-	EncodeVirtualMachine_Cdrom(r.Spec.ForProvider.Cdrom, ctyVal)
-	EncodeVirtualMachine_Clone(r.Spec.ForProvider.Clone, ctyVal)
-	EncodeVirtualMachine_Disk(r.Spec.ForProvider.Disk, ctyVal)
-	EncodeVirtualMachine_NetworkInterface(r.Spec.ForProvider.NetworkInterface, ctyVal)
-	EncodeVirtualMachine_OvfDeploy(r.Spec.ForProvider.OvfDeploy, ctyVal)
-	EncodeVirtualMachine_Vapp(r.Spec.ForProvider.Vapp, ctyVal)
 	EncodeVirtualMachine_ChangeVersion(r.Status.AtProvider, ctyVal)
 	EncodeVirtualMachine_DefaultIpAddress(r.Status.AtProvider, ctyVal)
 	EncodeVirtualMachine_GuestIpAddresses(r.Status.AtProvider, ctyVal)
@@ -141,6 +141,319 @@ func EncodeVirtualMachine_BootRetryDelay(p VirtualMachineParameters, vals map[st
 
 func EncodeVirtualMachine_BootRetryEnabled(p VirtualMachineParameters, vals map[string]cty.Value) {
 	vals["boot_retry_enabled"] = cty.BoolVal(p.BootRetryEnabled)
+}
+
+func EncodeVirtualMachine_Cdrom(p Cdrom, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeVirtualMachine_Cdrom_ClientDevice(p, ctyVal)
+	EncodeVirtualMachine_Cdrom_DatastoreId(p, ctyVal)
+	EncodeVirtualMachine_Cdrom_DeviceAddress(p, ctyVal)
+	EncodeVirtualMachine_Cdrom_Key(p, ctyVal)
+	EncodeVirtualMachine_Cdrom_Path(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	if len(valsForCollection) == 0 {
+		vals["cdrom"] = cty.ListValEmpty(cty.EmptyObject)
+	} else {
+		vals["cdrom"] = cty.ListVal(valsForCollection)
+	}
+}
+
+func EncodeVirtualMachine_Cdrom_ClientDevice(p Cdrom, vals map[string]cty.Value) {
+	vals["client_device"] = cty.BoolVal(p.ClientDevice)
+}
+
+func EncodeVirtualMachine_Cdrom_DatastoreId(p Cdrom, vals map[string]cty.Value) {
+	vals["datastore_id"] = cty.StringVal(p.DatastoreId)
+}
+
+func EncodeVirtualMachine_Cdrom_DeviceAddress(p Cdrom, vals map[string]cty.Value) {
+	vals["device_address"] = cty.StringVal(p.DeviceAddress)
+}
+
+func EncodeVirtualMachine_Cdrom_Key(p Cdrom, vals map[string]cty.Value) {
+	vals["key"] = cty.NumberIntVal(p.Key)
+}
+
+func EncodeVirtualMachine_Cdrom_Path(p Cdrom, vals map[string]cty.Value) {
+	vals["path"] = cty.StringVal(p.Path)
+}
+
+func EncodeVirtualMachine_Clone(p Clone, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeVirtualMachine_Clone_Customize(p.Customize, ctyVal)
+	EncodeVirtualMachine_Clone_LinkedClone(p, ctyVal)
+	EncodeVirtualMachine_Clone_OvfNetworkMap(p, ctyVal)
+	EncodeVirtualMachine_Clone_OvfStorageMap(p, ctyVal)
+	EncodeVirtualMachine_Clone_TemplateUuid(p, ctyVal)
+	EncodeVirtualMachine_Clone_Timeout(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	if len(valsForCollection) == 0 {
+		vals["clone"] = cty.ListValEmpty(cty.EmptyObject)
+	} else {
+		vals["clone"] = cty.ListVal(valsForCollection)
+	}
+}
+
+func EncodeVirtualMachine_Clone_Customize(p Customize, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeVirtualMachine_Clone_Customize_DnsServerList(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_DnsSuffixList(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_Ipv4Gateway(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_Ipv6Gateway(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_LinuxOptions(p.LinuxOptions, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_NetworkInterface(p.NetworkInterface, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_Timeout(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions(p.WindowsOptions, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsSysprepText(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	if len(valsForCollection) == 0 {
+		vals["customize"] = cty.ListValEmpty(cty.EmptyObject)
+	} else {
+		vals["customize"] = cty.ListVal(valsForCollection)
+	}
+}
+
+func EncodeVirtualMachine_Clone_Customize_DnsServerList(p Customize, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.DnsServerList {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["dns_server_list"] = cty.ListValEmpty(cty.String)
+	} else {
+		vals["dns_server_list"] = cty.ListVal(colVals)
+	}
+}
+
+func EncodeVirtualMachine_Clone_Customize_DnsSuffixList(p Customize, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.DnsSuffixList {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["dns_suffix_list"] = cty.ListValEmpty(cty.String)
+	} else {
+		vals["dns_suffix_list"] = cty.ListVal(colVals)
+	}
+}
+
+func EncodeVirtualMachine_Clone_Customize_Ipv4Gateway(p Customize, vals map[string]cty.Value) {
+	vals["ipv4_gateway"] = cty.StringVal(p.Ipv4Gateway)
+}
+
+func EncodeVirtualMachine_Clone_Customize_Ipv6Gateway(p Customize, vals map[string]cty.Value) {
+	vals["ipv6_gateway"] = cty.StringVal(p.Ipv6Gateway)
+}
+
+func EncodeVirtualMachine_Clone_Customize_LinuxOptions(p LinuxOptions, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeVirtualMachine_Clone_Customize_LinuxOptions_Domain(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_LinuxOptions_HostName(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_LinuxOptions_HwClockUtc(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	if len(valsForCollection) == 0 {
+		vals["linux_options"] = cty.ListValEmpty(cty.EmptyObject)
+	} else {
+		vals["linux_options"] = cty.ListVal(valsForCollection)
+	}
+}
+
+func EncodeVirtualMachine_Clone_Customize_LinuxOptions_Domain(p LinuxOptions, vals map[string]cty.Value) {
+	vals["domain"] = cty.StringVal(p.Domain)
+}
+
+func EncodeVirtualMachine_Clone_Customize_LinuxOptions_HostName(p LinuxOptions, vals map[string]cty.Value) {
+	vals["host_name"] = cty.StringVal(p.HostName)
+}
+
+func EncodeVirtualMachine_Clone_Customize_LinuxOptions_HwClockUtc(p LinuxOptions, vals map[string]cty.Value) {
+	vals["hw_clock_utc"] = cty.BoolVal(p.HwClockUtc)
+}
+
+func EncodeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(p LinuxOptions, vals map[string]cty.Value) {
+	vals["time_zone"] = cty.StringVal(p.TimeZone)
+}
+
+func EncodeVirtualMachine_Clone_Customize_NetworkInterface(p NetworkInterface, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeVirtualMachine_Clone_Customize_NetworkInterface_DnsDomain(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_NetworkInterface_DnsServerList(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv4Address(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv4Netmask(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv6Address(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv6Netmask(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	if len(valsForCollection) == 0 {
+		vals["network_interface"] = cty.ListValEmpty(cty.EmptyObject)
+	} else {
+		vals["network_interface"] = cty.ListVal(valsForCollection)
+	}
+}
+
+func EncodeVirtualMachine_Clone_Customize_NetworkInterface_DnsDomain(p NetworkInterface, vals map[string]cty.Value) {
+	vals["dns_domain"] = cty.StringVal(p.DnsDomain)
+}
+
+func EncodeVirtualMachine_Clone_Customize_NetworkInterface_DnsServerList(p NetworkInterface, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.DnsServerList {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["dns_server_list"] = cty.ListValEmpty(cty.String)
+	} else {
+		vals["dns_server_list"] = cty.ListVal(colVals)
+	}
+}
+
+func EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv4Address(p NetworkInterface, vals map[string]cty.Value) {
+	vals["ipv4_address"] = cty.StringVal(p.Ipv4Address)
+}
+
+func EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv4Netmask(p NetworkInterface, vals map[string]cty.Value) {
+	vals["ipv4_netmask"] = cty.NumberIntVal(p.Ipv4Netmask)
+}
+
+func EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv6Address(p NetworkInterface, vals map[string]cty.Value) {
+	vals["ipv6_address"] = cty.StringVal(p.Ipv6Address)
+}
+
+func EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv6Netmask(p NetworkInterface, vals map[string]cty.Value) {
+	vals["ipv6_netmask"] = cty.NumberIntVal(p.Ipv6Netmask)
+}
+
+func EncodeVirtualMachine_Clone_Customize_Timeout(p Customize, vals map[string]cty.Value) {
+	vals["timeout"] = cty.NumberIntVal(p.Timeout)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions(p WindowsOptions, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_AdminPassword(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogon(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminUser(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_FullName(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_ProductKey(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_RunOnceCommandList(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_TimeZone(p, ctyVal)
+	EncodeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	if len(valsForCollection) == 0 {
+		vals["windows_options"] = cty.ListValEmpty(cty.EmptyObject)
+	} else {
+		vals["windows_options"] = cty.ListVal(valsForCollection)
+	}
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_AdminPassword(p WindowsOptions, vals map[string]cty.Value) {
+	vals["admin_password"] = cty.StringVal(p.AdminPassword)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogon(p WindowsOptions, vals map[string]cty.Value) {
+	vals["auto_logon"] = cty.BoolVal(p.AutoLogon)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(p WindowsOptions, vals map[string]cty.Value) {
+	vals["auto_logon_count"] = cty.NumberIntVal(p.AutoLogonCount)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(p WindowsOptions, vals map[string]cty.Value) {
+	vals["computer_name"] = cty.StringVal(p.ComputerName)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(p WindowsOptions, vals map[string]cty.Value) {
+	vals["domain_admin_password"] = cty.StringVal(p.DomainAdminPassword)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminUser(p WindowsOptions, vals map[string]cty.Value) {
+	vals["domain_admin_user"] = cty.StringVal(p.DomainAdminUser)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_FullName(p WindowsOptions, vals map[string]cty.Value) {
+	vals["full_name"] = cty.StringVal(p.FullName)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(p WindowsOptions, vals map[string]cty.Value) {
+	vals["join_domain"] = cty.StringVal(p.JoinDomain)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(p WindowsOptions, vals map[string]cty.Value) {
+	vals["organization_name"] = cty.StringVal(p.OrganizationName)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_ProductKey(p WindowsOptions, vals map[string]cty.Value) {
+	vals["product_key"] = cty.StringVal(p.ProductKey)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_RunOnceCommandList(p WindowsOptions, vals map[string]cty.Value) {
+	colVals := make([]cty.Value, 0)
+	for _, value := range p.RunOnceCommandList {
+		colVals = append(colVals, cty.StringVal(value))
+	}
+	if len(colVals) == 0 {
+		vals["run_once_command_list"] = cty.ListValEmpty(cty.String)
+	} else {
+		vals["run_once_command_list"] = cty.ListVal(colVals)
+	}
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_TimeZone(p WindowsOptions, vals map[string]cty.Value) {
+	vals["time_zone"] = cty.NumberIntVal(p.TimeZone)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(p WindowsOptions, vals map[string]cty.Value) {
+	vals["workgroup"] = cty.StringVal(p.Workgroup)
+}
+
+func EncodeVirtualMachine_Clone_Customize_WindowsSysprepText(p Customize, vals map[string]cty.Value) {
+	vals["windows_sysprep_text"] = cty.StringVal(p.WindowsSysprepText)
+}
+
+func EncodeVirtualMachine_Clone_LinkedClone(p Clone, vals map[string]cty.Value) {
+	vals["linked_clone"] = cty.BoolVal(p.LinkedClone)
+}
+
+func EncodeVirtualMachine_Clone_OvfNetworkMap(p Clone, vals map[string]cty.Value) {
+	if len(p.OvfNetworkMap) == 0 {
+		vals["ovf_network_map"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.OvfNetworkMap {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["ovf_network_map"] = cty.MapVal(mVals)
+}
+
+func EncodeVirtualMachine_Clone_OvfStorageMap(p Clone, vals map[string]cty.Value) {
+	if len(p.OvfStorageMap) == 0 {
+		vals["ovf_storage_map"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.OvfStorageMap {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["ovf_storage_map"] = cty.MapVal(mVals)
+}
+
+func EncodeVirtualMachine_Clone_TemplateUuid(p Clone, vals map[string]cty.Value) {
+	vals["template_uuid"] = cty.StringVal(p.TemplateUuid)
+}
+
+func EncodeVirtualMachine_Clone_Timeout(p Clone, vals map[string]cty.Value) {
+	vals["timeout"] = cty.NumberIntVal(p.Timeout)
 }
 
 func EncodeVirtualMachine_CpuHotAddEnabled(p VirtualMachineParameters, vals map[string]cty.Value) {
@@ -193,6 +506,129 @@ func EncodeVirtualMachine_DatastoreClusterId(p VirtualMachineParameters, vals ma
 
 func EncodeVirtualMachine_DatastoreId(p VirtualMachineParameters, vals map[string]cty.Value) {
 	vals["datastore_id"] = cty.StringVal(p.DatastoreId)
+}
+
+func EncodeVirtualMachine_Disk(p []Disk, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeVirtualMachine_Disk_Attach(v, ctyVal)
+		EncodeVirtualMachine_Disk_ControllerType(v, ctyVal)
+		EncodeVirtualMachine_Disk_DatastoreId(v, ctyVal)
+		EncodeVirtualMachine_Disk_DeviceAddress(v, ctyVal)
+		EncodeVirtualMachine_Disk_DiskMode(v, ctyVal)
+		EncodeVirtualMachine_Disk_DiskSharing(v, ctyVal)
+		EncodeVirtualMachine_Disk_EagerlyScrub(v, ctyVal)
+		EncodeVirtualMachine_Disk_IoLimit(v, ctyVal)
+		EncodeVirtualMachine_Disk_IoReservation(v, ctyVal)
+		EncodeVirtualMachine_Disk_IoShareCount(v, ctyVal)
+		EncodeVirtualMachine_Disk_IoShareLevel(v, ctyVal)
+		EncodeVirtualMachine_Disk_KeepOnRemove(v, ctyVal)
+		EncodeVirtualMachine_Disk_Key(v, ctyVal)
+		EncodeVirtualMachine_Disk_Label(v, ctyVal)
+		EncodeVirtualMachine_Disk_Name(v, ctyVal)
+		EncodeVirtualMachine_Disk_Path(v, ctyVal)
+		EncodeVirtualMachine_Disk_Size(v, ctyVal)
+		EncodeVirtualMachine_Disk_StoragePolicyId(v, ctyVal)
+		EncodeVirtualMachine_Disk_ThinProvisioned(v, ctyVal)
+		EncodeVirtualMachine_Disk_UnitNumber(v, ctyVal)
+		EncodeVirtualMachine_Disk_Uuid(v, ctyVal)
+		EncodeVirtualMachine_Disk_WriteThrough(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	if len(valsForCollection) == 0 {
+		vals["disk"] = cty.ListValEmpty(cty.EmptyObject)
+	} else {
+		vals["disk"] = cty.ListVal(valsForCollection)
+	}
+}
+
+func EncodeVirtualMachine_Disk_Attach(p Disk, vals map[string]cty.Value) {
+	vals["attach"] = cty.BoolVal(p.Attach)
+}
+
+func EncodeVirtualMachine_Disk_ControllerType(p Disk, vals map[string]cty.Value) {
+	vals["controller_type"] = cty.StringVal(p.ControllerType)
+}
+
+func EncodeVirtualMachine_Disk_DatastoreId(p Disk, vals map[string]cty.Value) {
+	vals["datastore_id"] = cty.StringVal(p.DatastoreId)
+}
+
+func EncodeVirtualMachine_Disk_DeviceAddress(p Disk, vals map[string]cty.Value) {
+	vals["device_address"] = cty.StringVal(p.DeviceAddress)
+}
+
+func EncodeVirtualMachine_Disk_DiskMode(p Disk, vals map[string]cty.Value) {
+	vals["disk_mode"] = cty.StringVal(p.DiskMode)
+}
+
+func EncodeVirtualMachine_Disk_DiskSharing(p Disk, vals map[string]cty.Value) {
+	vals["disk_sharing"] = cty.StringVal(p.DiskSharing)
+}
+
+func EncodeVirtualMachine_Disk_EagerlyScrub(p Disk, vals map[string]cty.Value) {
+	vals["eagerly_scrub"] = cty.BoolVal(p.EagerlyScrub)
+}
+
+func EncodeVirtualMachine_Disk_IoLimit(p Disk, vals map[string]cty.Value) {
+	vals["io_limit"] = cty.NumberIntVal(p.IoLimit)
+}
+
+func EncodeVirtualMachine_Disk_IoReservation(p Disk, vals map[string]cty.Value) {
+	vals["io_reservation"] = cty.NumberIntVal(p.IoReservation)
+}
+
+func EncodeVirtualMachine_Disk_IoShareCount(p Disk, vals map[string]cty.Value) {
+	vals["io_share_count"] = cty.NumberIntVal(p.IoShareCount)
+}
+
+func EncodeVirtualMachine_Disk_IoShareLevel(p Disk, vals map[string]cty.Value) {
+	vals["io_share_level"] = cty.StringVal(p.IoShareLevel)
+}
+
+func EncodeVirtualMachine_Disk_KeepOnRemove(p Disk, vals map[string]cty.Value) {
+	vals["keep_on_remove"] = cty.BoolVal(p.KeepOnRemove)
+}
+
+func EncodeVirtualMachine_Disk_Key(p Disk, vals map[string]cty.Value) {
+	vals["key"] = cty.NumberIntVal(p.Key)
+}
+
+func EncodeVirtualMachine_Disk_Label(p Disk, vals map[string]cty.Value) {
+	vals["label"] = cty.StringVal(p.Label)
+}
+
+func EncodeVirtualMachine_Disk_Name(p Disk, vals map[string]cty.Value) {
+	vals["name"] = cty.StringVal(p.Name)
+}
+
+func EncodeVirtualMachine_Disk_Path(p Disk, vals map[string]cty.Value) {
+	vals["path"] = cty.StringVal(p.Path)
+}
+
+func EncodeVirtualMachine_Disk_Size(p Disk, vals map[string]cty.Value) {
+	vals["size"] = cty.NumberIntVal(p.Size)
+}
+
+func EncodeVirtualMachine_Disk_StoragePolicyId(p Disk, vals map[string]cty.Value) {
+	vals["storage_policy_id"] = cty.StringVal(p.StoragePolicyId)
+}
+
+func EncodeVirtualMachine_Disk_ThinProvisioned(p Disk, vals map[string]cty.Value) {
+	vals["thin_provisioned"] = cty.BoolVal(p.ThinProvisioned)
+}
+
+func EncodeVirtualMachine_Disk_UnitNumber(p Disk, vals map[string]cty.Value) {
+	vals["unit_number"] = cty.NumberIntVal(p.UnitNumber)
+}
+
+func EncodeVirtualMachine_Disk_Uuid(p Disk, vals map[string]cty.Value) {
+	vals["uuid"] = cty.StringVal(p.Uuid)
+}
+
+func EncodeVirtualMachine_Disk_WriteThrough(p Disk, vals map[string]cty.Value) {
+	vals["write_through"] = cty.BoolVal(p.WriteThrough)
 }
 
 func EncodeVirtualMachine_EfiSecureBootEnabled(p VirtualMachineParameters, vals map[string]cty.Value) {
@@ -307,12 +743,134 @@ func EncodeVirtualMachine_NestedHvEnabled(p VirtualMachineParameters, vals map[s
 	vals["nested_hv_enabled"] = cty.BoolVal(p.NestedHvEnabled)
 }
 
+func EncodeVirtualMachine_NetworkInterface(p []NetworkInterface0, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 0)
+	for _, v := range p {
+		ctyVal := make(map[string]cty.Value)
+		EncodeVirtualMachine_NetworkInterface_AdapterType(v, ctyVal)
+		EncodeVirtualMachine_NetworkInterface_BandwidthLimit(v, ctyVal)
+		EncodeVirtualMachine_NetworkInterface_BandwidthReservation(v, ctyVal)
+		EncodeVirtualMachine_NetworkInterface_BandwidthShareCount(v, ctyVal)
+		EncodeVirtualMachine_NetworkInterface_BandwidthShareLevel(v, ctyVal)
+		EncodeVirtualMachine_NetworkInterface_DeviceAddress(v, ctyVal)
+		EncodeVirtualMachine_NetworkInterface_Key(v, ctyVal)
+		EncodeVirtualMachine_NetworkInterface_MacAddress(v, ctyVal)
+		EncodeVirtualMachine_NetworkInterface_NetworkId(v, ctyVal)
+		EncodeVirtualMachine_NetworkInterface_OvfMapping(v, ctyVal)
+		EncodeVirtualMachine_NetworkInterface_UseStaticMac(v, ctyVal)
+		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
+	}
+	if len(valsForCollection) == 0 {
+		vals["network_interface"] = cty.ListValEmpty(cty.EmptyObject)
+	} else {
+		vals["network_interface"] = cty.ListVal(valsForCollection)
+	}
+}
+
+func EncodeVirtualMachine_NetworkInterface_AdapterType(p NetworkInterface0, vals map[string]cty.Value) {
+	vals["adapter_type"] = cty.StringVal(p.AdapterType)
+}
+
+func EncodeVirtualMachine_NetworkInterface_BandwidthLimit(p NetworkInterface0, vals map[string]cty.Value) {
+	vals["bandwidth_limit"] = cty.NumberIntVal(p.BandwidthLimit)
+}
+
+func EncodeVirtualMachine_NetworkInterface_BandwidthReservation(p NetworkInterface0, vals map[string]cty.Value) {
+	vals["bandwidth_reservation"] = cty.NumberIntVal(p.BandwidthReservation)
+}
+
+func EncodeVirtualMachine_NetworkInterface_BandwidthShareCount(p NetworkInterface0, vals map[string]cty.Value) {
+	vals["bandwidth_share_count"] = cty.NumberIntVal(p.BandwidthShareCount)
+}
+
+func EncodeVirtualMachine_NetworkInterface_BandwidthShareLevel(p NetworkInterface0, vals map[string]cty.Value) {
+	vals["bandwidth_share_level"] = cty.StringVal(p.BandwidthShareLevel)
+}
+
+func EncodeVirtualMachine_NetworkInterface_DeviceAddress(p NetworkInterface0, vals map[string]cty.Value) {
+	vals["device_address"] = cty.StringVal(p.DeviceAddress)
+}
+
+func EncodeVirtualMachine_NetworkInterface_Key(p NetworkInterface0, vals map[string]cty.Value) {
+	vals["key"] = cty.NumberIntVal(p.Key)
+}
+
+func EncodeVirtualMachine_NetworkInterface_MacAddress(p NetworkInterface0, vals map[string]cty.Value) {
+	vals["mac_address"] = cty.StringVal(p.MacAddress)
+}
+
+func EncodeVirtualMachine_NetworkInterface_NetworkId(p NetworkInterface0, vals map[string]cty.Value) {
+	vals["network_id"] = cty.StringVal(p.NetworkId)
+}
+
+func EncodeVirtualMachine_NetworkInterface_OvfMapping(p NetworkInterface0, vals map[string]cty.Value) {
+	vals["ovf_mapping"] = cty.StringVal(p.OvfMapping)
+}
+
+func EncodeVirtualMachine_NetworkInterface_UseStaticMac(p NetworkInterface0, vals map[string]cty.Value) {
+	vals["use_static_mac"] = cty.BoolVal(p.UseStaticMac)
+}
+
 func EncodeVirtualMachine_NumCoresPerSocket(p VirtualMachineParameters, vals map[string]cty.Value) {
 	vals["num_cores_per_socket"] = cty.NumberIntVal(p.NumCoresPerSocket)
 }
 
 func EncodeVirtualMachine_NumCpus(p VirtualMachineParameters, vals map[string]cty.Value) {
 	vals["num_cpus"] = cty.NumberIntVal(p.NumCpus)
+}
+
+func EncodeVirtualMachine_OvfDeploy(p OvfDeploy, vals map[string]cty.Value) {
+	valsForCollection := make([]cty.Value, 1)
+	ctyVal := make(map[string]cty.Value)
+	EncodeVirtualMachine_OvfDeploy_AllowUnverifiedSslCert(p, ctyVal)
+	EncodeVirtualMachine_OvfDeploy_DiskProvisioning(p, ctyVal)
+	EncodeVirtualMachine_OvfDeploy_IpAllocationPolicy(p, ctyVal)
+	EncodeVirtualMachine_OvfDeploy_IpProtocol(p, ctyVal)
+	EncodeVirtualMachine_OvfDeploy_LocalOvfPath(p, ctyVal)
+	EncodeVirtualMachine_OvfDeploy_OvfNetworkMap(p, ctyVal)
+	EncodeVirtualMachine_OvfDeploy_RemoteOvfUrl(p, ctyVal)
+	valsForCollection[0] = cty.ObjectVal(ctyVal)
+	if len(valsForCollection) == 0 {
+		vals["ovf_deploy"] = cty.ListValEmpty(cty.EmptyObject)
+	} else {
+		vals["ovf_deploy"] = cty.ListVal(valsForCollection)
+	}
+}
+
+func EncodeVirtualMachine_OvfDeploy_AllowUnverifiedSslCert(p OvfDeploy, vals map[string]cty.Value) {
+	vals["allow_unverified_ssl_cert"] = cty.BoolVal(p.AllowUnverifiedSslCert)
+}
+
+func EncodeVirtualMachine_OvfDeploy_DiskProvisioning(p OvfDeploy, vals map[string]cty.Value) {
+	vals["disk_provisioning"] = cty.StringVal(p.DiskProvisioning)
+}
+
+func EncodeVirtualMachine_OvfDeploy_IpAllocationPolicy(p OvfDeploy, vals map[string]cty.Value) {
+	vals["ip_allocation_policy"] = cty.StringVal(p.IpAllocationPolicy)
+}
+
+func EncodeVirtualMachine_OvfDeploy_IpProtocol(p OvfDeploy, vals map[string]cty.Value) {
+	vals["ip_protocol"] = cty.StringVal(p.IpProtocol)
+}
+
+func EncodeVirtualMachine_OvfDeploy_LocalOvfPath(p OvfDeploy, vals map[string]cty.Value) {
+	vals["local_ovf_path"] = cty.StringVal(p.LocalOvfPath)
+}
+
+func EncodeVirtualMachine_OvfDeploy_OvfNetworkMap(p OvfDeploy, vals map[string]cty.Value) {
+	if len(p.OvfNetworkMap) == 0 {
+		vals["ovf_network_map"] = cty.NullVal(cty.Map(cty.String))
+		return
+	}
+	mVals := make(map[string]cty.Value)
+	for key, value := range p.OvfNetworkMap {
+		mVals[key] = cty.StringVal(value)
+	}
+	vals["ovf_network_map"] = cty.MapVal(mVals)
+}
+
+func EncodeVirtualMachine_OvfDeploy_RemoteOvfUrl(p OvfDeploy, vals map[string]cty.Value) {
+	vals["remote_ovf_url"] = cty.StringVal(p.RemoteOvfUrl)
 }
 
 func EncodeVirtualMachine_PciDeviceId(p VirtualMachineParameters, vals map[string]cty.Value) {
@@ -399,576 +957,6 @@ func EncodeVirtualMachine_Tags(p VirtualMachineParameters, vals map[string]cty.V
 	}
 }
 
-func EncodeVirtualMachine_WaitForGuestIpTimeout(p VirtualMachineParameters, vals map[string]cty.Value) {
-	vals["wait_for_guest_ip_timeout"] = cty.NumberIntVal(p.WaitForGuestIpTimeout)
-}
-
-func EncodeVirtualMachine_WaitForGuestNetRoutable(p VirtualMachineParameters, vals map[string]cty.Value) {
-	vals["wait_for_guest_net_routable"] = cty.BoolVal(p.WaitForGuestNetRoutable)
-}
-
-func EncodeVirtualMachine_WaitForGuestNetTimeout(p VirtualMachineParameters, vals map[string]cty.Value) {
-	vals["wait_for_guest_net_timeout"] = cty.NumberIntVal(p.WaitForGuestNetTimeout)
-}
-
-func EncodeVirtualMachine_Cdrom(p Cdrom, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeVirtualMachine_Cdrom_ClientDevice(p, ctyVal)
-	EncodeVirtualMachine_Cdrom_DatastoreId(p, ctyVal)
-	EncodeVirtualMachine_Cdrom_DeviceAddress(p, ctyVal)
-	EncodeVirtualMachine_Cdrom_Key(p, ctyVal)
-	EncodeVirtualMachine_Cdrom_Path(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	if len(valsForCollection) == 0 {
-		vals["cdrom"] = cty.ListValEmpty(cty.EmptyObject)
-	} else {
-		vals["cdrom"] = cty.ListVal(valsForCollection)
-	}
-}
-
-func EncodeVirtualMachine_Cdrom_ClientDevice(p Cdrom, vals map[string]cty.Value) {
-	vals["client_device"] = cty.BoolVal(p.ClientDevice)
-}
-
-func EncodeVirtualMachine_Cdrom_DatastoreId(p Cdrom, vals map[string]cty.Value) {
-	vals["datastore_id"] = cty.StringVal(p.DatastoreId)
-}
-
-func EncodeVirtualMachine_Cdrom_DeviceAddress(p Cdrom, vals map[string]cty.Value) {
-	vals["device_address"] = cty.StringVal(p.DeviceAddress)
-}
-
-func EncodeVirtualMachine_Cdrom_Key(p Cdrom, vals map[string]cty.Value) {
-	vals["key"] = cty.NumberIntVal(p.Key)
-}
-
-func EncodeVirtualMachine_Cdrom_Path(p Cdrom, vals map[string]cty.Value) {
-	vals["path"] = cty.StringVal(p.Path)
-}
-
-func EncodeVirtualMachine_Clone(p Clone, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeVirtualMachine_Clone_LinkedClone(p, ctyVal)
-	EncodeVirtualMachine_Clone_OvfNetworkMap(p, ctyVal)
-	EncodeVirtualMachine_Clone_OvfStorageMap(p, ctyVal)
-	EncodeVirtualMachine_Clone_TemplateUuid(p, ctyVal)
-	EncodeVirtualMachine_Clone_Timeout(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize(p.Customize, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	if len(valsForCollection) == 0 {
-		vals["clone"] = cty.ListValEmpty(cty.EmptyObject)
-	} else {
-		vals["clone"] = cty.ListVal(valsForCollection)
-	}
-}
-
-func EncodeVirtualMachine_Clone_LinkedClone(p Clone, vals map[string]cty.Value) {
-	vals["linked_clone"] = cty.BoolVal(p.LinkedClone)
-}
-
-func EncodeVirtualMachine_Clone_OvfNetworkMap(p Clone, vals map[string]cty.Value) {
-	if len(p.OvfNetworkMap) == 0 {
-		vals["ovf_network_map"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.OvfNetworkMap {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["ovf_network_map"] = cty.MapVal(mVals)
-}
-
-func EncodeVirtualMachine_Clone_OvfStorageMap(p Clone, vals map[string]cty.Value) {
-	if len(p.OvfStorageMap) == 0 {
-		vals["ovf_storage_map"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.OvfStorageMap {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["ovf_storage_map"] = cty.MapVal(mVals)
-}
-
-func EncodeVirtualMachine_Clone_TemplateUuid(p Clone, vals map[string]cty.Value) {
-	vals["template_uuid"] = cty.StringVal(p.TemplateUuid)
-}
-
-func EncodeVirtualMachine_Clone_Timeout(p Clone, vals map[string]cty.Value) {
-	vals["timeout"] = cty.NumberIntVal(p.Timeout)
-}
-
-func EncodeVirtualMachine_Clone_Customize(p Customize, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeVirtualMachine_Clone_Customize_DnsServerList(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_DnsSuffixList(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_Ipv4Gateway(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_Ipv6Gateway(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_Timeout(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsSysprepText(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_LinuxOptions(p.LinuxOptions, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_NetworkInterface(p.NetworkInterface, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions(p.WindowsOptions, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	if len(valsForCollection) == 0 {
-		vals["customize"] = cty.ListValEmpty(cty.EmptyObject)
-	} else {
-		vals["customize"] = cty.ListVal(valsForCollection)
-	}
-}
-
-func EncodeVirtualMachine_Clone_Customize_DnsServerList(p Customize, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.DnsServerList {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["dns_server_list"] = cty.ListValEmpty(cty.String)
-	} else {
-		vals["dns_server_list"] = cty.ListVal(colVals)
-	}
-}
-
-func EncodeVirtualMachine_Clone_Customize_DnsSuffixList(p Customize, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.DnsSuffixList {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["dns_suffix_list"] = cty.ListValEmpty(cty.String)
-	} else {
-		vals["dns_suffix_list"] = cty.ListVal(colVals)
-	}
-}
-
-func EncodeVirtualMachine_Clone_Customize_Ipv4Gateway(p Customize, vals map[string]cty.Value) {
-	vals["ipv4_gateway"] = cty.StringVal(p.Ipv4Gateway)
-}
-
-func EncodeVirtualMachine_Clone_Customize_Ipv6Gateway(p Customize, vals map[string]cty.Value) {
-	vals["ipv6_gateway"] = cty.StringVal(p.Ipv6Gateway)
-}
-
-func EncodeVirtualMachine_Clone_Customize_Timeout(p Customize, vals map[string]cty.Value) {
-	vals["timeout"] = cty.NumberIntVal(p.Timeout)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsSysprepText(p Customize, vals map[string]cty.Value) {
-	vals["windows_sysprep_text"] = cty.StringVal(p.WindowsSysprepText)
-}
-
-func EncodeVirtualMachine_Clone_Customize_LinuxOptions(p LinuxOptions, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeVirtualMachine_Clone_Customize_LinuxOptions_HwClockUtc(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_LinuxOptions_Domain(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_LinuxOptions_HostName(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	if len(valsForCollection) == 0 {
-		vals["linux_options"] = cty.ListValEmpty(cty.EmptyObject)
-	} else {
-		vals["linux_options"] = cty.ListVal(valsForCollection)
-	}
-}
-
-func EncodeVirtualMachine_Clone_Customize_LinuxOptions_HwClockUtc(p LinuxOptions, vals map[string]cty.Value) {
-	vals["hw_clock_utc"] = cty.BoolVal(p.HwClockUtc)
-}
-
-func EncodeVirtualMachine_Clone_Customize_LinuxOptions_TimeZone(p LinuxOptions, vals map[string]cty.Value) {
-	vals["time_zone"] = cty.StringVal(p.TimeZone)
-}
-
-func EncodeVirtualMachine_Clone_Customize_LinuxOptions_Domain(p LinuxOptions, vals map[string]cty.Value) {
-	vals["domain"] = cty.StringVal(p.Domain)
-}
-
-func EncodeVirtualMachine_Clone_Customize_LinuxOptions_HostName(p LinuxOptions, vals map[string]cty.Value) {
-	vals["host_name"] = cty.StringVal(p.HostName)
-}
-
-func EncodeVirtualMachine_Clone_Customize_NetworkInterface(p NetworkInterface, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeVirtualMachine_Clone_Customize_NetworkInterface_DnsDomain(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_NetworkInterface_DnsServerList(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv4Address(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv4Netmask(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv6Address(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv6Netmask(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	if len(valsForCollection) == 0 {
-		vals["network_interface"] = cty.ListValEmpty(cty.EmptyObject)
-	} else {
-		vals["network_interface"] = cty.ListVal(valsForCollection)
-	}
-}
-
-func EncodeVirtualMachine_Clone_Customize_NetworkInterface_DnsDomain(p NetworkInterface, vals map[string]cty.Value) {
-	vals["dns_domain"] = cty.StringVal(p.DnsDomain)
-}
-
-func EncodeVirtualMachine_Clone_Customize_NetworkInterface_DnsServerList(p NetworkInterface, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.DnsServerList {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["dns_server_list"] = cty.ListValEmpty(cty.String)
-	} else {
-		vals["dns_server_list"] = cty.ListVal(colVals)
-	}
-}
-
-func EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv4Address(p NetworkInterface, vals map[string]cty.Value) {
-	vals["ipv4_address"] = cty.StringVal(p.Ipv4Address)
-}
-
-func EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv4Netmask(p NetworkInterface, vals map[string]cty.Value) {
-	vals["ipv4_netmask"] = cty.NumberIntVal(p.Ipv4Netmask)
-}
-
-func EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv6Address(p NetworkInterface, vals map[string]cty.Value) {
-	vals["ipv6_address"] = cty.StringVal(p.Ipv6Address)
-}
-
-func EncodeVirtualMachine_Clone_Customize_NetworkInterface_Ipv6Netmask(p NetworkInterface, vals map[string]cty.Value) {
-	vals["ipv6_netmask"] = cty.NumberIntVal(p.Ipv6Netmask)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions(p WindowsOptions, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_TimeZone(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_FullName(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_RunOnceCommandList(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_AdminPassword(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogon(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminUser(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_ProductKey(p, ctyVal)
-	EncodeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	if len(valsForCollection) == 0 {
-		vals["windows_options"] = cty.ListValEmpty(cty.EmptyObject)
-	} else {
-		vals["windows_options"] = cty.ListVal(valsForCollection)
-	}
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_TimeZone(p WindowsOptions, vals map[string]cty.Value) {
-	vals["time_zone"] = cty.NumberIntVal(p.TimeZone)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogonCount(p WindowsOptions, vals map[string]cty.Value) {
-	vals["auto_logon_count"] = cty.NumberIntVal(p.AutoLogonCount)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_ComputerName(p WindowsOptions, vals map[string]cty.Value) {
-	vals["computer_name"] = cty.StringVal(p.ComputerName)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_FullName(p WindowsOptions, vals map[string]cty.Value) {
-	vals["full_name"] = cty.StringVal(p.FullName)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_JoinDomain(p WindowsOptions, vals map[string]cty.Value) {
-	vals["join_domain"] = cty.StringVal(p.JoinDomain)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_OrganizationName(p WindowsOptions, vals map[string]cty.Value) {
-	vals["organization_name"] = cty.StringVal(p.OrganizationName)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_RunOnceCommandList(p WindowsOptions, vals map[string]cty.Value) {
-	colVals := make([]cty.Value, 0)
-	for _, value := range p.RunOnceCommandList {
-		colVals = append(colVals, cty.StringVal(value))
-	}
-	if len(colVals) == 0 {
-		vals["run_once_command_list"] = cty.ListValEmpty(cty.String)
-	} else {
-		vals["run_once_command_list"] = cty.ListVal(colVals)
-	}
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_AdminPassword(p WindowsOptions, vals map[string]cty.Value) {
-	vals["admin_password"] = cty.StringVal(p.AdminPassword)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_AutoLogon(p WindowsOptions, vals map[string]cty.Value) {
-	vals["auto_logon"] = cty.BoolVal(p.AutoLogon)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminPassword(p WindowsOptions, vals map[string]cty.Value) {
-	vals["domain_admin_password"] = cty.StringVal(p.DomainAdminPassword)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_DomainAdminUser(p WindowsOptions, vals map[string]cty.Value) {
-	vals["domain_admin_user"] = cty.StringVal(p.DomainAdminUser)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_ProductKey(p WindowsOptions, vals map[string]cty.Value) {
-	vals["product_key"] = cty.StringVal(p.ProductKey)
-}
-
-func EncodeVirtualMachine_Clone_Customize_WindowsOptions_Workgroup(p WindowsOptions, vals map[string]cty.Value) {
-	vals["workgroup"] = cty.StringVal(p.Workgroup)
-}
-
-func EncodeVirtualMachine_Disk(p []Disk, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 0)
-	for _, v := range p {
-		ctyVal := make(map[string]cty.Value)
-		EncodeVirtualMachine_Disk_WriteThrough(v, ctyVal)
-		EncodeVirtualMachine_Disk_IoLimit(v, ctyVal)
-		EncodeVirtualMachine_Disk_StoragePolicyId(v, ctyVal)
-		EncodeVirtualMachine_Disk_IoShareLevel(v, ctyVal)
-		EncodeVirtualMachine_Disk_KeepOnRemove(v, ctyVal)
-		EncodeVirtualMachine_Disk_Label(v, ctyVal)
-		EncodeVirtualMachine_Disk_Name(v, ctyVal)
-		EncodeVirtualMachine_Disk_Size(v, ctyVal)
-		EncodeVirtualMachine_Disk_Uuid(v, ctyVal)
-		EncodeVirtualMachine_Disk_ControllerType(v, ctyVal)
-		EncodeVirtualMachine_Disk_DiskMode(v, ctyVal)
-		EncodeVirtualMachine_Disk_EagerlyScrub(v, ctyVal)
-		EncodeVirtualMachine_Disk_IoReservation(v, ctyVal)
-		EncodeVirtualMachine_Disk_IoShareCount(v, ctyVal)
-		EncodeVirtualMachine_Disk_Key(v, ctyVal)
-		EncodeVirtualMachine_Disk_UnitNumber(v, ctyVal)
-		EncodeVirtualMachine_Disk_DeviceAddress(v, ctyVal)
-		EncodeVirtualMachine_Disk_DiskSharing(v, ctyVal)
-		EncodeVirtualMachine_Disk_Path(v, ctyVal)
-		EncodeVirtualMachine_Disk_ThinProvisioned(v, ctyVal)
-		EncodeVirtualMachine_Disk_Attach(v, ctyVal)
-		EncodeVirtualMachine_Disk_DatastoreId(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	if len(valsForCollection) == 0 {
-		vals["disk"] = cty.ListValEmpty(cty.EmptyObject)
-	} else {
-		vals["disk"] = cty.ListVal(valsForCollection)
-	}
-}
-
-func EncodeVirtualMachine_Disk_WriteThrough(p Disk, vals map[string]cty.Value) {
-	vals["write_through"] = cty.BoolVal(p.WriteThrough)
-}
-
-func EncodeVirtualMachine_Disk_IoLimit(p Disk, vals map[string]cty.Value) {
-	vals["io_limit"] = cty.NumberIntVal(p.IoLimit)
-}
-
-func EncodeVirtualMachine_Disk_StoragePolicyId(p Disk, vals map[string]cty.Value) {
-	vals["storage_policy_id"] = cty.StringVal(p.StoragePolicyId)
-}
-
-func EncodeVirtualMachine_Disk_IoShareLevel(p Disk, vals map[string]cty.Value) {
-	vals["io_share_level"] = cty.StringVal(p.IoShareLevel)
-}
-
-func EncodeVirtualMachine_Disk_KeepOnRemove(p Disk, vals map[string]cty.Value) {
-	vals["keep_on_remove"] = cty.BoolVal(p.KeepOnRemove)
-}
-
-func EncodeVirtualMachine_Disk_Label(p Disk, vals map[string]cty.Value) {
-	vals["label"] = cty.StringVal(p.Label)
-}
-
-func EncodeVirtualMachine_Disk_Name(p Disk, vals map[string]cty.Value) {
-	vals["name"] = cty.StringVal(p.Name)
-}
-
-func EncodeVirtualMachine_Disk_Size(p Disk, vals map[string]cty.Value) {
-	vals["size"] = cty.NumberIntVal(p.Size)
-}
-
-func EncodeVirtualMachine_Disk_Uuid(p Disk, vals map[string]cty.Value) {
-	vals["uuid"] = cty.StringVal(p.Uuid)
-}
-
-func EncodeVirtualMachine_Disk_ControllerType(p Disk, vals map[string]cty.Value) {
-	vals["controller_type"] = cty.StringVal(p.ControllerType)
-}
-
-func EncodeVirtualMachine_Disk_DiskMode(p Disk, vals map[string]cty.Value) {
-	vals["disk_mode"] = cty.StringVal(p.DiskMode)
-}
-
-func EncodeVirtualMachine_Disk_EagerlyScrub(p Disk, vals map[string]cty.Value) {
-	vals["eagerly_scrub"] = cty.BoolVal(p.EagerlyScrub)
-}
-
-func EncodeVirtualMachine_Disk_IoReservation(p Disk, vals map[string]cty.Value) {
-	vals["io_reservation"] = cty.NumberIntVal(p.IoReservation)
-}
-
-func EncodeVirtualMachine_Disk_IoShareCount(p Disk, vals map[string]cty.Value) {
-	vals["io_share_count"] = cty.NumberIntVal(p.IoShareCount)
-}
-
-func EncodeVirtualMachine_Disk_Key(p Disk, vals map[string]cty.Value) {
-	vals["key"] = cty.NumberIntVal(p.Key)
-}
-
-func EncodeVirtualMachine_Disk_UnitNumber(p Disk, vals map[string]cty.Value) {
-	vals["unit_number"] = cty.NumberIntVal(p.UnitNumber)
-}
-
-func EncodeVirtualMachine_Disk_DeviceAddress(p Disk, vals map[string]cty.Value) {
-	vals["device_address"] = cty.StringVal(p.DeviceAddress)
-}
-
-func EncodeVirtualMachine_Disk_DiskSharing(p Disk, vals map[string]cty.Value) {
-	vals["disk_sharing"] = cty.StringVal(p.DiskSharing)
-}
-
-func EncodeVirtualMachine_Disk_Path(p Disk, vals map[string]cty.Value) {
-	vals["path"] = cty.StringVal(p.Path)
-}
-
-func EncodeVirtualMachine_Disk_ThinProvisioned(p Disk, vals map[string]cty.Value) {
-	vals["thin_provisioned"] = cty.BoolVal(p.ThinProvisioned)
-}
-
-func EncodeVirtualMachine_Disk_Attach(p Disk, vals map[string]cty.Value) {
-	vals["attach"] = cty.BoolVal(p.Attach)
-}
-
-func EncodeVirtualMachine_Disk_DatastoreId(p Disk, vals map[string]cty.Value) {
-	vals["datastore_id"] = cty.StringVal(p.DatastoreId)
-}
-
-func EncodeVirtualMachine_NetworkInterface(p []NetworkInterface0, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 0)
-	for _, v := range p {
-		ctyVal := make(map[string]cty.Value)
-		EncodeVirtualMachine_NetworkInterface_BandwidthShareLevel(v, ctyVal)
-		EncodeVirtualMachine_NetworkInterface_DeviceAddress(v, ctyVal)
-		EncodeVirtualMachine_NetworkInterface_Key(v, ctyVal)
-		EncodeVirtualMachine_NetworkInterface_NetworkId(v, ctyVal)
-		EncodeVirtualMachine_NetworkInterface_OvfMapping(v, ctyVal)
-		EncodeVirtualMachine_NetworkInterface_UseStaticMac(v, ctyVal)
-		EncodeVirtualMachine_NetworkInterface_BandwidthReservation(v, ctyVal)
-		EncodeVirtualMachine_NetworkInterface_BandwidthShareCount(v, ctyVal)
-		EncodeVirtualMachine_NetworkInterface_MacAddress(v, ctyVal)
-		EncodeVirtualMachine_NetworkInterface_AdapterType(v, ctyVal)
-		EncodeVirtualMachine_NetworkInterface_BandwidthLimit(v, ctyVal)
-		valsForCollection = append(valsForCollection, cty.ObjectVal(ctyVal))
-	}
-	if len(valsForCollection) == 0 {
-		vals["network_interface"] = cty.ListValEmpty(cty.EmptyObject)
-	} else {
-		vals["network_interface"] = cty.ListVal(valsForCollection)
-	}
-}
-
-func EncodeVirtualMachine_NetworkInterface_BandwidthShareLevel(p NetworkInterface0, vals map[string]cty.Value) {
-	vals["bandwidth_share_level"] = cty.StringVal(p.BandwidthShareLevel)
-}
-
-func EncodeVirtualMachine_NetworkInterface_DeviceAddress(p NetworkInterface0, vals map[string]cty.Value) {
-	vals["device_address"] = cty.StringVal(p.DeviceAddress)
-}
-
-func EncodeVirtualMachine_NetworkInterface_Key(p NetworkInterface0, vals map[string]cty.Value) {
-	vals["key"] = cty.NumberIntVal(p.Key)
-}
-
-func EncodeVirtualMachine_NetworkInterface_NetworkId(p NetworkInterface0, vals map[string]cty.Value) {
-	vals["network_id"] = cty.StringVal(p.NetworkId)
-}
-
-func EncodeVirtualMachine_NetworkInterface_OvfMapping(p NetworkInterface0, vals map[string]cty.Value) {
-	vals["ovf_mapping"] = cty.StringVal(p.OvfMapping)
-}
-
-func EncodeVirtualMachine_NetworkInterface_UseStaticMac(p NetworkInterface0, vals map[string]cty.Value) {
-	vals["use_static_mac"] = cty.BoolVal(p.UseStaticMac)
-}
-
-func EncodeVirtualMachine_NetworkInterface_BandwidthReservation(p NetworkInterface0, vals map[string]cty.Value) {
-	vals["bandwidth_reservation"] = cty.NumberIntVal(p.BandwidthReservation)
-}
-
-func EncodeVirtualMachine_NetworkInterface_BandwidthShareCount(p NetworkInterface0, vals map[string]cty.Value) {
-	vals["bandwidth_share_count"] = cty.NumberIntVal(p.BandwidthShareCount)
-}
-
-func EncodeVirtualMachine_NetworkInterface_MacAddress(p NetworkInterface0, vals map[string]cty.Value) {
-	vals["mac_address"] = cty.StringVal(p.MacAddress)
-}
-
-func EncodeVirtualMachine_NetworkInterface_AdapterType(p NetworkInterface0, vals map[string]cty.Value) {
-	vals["adapter_type"] = cty.StringVal(p.AdapterType)
-}
-
-func EncodeVirtualMachine_NetworkInterface_BandwidthLimit(p NetworkInterface0, vals map[string]cty.Value) {
-	vals["bandwidth_limit"] = cty.NumberIntVal(p.BandwidthLimit)
-}
-
-func EncodeVirtualMachine_OvfDeploy(p OvfDeploy, vals map[string]cty.Value) {
-	valsForCollection := make([]cty.Value, 1)
-	ctyVal := make(map[string]cty.Value)
-	EncodeVirtualMachine_OvfDeploy_LocalOvfPath(p, ctyVal)
-	EncodeVirtualMachine_OvfDeploy_OvfNetworkMap(p, ctyVal)
-	EncodeVirtualMachine_OvfDeploy_RemoteOvfUrl(p, ctyVal)
-	EncodeVirtualMachine_OvfDeploy_AllowUnverifiedSslCert(p, ctyVal)
-	EncodeVirtualMachine_OvfDeploy_DiskProvisioning(p, ctyVal)
-	EncodeVirtualMachine_OvfDeploy_IpAllocationPolicy(p, ctyVal)
-	EncodeVirtualMachine_OvfDeploy_IpProtocol(p, ctyVal)
-	valsForCollection[0] = cty.ObjectVal(ctyVal)
-	if len(valsForCollection) == 0 {
-		vals["ovf_deploy"] = cty.ListValEmpty(cty.EmptyObject)
-	} else {
-		vals["ovf_deploy"] = cty.ListVal(valsForCollection)
-	}
-}
-
-func EncodeVirtualMachine_OvfDeploy_LocalOvfPath(p OvfDeploy, vals map[string]cty.Value) {
-	vals["local_ovf_path"] = cty.StringVal(p.LocalOvfPath)
-}
-
-func EncodeVirtualMachine_OvfDeploy_OvfNetworkMap(p OvfDeploy, vals map[string]cty.Value) {
-	if len(p.OvfNetworkMap) == 0 {
-		vals["ovf_network_map"] = cty.NullVal(cty.Map(cty.String))
-		return
-	}
-	mVals := make(map[string]cty.Value)
-	for key, value := range p.OvfNetworkMap {
-		mVals[key] = cty.StringVal(value)
-	}
-	vals["ovf_network_map"] = cty.MapVal(mVals)
-}
-
-func EncodeVirtualMachine_OvfDeploy_RemoteOvfUrl(p OvfDeploy, vals map[string]cty.Value) {
-	vals["remote_ovf_url"] = cty.StringVal(p.RemoteOvfUrl)
-}
-
-func EncodeVirtualMachine_OvfDeploy_AllowUnverifiedSslCert(p OvfDeploy, vals map[string]cty.Value) {
-	vals["allow_unverified_ssl_cert"] = cty.BoolVal(p.AllowUnverifiedSslCert)
-}
-
-func EncodeVirtualMachine_OvfDeploy_DiskProvisioning(p OvfDeploy, vals map[string]cty.Value) {
-	vals["disk_provisioning"] = cty.StringVal(p.DiskProvisioning)
-}
-
-func EncodeVirtualMachine_OvfDeploy_IpAllocationPolicy(p OvfDeploy, vals map[string]cty.Value) {
-	vals["ip_allocation_policy"] = cty.StringVal(p.IpAllocationPolicy)
-}
-
-func EncodeVirtualMachine_OvfDeploy_IpProtocol(p OvfDeploy, vals map[string]cty.Value) {
-	vals["ip_protocol"] = cty.StringVal(p.IpProtocol)
-}
-
 func EncodeVirtualMachine_Vapp(p Vapp, vals map[string]cty.Value) {
 	valsForCollection := make([]cty.Value, 1)
 	ctyVal := make(map[string]cty.Value)
@@ -991,6 +979,18 @@ func EncodeVirtualMachine_Vapp_Properties(p Vapp, vals map[string]cty.Value) {
 		mVals[key] = cty.StringVal(value)
 	}
 	vals["properties"] = cty.MapVal(mVals)
+}
+
+func EncodeVirtualMachine_WaitForGuestIpTimeout(p VirtualMachineParameters, vals map[string]cty.Value) {
+	vals["wait_for_guest_ip_timeout"] = cty.NumberIntVal(p.WaitForGuestIpTimeout)
+}
+
+func EncodeVirtualMachine_WaitForGuestNetRoutable(p VirtualMachineParameters, vals map[string]cty.Value) {
+	vals["wait_for_guest_net_routable"] = cty.BoolVal(p.WaitForGuestNetRoutable)
+}
+
+func EncodeVirtualMachine_WaitForGuestNetTimeout(p VirtualMachineParameters, vals map[string]cty.Value) {
+	vals["wait_for_guest_net_timeout"] = cty.NumberIntVal(p.WaitForGuestNetTimeout)
 }
 
 func EncodeVirtualMachine_ChangeVersion(p VirtualMachineObservation, vals map[string]cty.Value) {

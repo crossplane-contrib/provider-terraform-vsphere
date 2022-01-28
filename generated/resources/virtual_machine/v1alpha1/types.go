@@ -152,10 +152,10 @@ type Customize struct {
 }
 
 type LinuxOptions struct {
-	HwClockUtc bool   `json:"hw_clock_utc"`
-	TimeZone   string `json:"time_zone"`
 	Domain     string `json:"domain"`
 	HostName   string `json:"host_name"`
+	HwClockUtc bool   `json:"hw_clock_utc"`
+	TimeZone   string `json:"time_zone"`
 }
 
 type NetworkInterface struct {
@@ -168,68 +168,68 @@ type NetworkInterface struct {
 }
 
 type WindowsOptions struct {
-	TimeZone            int64    `json:"time_zone"`
+	AdminPassword       string   `json:"admin_password"`
+	AutoLogon           bool     `json:"auto_logon"`
 	AutoLogonCount      int64    `json:"auto_logon_count"`
 	ComputerName        string   `json:"computer_name"`
+	DomainAdminPassword string   `json:"domain_admin_password"`
+	DomainAdminUser     string   `json:"domain_admin_user"`
 	FullName            string   `json:"full_name"`
 	JoinDomain          string   `json:"join_domain"`
 	OrganizationName    string   `json:"organization_name"`
-	RunOnceCommandList  []string `json:"run_once_command_list,omitempty"`
-	AdminPassword       string   `json:"admin_password"`
-	AutoLogon           bool     `json:"auto_logon"`
-	DomainAdminPassword string   `json:"domain_admin_password"`
-	DomainAdminUser     string   `json:"domain_admin_user"`
 	ProductKey          string   `json:"product_key"`
+	RunOnceCommandList  []string `json:"run_once_command_list,omitempty"`
+	TimeZone            int64    `json:"time_zone"`
 	Workgroup           string   `json:"workgroup"`
 }
 
 type Disk struct {
-	WriteThrough    bool   `json:"write_through"`
-	IoLimit         int64  `json:"io_limit"`
-	StoragePolicyId string `json:"storage_policy_id"`
-	IoShareLevel    string `json:"io_share_level"`
-	KeepOnRemove    bool   `json:"keep_on_remove"`
-	Label           string `json:"label"`
-	Name            string `json:"name"`
-	Size            int64  `json:"size"`
-	Uuid            string `json:"uuid"`
+	Attach          bool   `json:"attach"`
 	ControllerType  string `json:"controller_type"`
+	DatastoreId     string `json:"datastore_id"`
+	DeviceAddress   string `json:"device_address"`
 	DiskMode        string `json:"disk_mode"`
+	DiskSharing     string `json:"disk_sharing"`
 	EagerlyScrub    bool   `json:"eagerly_scrub"`
+	IoLimit         int64  `json:"io_limit"`
 	IoReservation   int64  `json:"io_reservation"`
 	IoShareCount    int64  `json:"io_share_count"`
+	IoShareLevel    string `json:"io_share_level"`
+	KeepOnRemove    bool   `json:"keep_on_remove"`
 	Key             int64  `json:"key"`
-	UnitNumber      int64  `json:"unit_number"`
-	DeviceAddress   string `json:"device_address"`
-	DiskSharing     string `json:"disk_sharing"`
+	Label           string `json:"label"`
+	Name            string `json:"name"`
 	Path            string `json:"path"`
+	Size            int64  `json:"size"`
+	StoragePolicyId string `json:"storage_policy_id"`
 	ThinProvisioned bool   `json:"thin_provisioned"`
-	Attach          bool   `json:"attach"`
-	DatastoreId     string `json:"datastore_id"`
+	UnitNumber      int64  `json:"unit_number"`
+	Uuid            string `json:"uuid"`
+	WriteThrough    bool   `json:"write_through"`
 }
 
 type NetworkInterface0 struct {
+	AdapterType          string `json:"adapter_type"`
+	BandwidthLimit       int64  `json:"bandwidth_limit"`
+	BandwidthReservation int64  `json:"bandwidth_reservation"`
+	BandwidthShareCount  int64  `json:"bandwidth_share_count"`
 	BandwidthShareLevel  string `json:"bandwidth_share_level"`
 	DeviceAddress        string `json:"device_address"`
 	Key                  int64  `json:"key"`
+	MacAddress           string `json:"mac_address"`
 	NetworkId            string `json:"network_id"`
 	OvfMapping           string `json:"ovf_mapping"`
 	UseStaticMac         bool   `json:"use_static_mac"`
-	BandwidthReservation int64  `json:"bandwidth_reservation"`
-	BandwidthShareCount  int64  `json:"bandwidth_share_count"`
-	MacAddress           string `json:"mac_address"`
-	AdapterType          string `json:"adapter_type"`
-	BandwidthLimit       int64  `json:"bandwidth_limit"`
 }
 
 type OvfDeploy struct {
-	LocalOvfPath           string            `json:"local_ovf_path"`
-	OvfNetworkMap          map[string]string `json:"ovf_network_map,omitempty"`
-	RemoteOvfUrl           string            `json:"remote_ovf_url"`
 	AllowUnverifiedSslCert bool              `json:"allow_unverified_ssl_cert"`
 	DiskProvisioning       string            `json:"disk_provisioning"`
 	IpAllocationPolicy     string            `json:"ip_allocation_policy"`
 	IpProtocol             string            `json:"ip_protocol"`
+	LocalOvfPath           string            `json:"local_ovf_path"`
+	OvfNetworkMap          map[string]string `json:"ovf_network_map,omitempty"`
+	RemoteOvfUrl           string            `json:"remote_ovf_url"`
 }
 
 type Vapp struct {

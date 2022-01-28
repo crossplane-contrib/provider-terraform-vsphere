@@ -6,7 +6,7 @@ require (
 	cloud.google.com/go/pubsub v1.3.1 // indirect
 	github.com/crossplane-contrib/terraform-runtime v0.0.0-20210317191104-9eb36dba841c
 	github.com/crossplane/crossplane-runtime v0.12.0
-	github.com/crossplane/crossplane-tools v0.0.0-20201201125637-9ddc70edfd0d
+	github.com/crossplane/crossplane-tools v0.0.0-20210320162312-1baca298c527
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/hashicorp/terraform v0.13.5
 	github.com/kr/pretty v0.2.1 // indirect
